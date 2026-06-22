@@ -17,10 +17,10 @@ import {
   X,
   Bell,
   User,
-  ShieldCheck,
   FileText,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import { Toaster, toast } from "sonner";
 
 interface AdminLayoutClientProps {
@@ -126,11 +126,15 @@ export default function AdminLayoutClient({ session, children }: AdminLayoutClie
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col md:flex-row">
       {/* Mobile Top Bar */}
       <div className="md:hidden flex items-center justify-between bg-slate-900 border-b border-slate-800 px-4 py-4 shrink-0">
-        <Link href="/admin/dashboard" className="flex items-center space-x-2">
-          <ShieldCheck className="w-6 h-6 text-accent animate-pulse" />
-          <span className="font-serif text-lg font-bold text-white">
-            Decorater<span className="text-accent">CRM</span>
-          </span>
+        <Link href="/admin/dashboard" className="flex items-center">
+          <Image
+            src="/HOME DECORATER LOGO (2).png"
+            alt="Home Decorater Logo"
+            width={135}
+            height={38}
+            className="h-9 w-auto object-contain"
+            priority
+          />
         </Link>
         <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -149,16 +153,15 @@ export default function AdminLayoutClient({ session, children }: AdminLayoutClie
         <div className="flex flex-col space-y-6 pt-6">
           {/* Logo Section */}
           <div className="px-6 pb-2 hidden md:block">
-            <Link href="/admin/dashboard" className="flex items-center space-x-2">
-              <ShieldCheck className="w-7 h-7 text-accent" />
-              <div>
-                <span className="font-serif text-lg font-bold text-white block leading-tight">
-                  Decorater<span className="text-accent">CRM</span>
-                </span>
-                <span className="text-[10px] text-slate-500 uppercase tracking-widest">
-                  Admin System
-                </span>
-              </div>
+            <Link href="/admin/dashboard" className="flex items-center">
+              <Image
+                src="/HOME DECORATER LOGO (2).png"
+                alt="Home Decorater Logo"
+                width={140}
+                height={40}
+                className="h-10 w-auto object-contain"
+                priority
+              />
             </Link>
           </div>
 

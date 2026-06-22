@@ -1,6 +1,24 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  experimental: {
+    serverActions: {
+      allowedOrigins: [
+        "localhost:3000",
+        "127.0.0.1:3000",
+        "localhost:3001",
+        "127.0.0.1:3001",
+        "localhost:3002",
+        "127.0.0.1:3002",
+        "localhost:3003",
+        "127.0.0.1:3003",
+        "localhost:3004",
+        "127.0.0.1:3004",
+        "localhost:3050",
+        "127.0.0.1:3050",
+      ],
+    },
+  },
   images: {
     remotePatterns: [
       {

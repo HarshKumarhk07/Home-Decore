@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown, Phone, ShieldCheck } from "lucide-react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
 const servicesList = [
@@ -53,18 +54,15 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2 group">
-            <div className="p-1.5 bg-primary rounded-lg text-white group-hover:scale-105 transition-transform duration-300">
-              <ShieldCheck className="w-6 h-6 text-accent" />
-            </div>
-            <div>
-              <span className="font-serif text-xl sm:text-2xl font-bold tracking-tight text-primary">
-                Home <span className="text-accent">Decorater</span>
-              </span>
-              <p className="text-[9px] uppercase tracking-[0.2em] font-semibold text-gray-500 -mt-1">
-                Waterproofing & Flooring
-              </p>
-            </div>
+          <Link href="/" className="flex items-center group">
+            <Image
+              src="/HOME DECORATER LOGO (2).png"
+              alt="Home Decorater Logo"
+              width={160}
+              height={45}
+              className="h-11 w-auto object-contain"
+              priority
+            />
           </Link>
 
           {/* Desktop Navigation */}

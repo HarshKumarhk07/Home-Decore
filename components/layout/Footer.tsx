@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ShieldCheck, Mail, MapPin, Phone, Clock } from "lucide-react";
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin } from "react-icons/fa6";
 
@@ -9,18 +10,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand Column */}
           <div className="space-y-4">
-            <Link href="/" className="flex items-center space-x-2 group">
-              <div className="p-1.5 bg-primary rounded-lg text-white">
-                <ShieldCheck className="w-6 h-6 text-accent" />
-              </div>
-              <div>
-                <span className="font-serif text-xl sm:text-2xl font-bold tracking-tight text-white">
-                  Home <span className="text-accent">Decorater</span>
-                </span>
-                <p className="text-[9px] uppercase tracking-[0.2em] font-semibold text-slate-500 -mt-1">
-                  Waterproofing & Flooring
-                </p>
-              </div>
+            <Link href="/" className="flex items-center group">
+              <Image
+                src="/HOME DECORATER LOGO (2).png"
+                alt="Home Decorater Logo"
+                width={160}
+                height={45}
+                className="h-11 w-auto object-contain"
+              />
             </Link>
             <p className="text-sm text-slate-400 leading-relaxed pt-2">
               Home Decorater is a premier home improvement company specializing in Waterproofing, Wooden Flooring, and PVC (Polyvinyl Chloride) services. We guarantee premium quality with structural warranties.
