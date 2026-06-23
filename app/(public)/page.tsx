@@ -102,13 +102,20 @@ export default async function HomePage() {
       : []
   };
 
+  const settingsPlain = settings ? JSON.parse(JSON.stringify(settings)) : null;
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <HomeClient projects={featuredProjects} testimonials={testimonials} faqs={faqs} />
+      <HomeClient
+        projects={featuredProjects}
+        testimonials={testimonials}
+        faqs={faqs}
+        settings={settingsPlain}
+      />
     </>
   );
 }

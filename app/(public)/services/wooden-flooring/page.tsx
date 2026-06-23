@@ -1,9 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ShieldCheck, Phone, CheckCircle, Flame, Droplet, Star } from "lucide-react";
+import { ShieldCheck, Flame, Droplet, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getSettings } from "@/actions/cmsActions";
 
-const floorTypes = [
+const defaultFloorTypes = [
   {
     name: "SPC Click-Lock Flooring",
     desc: "Stone Plastic Composite (SPC) flooring is 100% waterproof, fire-resistant, and highly dent-resistant. Its click-lock installation system requires no glue, making it ideal for high-humidity areas like kitchens, washrooms, and commercial spaces.",
@@ -39,7 +40,24 @@ export const metadata = {
   description: "Laminate, vinyl, SPC, and engineered wood floor installations with European click-lock joints and wear warranties. Book a site visit today.",
 };
 
-export default function WoodenFlooringPage() {
+export default async function WoodenFlooringPage() {
+  const settingsRes = await getSettings();
+  const settings = settingsRes.success ? settingsRes.settings : null;
+  const subcategoriesList = settings?.flooringSubcategories || [];
+
+  const floorTypesToRender = subcategoriesList.length > 0
+    ? subcategoriesList.map((name: string) => {
+        const found = defaultFloorTypes.find(f => f.name.toLowerCase() === name.toLowerCase());
+        return {
+          name,
+          desc: found?.desc || `High-durability professional flooring installation of ${name} with robust underlayment protection, click-lock stability, and premium aesthetics.`,
+          thickness: found?.thickness || "5mm to 12mm",
+          warranty: found?.warranty || "10 Years premium warranty",
+          image: found?.image || "https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&q=80&w=600",
+        };
+      })
+    : defaultFloorTypes;
+
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://homedecorater.in";
 
   const jsonLd = {
@@ -60,7 +78,7 @@ export default function WoodenFlooringPage() {
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
       "name": "Flooring Services Catalog",
-      "itemListElement": floorTypes.map((floor) => ({
+      "itemListElement": floorTypesToRender.map((floor) => ({
         "@type": "Offer",
         "itemOffered": {
           "@type": "Service",
@@ -78,94 +96,94 @@ export default function WoodenFlooringPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="bg-slate-50 min-h-screen py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Banner Section */}
-        <div className="bg-gradient-to-r from-primary to-slate-900 text-white rounded-3xl p-8 sm:p-12 mb-16 relative overflow-hidden shadow-xl">
-          <div className="relative z-10 max-w-3xl space-y-4">
-            <div className="inline-flex items-center space-x-2 bg-accent/20 border border-accent/20 px-3 py-1 rounded-full text-accent font-semibold text-xs uppercase tracking-wider">
-              <Star className="w-4 h-4 mr-1 text-accent" /> Premium European Standards
-            </div>
-            <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight">
-              Premium Flooring Installations
-            </h1>
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl">
-              Elevate your home with our collection of water-resistant, scratchproof, and sound-insulated wooden floors. Lay out herringbone, diagonal, or standard plank layouts executed by certified installers.
-            </p>
-            <div className="flex flex-wrap gap-4 pt-2">
-              <Button asChild className="bg-accent hover:bg-accent-hover text-dark font-bold rounded-xl px-6 py-5 text-sm sm:text-base">
-                <Link href="/quote">Get Free Estimate & Sample Kit</Link>
-              </Button>
-              <Button asChild variant="outline" className="border-slate-400 text-white hover:bg-white hover:text-dark font-bold rounded-xl px-6 py-5 text-sm sm:text-base">
-                <Link href="/inspection">Book Free Site Audit</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-
-        {/* Benefits Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-16">
-          <div className="p-6 bg-white rounded-2xl border border-slate-100 flex items-center space-x-4 shadow-sm">
-            <div className="p-3 bg-primary-light rounded-xl text-primary shrink-0">
-              <Droplet className="w-6 h-6 text-accent" />
-            </div>
-            <div>
-              <h4 className="font-bold text-slate-900 text-sm sm:text-base">Water Resistant</h4>
-              <p className="text-xs text-slate-500 mt-0.5">100% moisture barrier protection</p>
-            </div>
-          </div>
-          <div className="p-6 bg-white rounded-2xl border border-slate-100 flex items-center space-x-4 shadow-sm">
-            <div className="p-3 bg-primary-light rounded-xl text-primary shrink-0">
-              <Flame className="w-6 h-6 text-accent" />
-            </div>
-            <div>
-              <h4 className="font-bold text-slate-900 text-sm sm:text-base">Fire Retardant</h4>
-              <p className="text-xs text-slate-500 mt-0.5">Self-extinguishing technology</p>
-            </div>
-          </div>
-          <div className="p-6 bg-white rounded-2xl border border-slate-100 flex items-center space-x-4 shadow-sm">
-            <div className="p-3 bg-primary-light rounded-xl text-primary shrink-0">
-              <ShieldCheck className="w-6 h-6 text-accent" />
-            </div>
-            <div>
-              <h4 className="font-bold text-slate-900 text-sm sm:text-base">Heavy Wear Rating</h4>
-              <p className="text-xs text-slate-500 mt-0.5">AC3 to AC5 commercial ratings</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Floor Types List */}
-        <div className="space-y-10">
-          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-primary mb-8 border-l-4 border-accent pl-4">
-            Explore Flooring Types
-          </h2>
-          <div className="grid grid-cols-2 gap-4 sm:gap-8">
-            {floorTypes.map((floor, idx) => (
-              <div key={idx} className="bg-white border border-slate-100 rounded-3xl p-6 sm:p-8 shadow-sm flex flex-col sm:flex-row gap-6 hover:shadow-md transition-all duration-300">
-                <div className="relative w-full sm:w-48 h-48 rounded-2xl overflow-hidden shrink-0 shadow">
-                  <Image 
-                    src={floor.image} 
-                    alt={floor.name} 
-                    fill 
-                    className="object-cover" 
-                    sizes="(max-width: 640px) 100vw, 200px"
-                  />
-                </div>
-                <div className="flex-grow flex flex-col justify-between space-y-4">
-                  <div>
-                    <h3 className="font-serif text-xl font-bold text-primary">{floor.name}</h3>
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mt-2">{floor.desc}</p>
-                  </div>
-                  <div className="flex flex-wrap gap-4 text-xs font-semibold border-t border-slate-100 pt-4 text-slate-500">
-                    <div>Thickness: <span className="text-primary font-bold">{floor.thickness}</span></div>
-                    <div>Warranty: <span className="text-primary font-bold">{floor.warranty}</span></div>
-                  </div>
-                </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Banner Section */}
+          <div className="bg-gradient-to-r from-primary to-slate-900 text-white rounded-3xl p-8 sm:p-12 mb-16 relative overflow-hidden shadow-xl animate-fade-in">
+            <div className="relative z-10 max-w-3xl space-y-4">
+              <div className="inline-flex items-center space-x-2 bg-accent/20 border border-accent/20 px-3 py-1 rounded-full text-accent font-semibold text-xs uppercase tracking-wider">
+                <Star className="w-4 h-4 mr-1 text-accent" /> Premium European Standards
               </div>
-            ))}
+              <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight">
+                Premium Flooring Installations
+              </h1>
+              <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl">
+                Elevate your home with our collection of water-resistant, scratchproof, and sound-insulated wooden floors. Lay out herringbone, diagonal, or standard plank layouts executed by certified installers.
+              </p>
+              <div className="flex flex-wrap gap-4 pt-2">
+                <Button asChild className="bg-accent hover:bg-accent-hover text-dark font-bold rounded-xl px-6 py-5 text-sm sm:text-base">
+                  <Link href="/quote">Get Free Estimate & Sample Kit</Link>
+                </Button>
+                <Button asChild variant="outline" className="border-slate-400 text-white hover:bg-white hover:text-dark font-bold rounded-xl px-6 py-5 text-sm sm:text-base">
+                  <Link href="/inspection">Book Free Site Audit</Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          {/* Benefits Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-16 animate-fade-in">
+            <div className="p-6 bg-white rounded-2xl border border-slate-100 flex items-center space-x-4 shadow-sm">
+              <div className="p-3 bg-primary-light rounded-xl text-primary shrink-0">
+                <Droplet className="w-6 h-6 text-accent" />
+              </div>
+              <div>
+                <h4 className="font-bold text-slate-900 text-sm sm:text-base">Water Resistant</h4>
+                <p className="text-xs text-slate-500 mt-0.5">100% moisture barrier protection</p>
+              </div>
+            </div>
+            <div className="p-6 bg-white rounded-2xl border border-slate-100 flex items-center space-x-4 shadow-sm">
+              <div className="p-3 bg-primary-light rounded-xl text-primary shrink-0">
+                <Flame className="w-6 h-6 text-accent" />
+              </div>
+              <div>
+                <h4 className="font-bold text-slate-900 text-sm sm:text-base">Fire Retardant</h4>
+                <p className="text-xs text-slate-500 mt-0.5">Self-extinguishing technology</p>
+              </div>
+            </div>
+            <div className="p-6 bg-white rounded-2xl border border-slate-100 flex items-center space-x-4 shadow-sm">
+              <div className="p-3 bg-primary-light rounded-xl text-primary shrink-0">
+                <ShieldCheck className="w-6 h-6 text-accent" />
+              </div>
+              <div>
+                <h4 className="font-bold text-slate-900 text-sm sm:text-base">Heavy Wear Rating</h4>
+                <p className="text-xs text-slate-500 mt-0.5">AC3 to AC5 commercial ratings</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Floor Types List */}
+          <div className="space-y-10">
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-primary mb-8 border-l-4 border-accent pl-4">
+              Explore Flooring Types
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
+              {floorTypesToRender.map((floor, idx) => (
+                <div key={idx} className="bg-white border border-slate-100 rounded-3xl p-6 sm:p-8 shadow-sm flex flex-col sm:flex-row gap-6 hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                  <div className="relative w-full sm:w-48 h-48 rounded-2xl overflow-hidden shrink-0 shadow">
+                    <Image 
+                      src={floor.image} 
+                      alt={floor.name} 
+                      fill 
+                      className="object-cover" 
+                      sizes="(max-width: 640px) 100vw, 200px"
+                    />
+                  </div>
+                  <div className="flex-grow flex flex-col justify-between space-y-4">
+                    <div>
+                      <h3 className="font-serif text-xl font-bold text-primary">{floor.name}</h3>
+                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mt-2">{floor.desc}</p>
+                    </div>
+                    <div className="flex flex-wrap gap-4 text-xs font-semibold border-t border-slate-100 pt-4 text-slate-500">
+                      <div>Thickness: <span className="text-primary font-bold">{floor.thickness}</span></div>
+                      <div>Warranty: <span className="text-primary font-bold">{floor.warranty}</span></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </div>
     </>
   );
 }

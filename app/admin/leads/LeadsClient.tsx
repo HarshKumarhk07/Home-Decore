@@ -382,7 +382,7 @@ export default function LeadsClient({ initialLeads, employees, currentUser }: Le
 
       {/* Detailed View Lightbox */}
       <Dialog open={!!selectedLead} onOpenChange={(open) => !open && setSelectedLead(null)}>
-        <DialogContent className="max-w-5xl bg-slate-900 border-slate-800 text-slate-100 max-h-[85vh] overflow-y-auto rounded-3xl p-6 sm:p-8">
+        <DialogContent className="sm:max-w-5xl bg-slate-900 border-slate-800 text-slate-100 max-h-[85vh] overflow-y-auto rounded-3xl p-6 sm:p-8">
           <DialogHeader className="border-b border-slate-800 pb-4 flex flex-row items-center justify-between">
             <div>
               <DialogTitle className="font-serif text-xl sm:text-2xl font-bold text-white">

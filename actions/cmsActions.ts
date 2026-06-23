@@ -29,6 +29,26 @@ export async function getSettings() {
         businessHours: "Mon - Sat: 9:00 AM - 6:30 PM",
         socialLinks: { facebook: "", instagram: "", twitter: "", linkedin: "" },
         seoMetadata: { title: "Home Decorater", description: "Waterproofing and Flooring", keywords: "waterproofing" },
+        waterproofingSubcategories: [
+          "Roof & Slab Waterproofing",
+          "Terrace Waterproofing",
+          "Bathroom Seepage Waterproofing",
+          "Basement & Retaining Wall Grouting",
+          "Underground & Overhead Water Tanks"
+        ],
+        flooringSubcategories: [
+          "SPC Click-Lock Flooring",
+          "Premium Laminate Flooring",
+          "Engineered Wood Flooring",
+          "Luxury Vinyl Flooring (LVP)"
+        ],
+        pvcSubcategories: [
+          "SPC Click-Lock Flooring",
+          "Luxury Vinyl Planks (LVP) / Tiles (LVT)",
+          "Roll & Sheet PVC Flooring",
+          "Anti-Static (ESD) PVC Flooring",
+          "PVC Wall Panels & Cladding"
+        ],
       });
     }
     return {

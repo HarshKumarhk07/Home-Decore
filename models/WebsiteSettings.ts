@@ -21,6 +21,9 @@ export interface IWebsiteSettings extends Document {
     keywords: string; // comma-separated
   };
   faviconUrl?: string;
+  waterproofingSubcategories?: string[];
+  flooringSubcategories?: string[];
+  pvcSubcategories?: string[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -47,6 +50,9 @@ const WebsiteSettingsSchema = new Schema<IWebsiteSettings>(
       keywords: { type: String, default: "waterproofing, wooden flooring, pvc, home decorator" },
     },
     faviconUrl: { type: String },
+    waterproofingSubcategories: { type: [String], default: [] },
+    flooringSubcategories: { type: [String], default: [] },
+    pvcSubcategories: { type: [String], default: [] },
   },
   { timestamps: true }
 );

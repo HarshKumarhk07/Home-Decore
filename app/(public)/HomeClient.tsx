@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -10,7 +10,6 @@ import {
   CheckCircle2,
   ChevronDown,
   Phone,
-  MessageSquare,
   ArrowRight,
   Award,
   Sparkles,
@@ -23,15 +22,31 @@ import { Button } from "@/components/ui/button";
 import BeforeAfterSlider from "@/components/ui/BeforeAfterSlider";
 import { Card, CardContent } from "@/components/ui/card";
 import { FaWhatsapp } from "react-icons/fa";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import InspectionForm from "@/components/forms/InspectionForm";
 
 interface HomeClientProps {
   projects: any[];
   testimonials: any[];
   faqs: any[];
+  settings?: any;
 }
 
-export default function HomeClient({ projects, testimonials, faqs }: HomeClientProps) {
+export default function HomeClient({ projects, testimonials, faqs, settings }: HomeClientProps) {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  useEffect(() => {
+    // Show popup on initial mount if not seen this session
+    const hasSeen = sessionStorage.getItem("hasSeenPopup");
+    if (!hasSeen) {
+      const timer = setTimeout(() => {
+        setIsPopupOpen(true);
+        sessionStorage.setItem("hasSeenPopup", "true");
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -51,21 +66,27 @@ export default function HomeClient({ projects, testimonials, faqs }: HomeClientP
       title: "Waterproofing",
       href: "/services/waterproofing",
       desc: "Scientific waterproofing solutions to seal structural leakage, damp walls, and roof cracks. Up to 10 years warranty.",
-      items: ["Roof Waterproofing", "Terrace Waterproofing", "Bathroom Waterproofing", "Basement Waterproofing", "Water Tank Waterproofing"],
+      items: settings?.waterproofingSubcategories && settings.waterproofingSubcategories.length > 0
+        ? settings.waterproofingSubcategories
+        : ["Roof Waterproofing", "Terrace Waterproofing", "Bathroom Waterproofing", "Basement Waterproofing", "Water Tank Waterproofing"],
       bg: "/waterproofing.jpg",
     },
     {
       title: "Wooden Flooring",
       href: "/services/wooden-flooring",
       desc: "Premium wood and vinyl planks laid with scratch-resistant German technology. 100% moisture-proof options.",
-      items: ["Laminate Flooring", "Vinyl Flooring", "SPC Click-lock Flooring", "Engineered Wood Flooring"],
+      items: settings?.flooringSubcategories && settings.flooringSubcategories.length > 0
+        ? settings.flooringSubcategories
+        : ["Laminate Flooring", "Vinyl Flooring", "SPC Click-lock Flooring", "Engineered Wood Flooring"],
       bg: "/wooden flooring.jpg",
     },
     {
       title: "PVC (Polyvinyl Chloride)",
       href: "/services/pvc",
       desc: "Premium water-resistant PVC wall cladding panels and SPC flooring solutions designed for long-lasting structural hygiene and elegance.",
-      items: ["SPC Click Flooring", "LVT / LVP Planks", "Roll & Sheet PVC", "ESD Anti-Static PVC", "PVC Wall Cladding"],
+      items: settings?.pvcSubcategories && settings.pvcSubcategories.length > 0
+        ? settings.pvcSubcategories
+        : ["SPC Click Flooring", "LVT / LVP Planks", "Roll & Sheet PVC", "ESD Anti-Static PVC", "PVC Wall Cladding"],
       bg: "/PVC (Polyvinyl Chloride).jpg",
     },
   ];
@@ -117,124 +138,218 @@ export default function HomeClient({ projects, testimonials, faqs }: HomeClientP
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="max-w-3xl space-y-6">
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="inline-flex items-center space-x-2 bg-slate-800/80 backdrop-blur-md px-4 py-1.5 rounded-full border border-accent/20"
-            >
-              <Sparkles className="w-4 h-4 text-accent animate-pulse" />
-              <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-accent">
-                Premium Home Transformations
-              </span>
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              className="font-serif text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight text-white tracking-tight"
-            >
-              Professional <span className="text-accent">Waterproofing</span>, Flooring & PVC
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="text-base sm:text-lg md:text-xl text-slate-300 max-w-2xl leading-relaxed"
-            >
-              Protect, decorate, and elevate your space. Scientific execution, brand-certified materials, and up to 10-year written warranties.
-            </motion.p>
-
-            {/* CTAs */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="flex flex-wrap gap-4 pt-4"
-            >
-              <Button asChild className="bg-primary hover:bg-primary-hover text-white px-8 py-6 rounded-xl font-bold shadow-lg border border-primary/20 text-base">
-                <Link href="/quote">Get Free Quote</Link>
-              </Button>
-              
-              <Button asChild variant="outline" className="bg-slate-900/60 backdrop-blur-sm border-accent hover:bg-accent hover:text-dark text-white px-8 py-6 rounded-xl font-bold text-base transition-all duration-300">
-                <Link href="/inspection">
-                  <Calendar className="w-5 h-5 mr-2" /> Book Site Inspection
-                </Link>
-              </Button>
-            </motion.div>
-
-            {/* Direct Connect Buttons */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="flex flex-wrap gap-6 pt-6 text-sm text-slate-400"
-            >
-              <Link href="tel:+919999999999" className="flex items-center space-x-2 hover:text-white transition-colors duration-200">
-                <Phone className="w-4 h-4 text-accent animate-bounce" />
-                <span>Call Now: <strong>+91 99999 99999</strong></span>
-              </Link>
-              <a
-                href="https://wa.me/919999999999?text=Hi!%20I%20want%20to%20know%20more%20about%20Home%20Decorater%20services."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center space-x-2 hover:text-white transition-colors duration-200"
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            {/* Left Column: Copy & CTAs */}
+            <div className="lg:col-span-7 space-y-6">
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="inline-flex items-center space-x-2 bg-slate-800/80 backdrop-blur-md px-4 py-1.5 rounded-full border border-accent/20"
               >
-                <FaWhatsapp className="w-4 h-4 text-[#25D366]" />
-                <span>WhatsApp: <strong>Chat with Experts</strong></span>
-              </a>
-            </motion.div>
+                <Sparkles className="w-4 h-4 text-accent animate-pulse" />
+                <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-accent">
+                  Premium Home Transformations
+                </span>
+              </motion.div>
+
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.1 }}
+                className="font-serif text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight text-white tracking-tight"
+              >
+                Professional <span className="text-accent">Waterproofing</span>, Flooring & PVC
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="text-base sm:text-lg md:text-xl text-slate-300 max-w-2xl leading-relaxed"
+              >
+                Protect, decorate, and elevate your space. Scientific execution, brand-certified materials, and up to 10-year written warranties.
+              </motion.p>
+
+              {/* CTAs */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="flex flex-wrap gap-4 pt-4"
+              >
+                <Button asChild className="bg-primary hover:bg-primary-hover text-white px-8 py-6 rounded-xl font-bold shadow-lg border border-primary/20 text-base cursor-pointer">
+                  <Link href="/quote">Get Free Quote</Link>
+                </Button>
+                
+                <Button asChild variant="outline" className="border-accent hover:bg-accent hover:text-dark text-white px-8 py-6 rounded-xl font-bold text-base transition-all duration-300 cursor-pointer">
+                  <Link href="/inspection">
+                    <Calendar className="w-5 h-5 mr-2" /> Book Site Inspection
+                  </Link>
+                </Button>
+              </motion.div>
+
+              {/* Direct Connect Buttons */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="flex flex-wrap gap-6 pt-6 text-sm text-slate-400"
+              >
+                <Link href="tel:+919999999999" className="flex items-center space-x-2 hover:text-white transition-colors duration-200">
+                  <Phone className="w-4 h-4 text-accent animate-bounce" />
+                  <span>Call Now: <strong>+91 99999 99999</strong></span>
+                </Link>
+                <a
+                  href="https://wa.me/919999999999?text=Hi!%20I%20want%20to%20know%20more%20about%20Home%20Decorater%20services."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-2 hover:text-white transition-colors duration-200"
+                >
+                  <FaWhatsapp className="w-4 h-4 text-[#25D366]" />
+                  <span>WhatsApp: <strong>Chat with Experts</strong></span>
+                </a>
+              </motion.div>
+            </div>
+
+            {/* Right Column: Embedded Form Card */}
+            <div className="lg:col-span-5 w-full mt-8 lg:mt-0">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="bg-white/95 backdrop-blur-md border border-slate-100 rounded-none p-6 sm:p-8 shadow-2xl text-slate-900"
+              >
+                <div className="mb-4">
+                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-primary mb-1">Book Free Site Inspection</h3>
+                  <p className="text-slate-500 text-xs">Get moisture scan & site survey from certified specialists.</p>
+                </div>
+                <InspectionForm />
+              </motion.div>
+            </div>
           </div>
+        </div>
+      </section>
+
+      {/* SERVICES SUMMARY */}
+      <section className="py-20 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-3xl mx-auto mb-16 space-y-4"
+          >
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-primary">Our Elite Service Categories</h2>
+            <p className="text-slate-600">
+              We operate exclusively in Waterproofing, Flooring, and PVC, allowing our engineering teams to maintain deep domain expertise.
+            </p>
+          </motion.div>
+
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8"
+          >
+            {services.map((svc, idx) => (
+              <motion.div key={idx} variants={itemVariants} className="h-full">
+                <Card className="overflow-hidden border border-slate-200/80 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col h-full bg-white rounded-2xl pt-0 pb-0 gap-0">
+                  <div className="relative h-56 w-full">
+                    <Image src={svc.bg} alt={svc.title} fill className="object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent"></div>
+                    <h3 className="absolute bottom-4 left-6 text-white font-serif text-2xl font-bold">{svc.title}</h3>
+                  </div>
+                  <CardContent className="p-6 flex-grow flex flex-col justify-between">
+                    <div className="space-y-4">
+                      <p className="text-sm text-slate-600 leading-relaxed">{svc.desc}</p>
+                      <ul className="space-y-2">
+                        {svc.items.map((it: string, itemIdx: number) => (
+                          <li key={itemIdx} className="flex items-center space-x-2 text-sm text-slate-700 font-medium">
+                            <CheckCircle2 className="w-4 h-4 text-accent shrink-0" />
+                            <span>{it}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="pt-6">
+                      <Button asChild className="w-full bg-slate-900 hover:bg-primary text-white font-semibold rounded-xl transition-colors duration-300 text-xs sm:text-sm">
+                        <Link href={svc.href}>
+                          <span>Explore</span>
+                          <span className="hidden sm:inline"> {svc.title}</span>
+                          <ArrowRight className="w-4 h-4 ml-1.5 sm:ml-2 shrink-0" />
+                        </Link>
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
       {/* STATISTICS SECTION */}
       <section className="bg-slate-50 border-y border-slate-100 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center"
+          >
+            <motion.div variants={itemVariants}>
               <p className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary">15+</p>
               <p className="text-xs sm:text-sm font-medium text-slate-500 uppercase tracking-wider mt-1">Years Experience</p>
-            </div>
-            <div>
+            </motion.div>
+            <motion.div variants={itemVariants}>
               <p className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary">1,200+</p>
               <p className="text-xs sm:text-sm font-medium text-slate-500 uppercase tracking-wider mt-1">Projects Completed</p>
-            </div>
-            <div>
+            </motion.div>
+            <motion.div variants={itemVariants}>
               <p className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary">100%</p>
               <p className="text-xs sm:text-sm font-medium text-slate-500 uppercase tracking-wider mt-1">Satisfaction Rate</p>
-            </div>
-            <div>
+            </motion.div>
+            <motion.div variants={itemVariants}>
               <p className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary">10-Yr</p>
               <p className="text-xs sm:text-sm font-medium text-slate-500 uppercase tracking-wider mt-1">Stamp-Sealed Warranty</p>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
       {/* WHY CHOOSE US */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-3xl mx-auto mb-16 space-y-4"
+          >
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-primary">
               Why Home Decorater is the Standard
             </h2>
             <p className="text-slate-600">
               We do not believe in short-cuts. We analyze the chemical properties of structural leakage and substrates to perform long-lasting modifications.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8"
+          >
             {whyChooseUs.map((item, idx) => (
               <motion.div
                 key={idx}
                 variants={itemVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-50px" }}
                 className="p-6 rounded-2xl bg-white border border-slate-100 hover:border-primary/20 shadow-sm hover:shadow-md transition-all duration-300 group"
               >
                 <div className="p-3 bg-primary-light rounded-xl w-fit mb-4 group-hover:scale-110 transition-transform duration-300">
@@ -244,51 +359,7 @@ export default function HomeClient({ projects, testimonials, faqs }: HomeClientP
                 <p className="text-sm text-slate-600 leading-relaxed">{item.desc}</p>
               </motion.div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SERVICES SUMMARY */}
-      <section className="py-20 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-primary">Our Elite Service Categories</h2>
-            <p className="text-slate-600">
-              We operate exclusively in Waterproofing, Flooring, and PVC, allowing our engineering teams to maintain deep domain expertise.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
-            {services.map((svc, idx) => (
-              <Card key={idx} className="overflow-hidden border border-slate-200/80 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col h-full bg-white rounded-2xl">
-                <div className="relative h-56 w-full">
-                  <Image src={svc.bg} alt={svc.title} fill className="object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent"></div>
-                  <h3 className="absolute bottom-4 left-6 text-white font-serif text-2xl font-bold">{svc.title}</h3>
-                </div>
-                <CardContent className="p-6 flex-grow flex flex-col justify-between">
-                  <div className="space-y-4">
-                    <p className="text-sm text-slate-600 leading-relaxed">{svc.desc}</p>
-                    <ul className="space-y-2">
-                      {svc.items.map((it, itemIdx) => (
-                        <li key={itemIdx} className="flex items-center space-x-2 text-sm text-slate-700 font-medium">
-                          <CheckCircle2 className="w-4 h-4 text-accent shrink-0" />
-                          <span>{it}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="pt-6">
-                    <Button asChild className="w-full bg-slate-900 hover:bg-primary text-white font-semibold rounded-xl transition-colors duration-300">
-                      <Link href={svc.href}>
-                        Explore {svc.title} <ArrowRight className="w-4 h-4 ml-2" />
-                      </Link>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -296,7 +367,13 @@ export default function HomeClient({ projects, testimonials, faqs }: HomeClientP
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6 }}
+              className="space-y-6"
+            >
               <div className="inline-flex items-center space-x-2 bg-primary-light px-3 py-1 rounded-full text-primary font-semibold text-xs uppercase tracking-wider">
                 <Wrench className="w-3.5 h-3.5 mr-1 text-accent" /> Before / After Transformation
               </div>
@@ -325,15 +402,21 @@ export default function HomeClient({ projects, testimonials, faqs }: HomeClientP
                   <Link href="/gallery">View Full Gallery</Link>
                 </Button>
               </div>
-            </div>
-            <div className="px-1 py-4 bg-slate-50 border border-slate-100 rounded-3xl">
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6 }}
+              className="px-1 py-4 bg-slate-50 border border-slate-100 rounded-3xl"
+            >
               <BeforeAfterSlider
-                beforeImage="https://images.unsplash.com/photo-1590069261209-f8e9b8642343?auto=format&fit=crop&q=80&w=800"
-                afterImage="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=800"
+                beforeImage="/before.jpg"
+                afterImage="/after.jpg"
                 beforeLabel="Leaking Damp Concrete"
                 afterLabel="Waterproof Polyurethane Finish"
               />
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -342,7 +425,13 @@ export default function HomeClient({ projects, testimonials, faqs }: HomeClientP
       {projects.length > 0 && (
         <section className="py-20 bg-slate-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-12">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-12"
+            >
               <div className="space-y-2">
                 <h2 className="font-serif text-3xl sm:text-4xl font-bold text-primary">Featured Client Projects</h2>
                 <p className="text-slate-600 max-w-xl">
@@ -352,38 +441,48 @@ export default function HomeClient({ projects, testimonials, faqs }: HomeClientP
               <Link href="/projects" className="inline-flex items-center text-sm font-bold text-primary hover:text-accent mt-4 sm:mt-0 transition-colors">
                 View All Projects <ExternalLink className="w-4 h-4 ml-1.5" />
               </Link>
-            </div>
+            </motion.div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8"
+            >
               {projects.map((proj) => (
-                <Link key={proj.slug} href={`/projects/${proj.slug}`} className="group block bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
-                  <div className="relative h-60 w-full overflow-hidden">
-                    <Image
-                      src={proj.images[0]}
-                      alt={proj.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute top-4 left-4 bg-accent/90 backdrop-blur-sm text-dark px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider shadow">
-                      {proj.category.replace("-", " ")}
+                <motion.div key={proj.slug} variants={itemVariants} className="h-full flex flex-col">
+                  <Link href={`/projects/${proj.slug}`} className="group flex flex-col h-full bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+                    <div className="relative h-40 sm:h-60 w-full overflow-hidden">
+                      <Image
+                        src={proj.images[0]}
+                        alt={proj.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute top-2 sm:top-4 left-2 sm:left-4 bg-accent/90 backdrop-blur-sm text-dark px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg text-[9px] sm:text-xs font-bold uppercase tracking-wider shadow">
+                        {proj.category.replace("-", " ")}
+                      </div>
                     </div>
-                  </div>
-                  <div className="p-6 space-y-4">
-                    <h3 className="font-serif text-lg font-bold text-primary group-hover:text-accent transition-colors duration-200 line-clamp-1">
-                      {proj.title}
-                    </h3>
-                    <p className="text-xs text-slate-500 flex items-center">
-                      <span className="font-semibold text-slate-700">Location:</span> &nbsp;{proj.location}
-                    </p>
-                    <p className="text-sm text-slate-600 line-clamp-2">{proj.description}</p>
-                    <div className="flex justify-between items-center text-xs font-bold text-primary border-t border-slate-100 pt-4">
-                      <span>Area: {proj.areaCovered}</span>
-                      <span>Warranty: {proj.warranty.split(" ")[0]} Yrs</span>
+                    <div className="p-4 sm:p-6 space-y-3 sm:space-y-4 flex-grow flex flex-col justify-between">
+                      <div className="space-y-2 sm:space-y-3">
+                        <h3 className="font-serif text-sm sm:text-lg font-bold text-primary group-hover:text-accent transition-colors duration-200 line-clamp-1">
+                          {proj.title}
+                        </h3>
+                        <p className="text-[10px] sm:text-xs text-slate-500 flex items-center">
+                          <span className="font-semibold text-slate-700">Location:</span> &nbsp;{proj.location}
+                        </p>
+                        <p className="text-xs sm:text-sm text-slate-600 line-clamp-2">{proj.description}</p>
+                      </div>
+                      <div className="flex justify-between items-center text-[10px] sm:text-xs font-bold text-primary border-t border-slate-100 pt-3 sm:pt-4 mt-auto">
+                        <span>Area: {proj.areaCovered}</span>
+                        <span>Warranty: {proj.warranty.split(" ")[0]} Yrs</span>
+                      </div>
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </section>
       )}
@@ -391,43 +490,71 @@ export default function HomeClient({ projects, testimonials, faqs }: HomeClientP
       {/* WORK PROCESS */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-3xl mx-auto mb-16 space-y-4"
+          >
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-primary">Our Step-by-Step Process</h2>
             <p className="text-slate-600">
               We make home improvement clean, organized, and stress-free. Here is what to expect when you partner with us.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 relative">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 relative"
+          >
             {steps.map((step, idx) => (
-              <div key={idx} className="relative group p-6 rounded-2xl bg-slate-50 hover:bg-white border border-slate-100 hover:border-primary/10 transition-all duration-300 shadow-sm">
+              <motion.div
+                key={idx}
+                variants={itemVariants}
+                className="relative group p-6 rounded-2xl bg-slate-50 hover:bg-white border border-slate-100 hover:border-primary/10 transition-all duration-300 shadow-sm"
+              >
                 <span className="font-serif text-5xl font-black text-slate-200 group-hover:text-accent/30 transition-colors duration-300 block mb-4">
                   {step.num}
                 </span>
                 <h3 className="font-serif text-lg font-bold text-primary mb-2">{step.title}</h3>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">{step.desc}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* CUSTOMER TESTIMONIALS */}
       {testimonials.length > 0 && (
-        <section className="py-20 bg-slate-900 text-white">
+        <section className="py-20 bg-slate-900 text-white overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="text-center max-w-3xl mx-auto mb-16 space-y-4"
+            >
               <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white">
                 What Our Clients Say
               </h2>
               <p className="text-slate-400">
                 Thousands of homeowners, apartments, and corporate complexes rely on our durability standards.
               </p>
-            </div>
+            </motion.div>
+          </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8">
-              {testimonials.map((t, idx) => (
-                <div key={idx} className="dark-glassmorphism p-8 rounded-2xl flex flex-col justify-between h-full space-y-6">
+          <div className="relative overflow-hidden w-full py-8">
+            {/* Left & Right gradient overlays for smooth fade edges */}
+            <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-slate-900 via-slate-900/40 to-transparent z-10 pointer-events-none"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-slate-900 via-slate-900/40 to-transparent z-10 pointer-events-none"></div>
+            
+            <div className="flex space-x-6 w-max animate-marquee-ltr hover:[animation-play-state:paused] py-2">
+              {[...testimonials, ...testimonials, ...testimonials].map((t, idx) => (
+                <div key={idx} className="w-[320px] sm:w-[400px] shrink-0 dark-glassmorphism p-8 rounded-2xl flex flex-col justify-between h-[280px] space-y-6">
                   <div className="space-y-4">
                     <div className="flex space-x-1 text-accent">
                       {Array.from({ length: t.rating }).map((_, i) => (
@@ -460,18 +587,30 @@ export default function HomeClient({ projects, testimonials, faqs }: HomeClientP
       {faqs.length > 0 && (
         <section className="py-20 bg-white">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16 space-y-4">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="text-center mb-16 space-y-4"
+            >
               <h2 className="font-serif text-3xl sm:text-4xl font-bold text-primary">Frequently Asked Questions</h2>
               <p className="text-slate-600">
                 Find answers to general questions about our processes, warranties, and inspection protocols.
               </p>
-            </div>
+            </motion.div>
 
-            <div className="space-y-4">
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              className="space-y-4"
+            >
               {faqs.map((faq, idx) => {
                 const isSelected = activeFaq === idx;
                 return (
-                  <div key={idx} className="border border-slate-100 rounded-xl overflow-hidden shadow-sm transition-all duration-300">
+                  <motion.div key={idx} variants={itemVariants} className="border border-slate-100 rounded-xl overflow-hidden shadow-sm transition-all duration-300">
                     <button
                       onClick={() => setActiveFaq(isSelected ? null : idx)}
                       className="flex items-center justify-between w-full p-5 text-left font-serif font-bold text-primary hover:bg-slate-50 transition-colors"
@@ -484,10 +623,10 @@ export default function HomeClient({ projects, testimonials, faqs }: HomeClientP
                         {faq.answer}
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 );
               })}
-            </div>
+            </motion.div>
           </div>
         </section>
       )}
@@ -504,7 +643,13 @@ export default function HomeClient({ projects, testimonials, faqs }: HomeClientP
           />
         </div>
 
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8"
+        >
           <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
             Ready to Protect & Beautify Your Home?
           </h2>
@@ -519,8 +664,23 @@ export default function HomeClient({ projects, testimonials, faqs }: HomeClientP
               <Link href="/quote">Get Free Estimate</Link>
             </Button>
           </div>
-        </div>
+        </motion.div>
       </section>
+
+      {/* Pop-up Site Inspection Form on website load */}
+      <Dialog open={isPopupOpen} onOpenChange={setIsPopupOpen}>
+        <DialogContent className="sm:max-w-md p-6 max-h-[90vh] overflow-y-auto bg-white border border-slate-200 rounded-none">
+          <DialogHeader className="mb-2">
+            <DialogTitle className="font-serif text-2xl font-bold text-primary">Book Free Site Inspection</DialogTitle>
+            <DialogDescription className="text-slate-500 text-xs sm:text-sm">
+              Schedule your 100% free moisture assessment and structural scan today.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-2">
+            <InspectionForm />
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -12,7 +12,7 @@ export const fallbackProjects = [
     description: "Heavy-duty multi-layer membrane terrace waterproofing designed to solve massive structural seepage and dampness, preventing any leakage in executive server rooms.",
     images: ["/waterproofing.jpg"],
     beforeAfter: {
-      before: "/waterproofing.jpg",
+      before: "https://images.unsplash.com/photo-1595841696660-1d8c03793e46?auto=format&fit=crop&q=80&w=800",
       after: "/waterproofing.jpg",
     },
     isFeatured: true,
@@ -31,7 +31,7 @@ export const fallbackProjects = [
     description: "Premium installation of water-resistant Stone Plastic Composite (SPC) flooring laid out in a classic herringbone layout, creating a timeless visual look with high durability.",
     images: ["/wooden flooring.jpg"],
     beforeAfter: {
-      before: "/wooden flooring.jpg",
+      before: "https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&q=80&w=800",
       after: "/wooden flooring.jpg",
     },
     isFeatured: true,
@@ -50,7 +50,7 @@ export const fallbackProjects = [
     description: "Complete installation of water-resistant Polyvinyl Chloride (PVC) wall paneling and stone plastic composite (SPC) flooring for a luxury villa.",
     images: ["/PVC (Polyvinyl Chloride).jpg"],
     beforeAfter: {
-      before: "/PVC (Polyvinyl Chloride).jpg",
+      before: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800",
       after: "/PVC (Polyvinyl Chloride).jpg",
     },
     isFeatured: true,

@@ -1,9 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ShieldCheck, Phone, CheckCircle, Sparkles, Layers, Award } from "lucide-react";
+import { ShieldCheck, Sparkles, Layers, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getSettings } from "@/actions/cmsActions";
 
-const pvcServices = [
+const defaultPvcServices = [
   {
     name: "SPC Click-Lock Flooring",
     desc: "Stone Plastic Composite (SPC) flooring is 100% waterproof, fire-resistant, and click-lock installed. Perfect for bathrooms, kitchens, and offices.",
@@ -41,7 +42,23 @@ export const metadata = {
   description: "Premium Polyvinyl Chloride (PVC) flooring and wall cladding installations. Waterproof, termite-proof, and commercial-grade SPC flooring.",
 };
 
-export default function PvcPage() {
+export default async function PvcPage() {
+  const settingsRes = await getSettings();
+  const settings = settingsRes.success ? settingsRes.settings : null;
+  const subcategoriesList = settings?.pvcSubcategories || [];
+
+  const servicesToRender = subcategoriesList.length > 0
+    ? subcategoriesList.map((name: string) => {
+        const found = defaultPvcServices.find(p => p.name.toLowerCase() === name.toLowerCase());
+        return {
+          name,
+          desc: found?.desc || `Professional grade PVC/SPC installation of ${name} with heavy-wear protection, water resistance, and smooth polymer finishes.`,
+          specification: found?.specification || "Custom Thickness & Spec",
+          image: found?.image || "/PVC (Polyvinyl Chloride).jpg",
+        };
+      })
+    : defaultPvcServices;
+
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://homedecorater.in";
 
   const jsonLd = {
@@ -62,7 +79,7 @@ export default function PvcPage() {
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
       "name": "PVC Services Catalog",
-      "itemListElement": pvcServices.map((svc) => ({
+      "itemListElement": servicesToRender.map((svc) => ({
         "@type": "Offer",
         "itemOffered": {
           "@type": "Service",
@@ -82,7 +99,7 @@ export default function PvcPage() {
       <div className="bg-slate-50 min-h-screen py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Banner Section */}
-          <div className="bg-gradient-to-r from-primary to-slate-900 text-white rounded-3xl p-8 sm:p-12 mb-16 relative overflow-hidden shadow-xl">
+          <div className="bg-gradient-to-r from-primary to-slate-900 text-white rounded-3xl p-8 sm:p-12 mb-16 relative overflow-hidden shadow-xl animate-fade-in">
             <div className="relative z-10 max-w-3xl space-y-4">
               <div className="inline-flex items-center space-x-2 bg-accent/20 border border-accent/20 px-3 py-1 rounded-full text-accent font-semibold text-xs uppercase tracking-wider">
                 <Sparkles className="w-4 h-4 text-accent animate-pulse" /> 100% Waterproof & Termite-Proof
@@ -105,7 +122,7 @@ export default function PvcPage() {
           </div>
 
           {/* Highlight points */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16 animate-fade-in">
             <div className="bg-white p-6 rounded-2xl border border-slate-100 flex items-center space-x-3 shadow-sm">
               <Layers className="w-6 h-6 text-accent shrink-0" />
               <div>
@@ -135,8 +152,8 @@ export default function PvcPage() {
               Our Premium PVC & SPC Installations
             </h2>
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
-              {pvcServices.map((svc, idx) => (
-                <div key={idx} className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full">
+              {servicesToRender.map((svc, idx) => (
+                <div key={idx} className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full hover:-translate-y-1">
                   <div className="relative h-48 w-full">
                     <Image
                       src={svc.image}

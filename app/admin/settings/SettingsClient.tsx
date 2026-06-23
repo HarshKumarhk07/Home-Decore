@@ -4,7 +4,7 @@ import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { updateWebsiteSettings } from "@/actions/cmsActions";
 import { toast } from "sonner";
-import { Loader2, Save, Building, Clock, Share2, Search } from "lucide-react";
+import { Loader2, Save, Building, Clock, Share2, Search, Layers } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -16,7 +16,12 @@ export default function SettingsClient({ initialSettings }: SettingsClientProps)
   const [isPending, startTransition] = useTransition();
 
   const { register, handleSubmit } = useForm({
-    defaultValues: initialSettings || {},
+    defaultValues: {
+      ...initialSettings,
+      waterproofingSubcategories: initialSettings?.waterproofingSubcategories?.join(", ") || "",
+      flooringSubcategories: initialSettings?.flooringSubcategories?.join(", ") || "",
+      pvcSubcategories: initialSettings?.pvcSubcategories?.join(", ") || "",
+    },
   });
 
   const onSubmit = (data: any) => {
@@ -41,6 +46,15 @@ export default function SettingsClient({ initialSettings }: SettingsClientProps)
           description: data.seoMetadata?.description || "",
           keywords: data.seoMetadata?.keywords || "",
         },
+        waterproofingSubcategories: typeof data.waterproofingSubcategories === "string"
+          ? data.waterproofingSubcategories.split(",").map((s: string) => s.trim()).filter(Boolean)
+          : data.waterproofingSubcategories || [],
+        flooringSubcategories: typeof data.flooringSubcategories === "string"
+          ? data.flooringSubcategories.split(",").map((s: string) => s.trim()).filter(Boolean)
+          : data.flooringSubcategories || [],
+        pvcSubcategories: typeof data.pvcSubcategories === "string"
+          ? data.pvcSubcategories.split(",").map((s: string) => s.trim()).filter(Boolean)
+          : data.pvcSubcategories || [],
       };
 
       const res = await updateWebsiteSettings(payload);
@@ -56,7 +70,7 @@ export default function SettingsClient({ initialSettings }: SettingsClientProps)
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-4xl">
       <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-lg">
         <Tabs defaultValue="company" className="w-full">
-          <TabsList className="bg-slate-950 border border-slate-800 rounded-xl p-1 grid grid-cols-4 gap-2 mb-6">
+          <TabsList className="bg-slate-950 border border-slate-800 rounded-xl p-1 grid grid-cols-5 gap-2 mb-6">
             <TabsTrigger value="company" className="rounded-lg text-xs sm:text-sm flex items-center justify-center space-x-1.5 py-2">
               <Building className="w-4 h-4 shrink-0" />
               <span className="hidden sm:inline">Company</span>
@@ -72,6 +86,10 @@ export default function SettingsClient({ initialSettings }: SettingsClientProps)
             <TabsTrigger value="seo" className="rounded-lg text-xs sm:text-sm flex items-center justify-center space-x-1.5 py-2">
               <Search className="w-4 h-4 shrink-0" />
               <span className="hidden sm:inline">SEO Config</span>
+            </TabsTrigger>
+            <TabsTrigger value="services" className="rounded-lg text-xs sm:text-sm flex items-center justify-center space-x-1.5 py-2">
+              <Layers className="w-4 h-4 shrink-0" />
+              <span className="hidden sm:inline">Services</span>
             </TabsTrigger>
           </TabsList>
 
@@ -233,6 +251,42 @@ export default function SettingsClient({ initialSettings }: SettingsClientProps)
                 disabled={isPending}
                 {...register("seoMetadata.keywords")}
                 placeholder="waterproofing, wooden flooring, pvc"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
+              />
+            </div>
+          </TabsContent>
+
+          {/* 5. Services Subcategories Tab */}
+          <TabsContent value="services" className="space-y-4 pt-2">
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Waterproofing Subcategories (comma separated)</label>
+              <textarea
+                rows={3}
+                disabled={isPending}
+                {...register("waterproofingSubcategories")}
+                placeholder="Roof & Slab Waterproofing, Terrace Waterproofing, Bathroom Seepage Waterproofing, Basement & Retaining Wall Grouting, Underground & Overhead Water Tanks"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Wooden Flooring Subcategories (comma separated)</label>
+              <textarea
+                rows={3}
+                disabled={isPending}
+                {...register("flooringSubcategories")}
+                placeholder="SPC Click-Lock Flooring, Premium Laminate Flooring, Engineered Wood Flooring, Luxury Vinyl Flooring (LVP)"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">PVC Subcategories (comma separated)</label>
+              <textarea
+                rows={3}
+                disabled={isPending}
+                {...register("pvcSubcategories")}
+                placeholder="SPC Click-Lock Flooring, Luxury Vinyl Planks (LVP) / Tiles (LVT), Roll & Sheet PVC Flooring, Anti-Static (ESD) PVC Flooring, PVC Wall Panels & Cladding"
                 className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
               />
             </div>

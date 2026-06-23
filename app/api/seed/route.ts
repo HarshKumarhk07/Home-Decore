@@ -54,6 +54,26 @@ export async function GET() {
         description: "Premium waterproofing, flooring, and PVC wall panel cladding solutions with up to 10 years warranty. Serving residential and commercial clients.",
         keywords: "waterproofing, wooden flooring, pvc cladding, spc flooring, moisture testing, wall paneling",
       },
+      waterproofingSubcategories: [
+        "Roof & Slab Waterproofing",
+        "Terrace Waterproofing",
+        "Bathroom Seepage Waterproofing",
+        "Basement & Retaining Wall Grouting",
+        "Underground & Overhead Water Tanks"
+      ],
+      flooringSubcategories: [
+        "SPC Click-Lock Flooring",
+        "Premium Laminate Flooring",
+        "Engineered Wood Flooring",
+        "Luxury Vinyl Flooring (LVP)"
+      ],
+      pvcSubcategories: [
+        "SPC Click-Lock Flooring",
+        "Luxury Vinyl Planks (LVP) / Tiles (LVT)",
+        "Roll & Sheet PVC Flooring",
+        "Anti-Static (ESD) PVC Flooring",
+        "PVC Wall Panels & Cladding"
+      ],
     });
 
     // 3. Seed Projects
@@ -74,7 +94,7 @@ export async function GET() {
           "/PVC (Polyvinyl Chloride).jpg"
         ],
         beforeAfter: {
-          before: "/PVC (Polyvinyl Chloride).jpg",
+          before: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800",
           after: "/PVC (Polyvinyl Chloride).jpg"
         },
         description: "Complete installation of water-resistant Polyvinyl Chloride (PVC) wall paneling and stone plastic composite (SPC) flooring for a luxury villa.",
@@ -95,7 +115,7 @@ export async function GET() {
           "/waterproofing.jpg"
         ],
         beforeAfter: {
-          before: "/waterproofing.jpg",
+          before: "https://images.unsplash.com/photo-1595841696660-1d8c03793e46?auto=format&fit=crop&q=80&w=800",
           after: "/waterproofing.jpg"
         },
         description: "Heavy-duty multi-layer membrane terrace waterproofing designed to solve massive structural seepage and dampness, preventing any leakage in executive server rooms.",
@@ -116,7 +136,7 @@ export async function GET() {
           "/wooden flooring.jpg"
         ],
         beforeAfter: {
-          before: "/wooden flooring.jpg",
+          before: "https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&q=80&w=800",
           after: "/wooden flooring.jpg"
         },
         description: "Premium installation of water-resistant Stone Plastic Composite (SPC) flooring laid out in a classic herringbone layout, creating a timeless visual look with high durability.",

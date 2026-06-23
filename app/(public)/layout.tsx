@@ -12,7 +12,7 @@ export default function PublicLayout({
     <div className="flex flex-col min-h-screen">
       <Header />
       {/* Spacer to push content down below the sticky header */}
-      <main className="flex-grow pt-[80px]">
+      <main className="flex-grow pt-[72px] lg:pt-[80px]">
         {children}
       </main>
       <Footer />

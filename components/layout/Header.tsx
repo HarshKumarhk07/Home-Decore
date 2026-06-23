@@ -17,7 +17,23 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(false);
+  const [settings, setSettings] = useState<any>(null);
   const pathname = usePathname();
+
+  useEffect(() => {
+    async function loadSettings() {
+      try {
+        const { getSettings } = await import("@/actions/cmsActions");
+        const res = await getSettings();
+        if (res.success) {
+          setSettings(res.settings);
+        }
+      } catch (error) {
+        console.error("Error loading header settings:", error);
+      }
+    }
+    loadSettings();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -49,7 +65,7 @@ export default function Header() {
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 bg-white opacity-100 border-b border-slate-200 shadow-md py-3 transition-all duration-300"
+      className="fixed top-0 left-0 right-0 z-50 bg-white opacity-100 border-b border-slate-200 shadow-md py-2 transition-all duration-300"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
@@ -58,9 +74,9 @@ export default function Header() {
             <Image
               src="/HOME DECORATER LOGO (2).png"
               alt="Home Decorater Logo"
-              width={160}
-              height={45}
-              className="h-11 w-auto object-contain"
+              width={300}
+              height={96}
+              className="h-20 lg:h-24 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
               priority
             />
           </Link>
@@ -95,19 +111,40 @@ export default function Header() {
                 <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
               </button>
 
-              <div className="absolute left-0 mt-2 w-52 rounded-xl bg-white shadow-xl ring-1 ring-black/5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-1 group-hover:translate-y-0 z-50">
-                <div className="py-2 px-1">
-                  {servicesList.map((service) => (
-                    <Link
-                      key={service.name}
-                      href={service.href}
-                      className={`block px-4 py-2 text-sm rounded-lg hover:bg-primary-light hover:text-primary transition-colors ${
-                        pathname === service.href ? "bg-primary-light text-primary font-semibold" : "text-gray-700"
-                      }`}
-                    >
-                      {service.name}
-                    </Link>
-                  ))}
+              <div className="absolute left-0 mt-2 w-64 rounded-xl bg-white shadow-xl ring-1 ring-black/5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-1 group-hover:translate-y-0 z-50">
+                <div className="py-2 px-1 divide-y divide-slate-100">
+                  {servicesList.map((service) => {
+                    const subList =
+                      service.name === "Waterproofing" ? settings?.waterproofingSubcategories :
+                      service.name === "Wooden Flooring" ? settings?.flooringSubcategories :
+                      service.name === "PVC (Polyvinyl Chloride)" ? settings?.pvcSubcategories : null;
+
+                    return (
+                      <div key={service.name} className="py-2 first:pt-0 last:pb-0 px-2">
+                        <Link
+                          href={service.href}
+                          className={`block px-2 py-1 text-sm font-semibold rounded-lg hover:bg-primary-light hover:text-primary transition-colors ${
+                            pathname === service.href ? "bg-primary-light text-primary" : "text-gray-900"
+                          }`}
+                        >
+                          {service.name}
+                        </Link>
+                        {subList && subList.length > 0 && (
+                          <div className="mt-1 pl-3 space-y-0.5">
+                            {subList.map((sub: string) => (
+                              <div
+                                key={sub}
+                                className="text-[11px] text-slate-500 hover:text-primary transition-colors cursor-default truncate py-0.5"
+                                title={sub}
+                              >
+                                • {sub}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -183,18 +220,35 @@ export default function Header() {
               <span>Services</span>
               <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${activeDropdown ? "rotate-180" : ""}`} />
             </button>
-            <div className={`pl-4 space-y-1 transition-all duration-200 overflow-hidden ${activeDropdown ? "max-h-40 opacity-100" : "max-h-0 opacity-0"}`}>
-              {servicesList.map((service) => (
-                <Link
-                  key={service.name}
-                  href={service.href}
-                  className={`block px-3 py-2 rounded-xl text-sm font-medium ${
-                    pathname === service.href ? "text-primary font-bold bg-primary-light/50" : "text-gray-600 hover:bg-gray-50"
-                  }`}
-                >
-                  {service.name}
-                </Link>
-              ))}
+            <div className={`pl-4 space-y-1 transition-all duration-300 overflow-hidden ${activeDropdown ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"}`}>
+              {servicesList.map((service) => {
+                const subList =
+                  service.name === "Waterproofing" ? settings?.waterproofingSubcategories :
+                  service.name === "Wooden Flooring" ? settings?.flooringSubcategories :
+                  service.name === "PVC (Polyvinyl Chloride)" ? settings?.pvcSubcategories : null;
+
+                return (
+                  <div key={service.name} className="py-1">
+                    <Link
+                      href={service.href}
+                      className={`block px-3 py-1.5 rounded-xl text-sm font-semibold ${
+                        pathname === service.href ? "text-primary bg-primary-light/50 font-bold" : "text-gray-800 hover:bg-gray-50"
+                      }`}
+                    >
+                      {service.name}
+                    </Link>
+                    {subList && subList.length > 0 && (
+                      <div className="pl-6 mt-0.5 space-y-0.5 border-l border-slate-100 ml-3">
+                        {subList.map((sub: string) => (
+                          <div key={sub} className="text-[11px] text-slate-500 py-0.5">
+                            • {sub}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
 
