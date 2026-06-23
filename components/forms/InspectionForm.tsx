@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition } from "react";
+import { useTransition, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -19,13 +19,39 @@ const timeSlots = [
   "04:30 PM - 07:00 PM",
 ];
 
+const defaultSubServices: Record<string, string[]> = {
+  "Waterproofing": [
+    "Roof & Slab Waterproofing",
+    "Terrace Waterproofing",
+    "Bathroom Seepage Waterproofing",
+    "Basement & Retaining Wall Grouting",
+    "Underground & Overhead Water Tanks",
+  ],
+  "Wooden Flooring": [
+    "SPC Click-Lock Flooring",
+    "Premium Laminate Flooring",
+    "Engineered Wood Flooring",
+    "Luxury Vinyl Flooring (LVP)",
+  ],
+  "PVC (Polyvinyl Chloride)": [
+    "SPC Click-Lock Flooring",
+    "Luxury Vinyl Planks (LVP) / Tiles (LVT)",
+    "Roll & Sheet PVC Flooring",
+    "Anti-Static (ESD) PVC Flooring",
+    "PVC Wall Panels & Cladding",
+  ],
+};
+
 export default function InspectionForm() {
   const [isPending, startTransition] = useTransition();
+  const [settings, setSettings] = useState<any>(null);
 
   const {
     register,
     handleSubmit,
     reset,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<InspectionFormValues>({
     resolver: zodResolver(InspectionSchema) as any,
@@ -35,18 +61,65 @@ export default function InspectionForm() {
       email: "",
       address: "",
       service: "Waterproofing",
+      subService: "",
       preferredDate: "",
       preferredTime: timeSlots[0],
       remarks: "",
     },
   });
 
+  const selectedService = watch("service");
+
+  useEffect(() => {
+    async function loadSettings() {
+      try {
+        const { getSettings } = await import("@/actions/cmsActions");
+        const res = await getSettings();
+        if (res.success) {
+          setSettings(res.settings);
+        }
+      } catch (error) {
+        console.error("Error loading form settings:", error);
+      }
+    }
+    loadSettings();
+  }, []);
+
+  const getSubcategories = () => {
+    if (selectedService === "Waterproofing") {
+      return settings?.waterproofingSubcategories && settings.waterproofingSubcategories.length > 0
+        ? settings.waterproofingSubcategories
+        : defaultSubServices["Waterproofing"];
+    }
+    if (selectedService === "Wooden Flooring") {
+      return settings?.flooringSubcategories && settings.flooringSubcategories.length > 0
+        ? settings.flooringSubcategories
+        : defaultSubServices["Wooden Flooring"];
+    }
+    if (selectedService === "PVC (Polyvinyl Chloride)") {
+      return settings?.pvcSubcategories && settings.pvcSubcategories.length > 0
+        ? settings.pvcSubcategories
+        : defaultSubServices["PVC (Polyvinyl Chloride)"];
+    }
+    return [];
+  };
+
+  const subCategories = getSubcategories();
+
+  useEffect(() => {
+    if (subCategories && subCategories.length > 0) {
+      setValue("subService", subCategories[0]);
+    } else {
+      setValue("subService", "");
+    }
+  }, [selectedService, settings]);
+
   const onSubmit = (data: InspectionFormValues) => {
     startTransition(async () => {
       try {
         const result = await submitInspectionBooking(data);
         if (result.success) {
-          toast.success(result.message || "Site inspection booked successfully!");
+          toast.success(result.message || "Inspection scheduled successfully! Our team will contact you very soon. Thank you for choosing us.");
           reset();
         } else {
           toast.error(result.message || "Failed to book inspection.");
@@ -132,6 +205,28 @@ export default function InspectionForm() {
         </select>
         {errors.service && <p className="text-xs text-red-500 font-semibold">{errors.service.message}</p>}
       </div>
+
+      {/* Sub-Service / Treatment type selection */}
+      {subCategories.length > 0 && (
+        <div className="space-y-1 animate-fade-in">
+          <label htmlFor="subService" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+            Sub-Category / Treatment Type
+          </label>
+          <select
+            id="subService"
+            disabled={isPending}
+            {...register("subService")}
+            className="w-full border border-slate-200 rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-primary bg-white"
+          >
+            {subCategories.map((sub: string) => (
+              <option key={sub} value={sub}>
+                {sub}
+              </option>
+            ))}
+          </select>
+          {errors.subService && <p className="text-xs text-red-500 font-semibold">{errors.subService.message}</p>}
+        </div>
+      )}
 
       {/* Address */}
       <div className="space-y-1">

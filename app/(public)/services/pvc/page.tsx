@@ -9,7 +9,7 @@ const defaultPvcServices = [
     name: "SPC Click-Lock Flooring",
     desc: "Stone Plastic Composite (SPC) flooring is 100% waterproof, fire-resistant, and click-lock installed. Perfect for bathrooms, kitchens, and offices.",
     specification: "5mm to 6.5mm Stone-Polymer Base",
-    image: "/PVC (Polyvinyl Chloride).jpg",
+    image: "/SPC Click-Lock Flooring.jpg",
   },
   {
     name: "Luxury Vinyl Planks (LVP) / Tiles (LVT)",
@@ -21,19 +21,19 @@ const defaultPvcServices = [
     name: "Roll & Sheet PVC Flooring",
     desc: "Seamless sheet flooring ideal for hospitals, schools, and laboratories requiring high hygiene, anti-microbial coatings, and joint welding.",
     specification: "2.0mm Commercial Anti-Bacterial",
-    image: "/PVC (Polyvinyl Chloride).jpg",
+    image: "/Roll & Sheet PVC Flooring.jpg",
   },
   {
     name: "Anti-Static (ESD) PVC Flooring",
     desc: "Specialized conductive flooring designed to prevent electrostatic discharge in server rooms, laboratories, and electronics factories.",
     specification: "2mm ESD Tile/Sheet with Copper Grid",
-    image: "/PVC (Polyvinyl Chloride).jpg",
+    image: "/Anti-Static (ESD) PVC Flooring.jpg",
   },
   {
     name: "PVC Wall Panels & Cladding",
     desc: "Water-resistant, termite-proof decorative panels for moisture-prone interior walls and ceilings.",
     specification: "Interlocking Hollow-Core/Solid PVC Sheets",
-    image: "/PVC (Polyvinyl Chloride).jpg",
+    image: "/PVC Wall Panels & Cladding.jpg",
   },
 ];
 

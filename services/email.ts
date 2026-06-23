@@ -193,6 +193,7 @@ export async function sendInspectionEmail(booking: any): Promise<boolean> {
         <li><strong>Email:</strong> ${booking.email}</li>
         <li><strong>Address:</strong> ${booking.address}</li>
         <li><strong>Service:</strong> ${booking.service}</li>
+        ${booking.subService ? `<li><strong>Sub-Service / Treatment:</strong> ${booking.subService}</li>` : ""}
         <li><strong>Preferred Date:</strong> ${booking.preferredDate}</li>
         <li><strong>Preferred Time Slot:</strong> ${booking.preferredTime}</li>
         <li><strong>Remarks:</strong> ${booking.remarks || "None"}</li>
@@ -209,6 +210,7 @@ export async function sendInspectionEmail(booking: any): Promise<boolean> {
       <div style="background: #f8fafc; padding: 15px; border-radius: 8px; margin: 20px 0;">
         <p style="margin: 5px 0;"><strong>Lead ID:</strong> ${booking.leadId}</p>
         <p style="margin: 5px 0;"><strong>Service:</strong> ${booking.service}</p>
+        ${booking.subService ? `<p style="margin: 5px 0;"><strong>Sub-Service / Treatment:</strong> ${booking.subService}</p>` : ""}
         <p style="margin: 5px 0;"><strong>Date:</strong> ${booking.preferredDate}</p>
         <p style="margin: 5px 0;"><strong>Time Slot:</strong> ${booking.preferredTime}</p>
         <p style="margin: 5px 0;"><strong>Address:</strong> ${booking.address}</p>

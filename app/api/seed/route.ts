@@ -24,11 +24,13 @@ export async function GET() {
     // 1. Seed Admin Users
     await Admin.deleteMany({});
     const hashedPassword = await bcrypt.hash("admin123", 10);
+    const hashedPin = await bcrypt.hash("1234", 10);
 
     const superAdmin = await Admin.create({
       username: "Super Admin",
       email: "admin@homedecorater.in",
       password: hashedPassword,
+      securityPin: hashedPin,
       role: "super_admin",
     });
 

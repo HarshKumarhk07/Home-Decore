@@ -9,6 +9,7 @@ import FAQ from "@/models/FAQ";
 import BlogPost from "@/models/BlogPost";
 import { auth } from "@/lib/auth";
 import { uploadToCloudinary } from "@/services/cloudinary";
+import { sanitizeInput } from "@/lib/security";
 
 // --------------------------------------------------------
 // WEBSITE SETTINGS (Super Admin Only)
@@ -73,12 +74,13 @@ export async function updateWebsiteSettings(data: any) {
       throw new Error("Access Denied: Super Admin only.");
     }
 
+    const sanitizedData = sanitizeInput(data);
     await connectToDatabase();
     let settings = await WebsiteSettings.findOne();
     if (!settings) {
-      settings = new WebsiteSettings(data);
+      settings = new WebsiteSettings(sanitizedData);
     } else {
-      Object.assign(settings, data);
+      Object.assign(settings, sanitizedData);
     }
     
     await settings.save();
@@ -106,11 +108,12 @@ export async function saveProject(data: any, existingSlug?: string) {
       throw new Error("Access Denied.");
     }
 
+    const sanitizedData = sanitizeInput(data);
     await connectToDatabase();
 
     // Generate URL friendly slug from title
-    const slug = data.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-    const projectData = { ...data, slug };
+    const slug = sanitizedData.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+    const projectData = { ...sanitizedData, slug };
 
     if (existingSlug) {
       await Project.findOneAndUpdate({ slug: existingSlug }, projectData);
@@ -162,8 +165,9 @@ export async function addGalleryPhoto(data: { title: string; category: string; i
       throw new Error("Access Denied.");
     }
 
+    const sanitizedData = sanitizeInput(data);
     await connectToDatabase();
-    await Gallery.create(data as any);
+    await Gallery.create(sanitizedData as any);
 
     revalidatePath("/admin/gallery");
     revalidatePath("/gallery");
@@ -208,8 +212,9 @@ export async function addFaq(data: { question: string; answer: string; category:
       throw new Error("Access Denied.");
     }
 
+    const sanitizedData = sanitizeInput(data);
     await connectToDatabase();
-    await FAQ.create(data as any);
+    await FAQ.create(sanitizedData as any);
 
     revalidatePath("/admin/faqs");
     revalidatePath("/faq");
@@ -254,10 +259,11 @@ export async function saveBlogPost(data: any, existingSlug?: string) {
       throw new Error("Access Denied.");
     }
 
+    const sanitizedData = sanitizeInput(data);
     await connectToDatabase();
 
-    const slug = data.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-    const postData = { ...data, slug, author: session.user.name || "Home Decorater Team" };
+    const slug = sanitizedData.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+    const postData = { ...sanitizedData, slug, author: session.user.name || "Home Decorater Team" };
 
     if (existingSlug) {
       await BlogPost.findOneAndUpdate({ slug: existingSlug }, postData);

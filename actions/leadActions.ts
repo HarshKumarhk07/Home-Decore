@@ -9,6 +9,7 @@ import { uploadToCloudinary } from "@/services/cloudinary";
 import { sendLeadEmails, sendContactEmail, sendInspectionEmail } from "@/services/email";
 import { auth } from "@/lib/auth";
 import { checkRateLimit } from "@/lib/rateLimit";
+import { sanitizeInput } from "@/lib/security";
 
 // Helper function to generate sequential Lead ID
 async function generateLeadId(): Promise<string> {
@@ -32,7 +33,8 @@ export async function submitContactInquiry(rawFields: any) {
       return { success: false, message: "Too many submissions. Please try again in 10 minutes." };
     }
 
-    const parsed = ContactSchema.safeParse(rawFields);
+    const sanitizedFields = sanitizeInput(rawFields);
+    const parsed = ContactSchema.safeParse(sanitizedFields);
     if (!parsed.success) {
       return { success: false, message: "Invalid form input." };
     }
@@ -75,12 +77,13 @@ export async function submitInspectionBooking(rawFields: any) {
       return { success: false, message: "Too many submissions. Please try again in 10 minutes." };
     }
 
-    const parsed = InspectionSchema.safeParse(rawFields);
+    const sanitizedFields = sanitizeInput(rawFields);
+    const parsed = InspectionSchema.safeParse(sanitizedFields);
     if (!parsed.success) {
       return { success: false, message: "Invalid form input." };
     }
 
-    const { name, phone, email, address, service, preferredDate, preferredTime, remarks } = parsed.data;
+    const { name, phone, email, address, service, subService, preferredDate, preferredTime, remarks } = parsed.data;
 
     await connectToDatabase();
     const leadId = await generateLeadId();
@@ -94,10 +97,10 @@ export async function submitInspectionBooking(rawFields: any) {
       service,
       preferredDate: new Date(preferredDate),
       preferredTime,
-      message: remarks || "Requested Site Inspection",
+      message: subService ? `Treatment: ${subService}. Remarks: ${remarks || "None"}` : (remarks || "Requested Site Inspection"),
       status: "Inspection Scheduled",
       images: [],
-      notes: [{ text: `Site inspection requested. Remarks: ${remarks || "None"}`, createdAt: new Date(), createdBy: "System" }],
+      notes: [{ text: `Site inspection requested. ${subService ? `Treatment: ${subService}. ` : ""}Remarks: ${remarks || "None"}`, createdAt: new Date(), createdBy: "System" }],
       timeline: [
         { status: "New", notes: "Lead generated via Inspection Booking", updatedAt: new Date(), updatedBy: "System" },
         { status: "Inspection Scheduled", notes: `Inspection scheduled for ${preferredDate} at ${preferredTime}`, updatedAt: new Date(), updatedBy: "System" }
@@ -108,7 +111,7 @@ export async function submitInspectionBooking(rawFields: any) {
     await sendInspectionEmail({ ...rawFields, leadId });
 
     revalidatePath("/admin/leads");
-    return { success: true, message: "Inspection scheduled successfully!", leadId };
+    return { success: true, message: "Inspection scheduled successfully! Our team will contact you very soon. Thank you for choosing us.", leadId };
   } catch (error: any) {
     console.error("Error submitting inspection booking:", error);
     return { success: false, message: error.message || "Failed to schedule inspection." };
@@ -131,6 +134,7 @@ export async function submitQuoteRequest(formData: FormData) {
       city: formData.get("city"),
       address: formData.get("address"),
       service: formData.get("service"),
+      subService: formData.get("subService"),
       propertyType: formData.get("propertyType"),
       area: formData.get("area"),
       budget: formData.get("budget"),
@@ -139,7 +143,8 @@ export async function submitQuoteRequest(formData: FormData) {
       message: formData.get("message"),
     };
 
-    const parsed = QuoteSchema.safeParse(rawFields);
+    const sanitizedFields = sanitizeInput(rawFields);
+    const parsed = QuoteSchema.safeParse(sanitizedFields);
     if (!parsed.success) {
       return { success: false, message: "Invalid input variables. Check data inputs." };
     }
@@ -178,10 +183,10 @@ export async function submitQuoteRequest(formData: FormData) {
       budget: data.budget,
       preferredDate: new Date(data.preferredDate),
       preferredTime: data.preferredTime,
-      message: data.message || "",
+      message: data.subService ? `Treatment: ${data.subService}. Remarks: ${data.message || "None"}` : (data.message || ""),
       images: cloudinaryUrls,
       status: "New",
-      notes: [{ text: "Lead created via Quote Form.", createdAt: new Date(), createdBy: "System" }],
+      notes: [{ text: `Lead created via Quote Form.${data.subService ? ` Treatment: ${data.subService}.` : ""}`, createdAt: new Date(), createdBy: "System" }],
       timeline: [{ status: "New", notes: "Lead generated via Get Free Quote", updatedAt: new Date(), updatedBy: "System" }],
     });
 
@@ -276,20 +281,23 @@ export async function updateLeadStatus(leadId: string, status: any, notes: strin
 
     const updaterName = session.user.name || "Admin User";
 
+    const sanitizedNotes = sanitizeInput(notes);
+    const sanitizedStatus = sanitizeInput(status);
+
     // Update main status
-    lead.status = status;
+    lead.status = sanitizedStatus;
     
     // Add timeline log
     lead.timeline.push({
-      status,
-      notes: notes || `Status updated to ${status}`,
+      status: sanitizedStatus,
+      notes: sanitizedNotes || `Status updated to ${sanitizedStatus}`,
       updatedAt: new Date(),
       updatedBy: updaterName,
     });
 
     // Also add as an internal note
     lead.notes.push({
-      text: `Status updated to [${status}]. Reason: ${notes || "None"}`,
+      text: `Status updated to [${sanitizedStatus}]. Reason: ${sanitizedNotes || "None"}`,
       createdAt: new Date(),
       createdBy: updaterName,
     });
@@ -318,8 +326,9 @@ export async function addLeadNote(leadId: string, noteText: string) {
       throw new Error("Access Denied.");
     }
 
+    const sanitizedNoteText = sanitizeInput(noteText);
     lead.notes.push({
-      text: noteText,
+      text: sanitizedNoteText,
       createdAt: new Date(),
       createdBy: session.user.name || "Admin User",
     });

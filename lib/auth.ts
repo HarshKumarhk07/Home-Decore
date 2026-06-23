@@ -19,17 +19,22 @@ export const {
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
+        securityPin: { label: "Security PIN", type: "password" },
       },
       async authorize(credentials) {
         const parsedCredentials = z
-          .object({ email: z.string().email(), password: z.string().min(6) })
+          .object({
+            email: z.string().email(),
+            password: z.string().min(6),
+            securityPin: z.string().min(4),
+          })
           .safeParse(credentials);
 
         if (!parsedCredentials.success) {
           return null;
         }
 
-        const { email, password } = parsedCredentials.data;
+        const { email, password, securityPin } = parsedCredentials.data;
 
         await connectToDatabase();
         const admin = await Admin.findOne({ email });
@@ -37,12 +42,17 @@ export const {
           return null;
         }
 
-        if (!admin.password) {
+        if (!admin.password || !admin.securityPin) {
           return null;
         }
 
         const passwordsMatch = await bcrypt.compare(password, admin.password);
         if (!passwordsMatch) {
+          return null;
+        }
+
+        const pinMatch = await bcrypt.compare(securityPin, admin.securityPin);
+        if (!pinMatch) {
           return null;
         }
 

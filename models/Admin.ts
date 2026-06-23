@@ -4,6 +4,7 @@ export interface IAdmin extends Document {
   username: string;
   email: string;
   password?: string; // Optional because we might exclude it in queries
+  securityPin?: string;
   role: "super_admin" | "manager" | "employee";
   createdAt: Date;
   updatedAt: Date;
@@ -14,6 +15,7 @@ const AdminSchema = new Schema<IAdmin>(
     username: { type: String, required: true },
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
     password: { type: String, required: true },
+    securityPin: { type: String, required: true },
     role: {
       type: String,
       enum: ["super_admin", "manager", "employee"],

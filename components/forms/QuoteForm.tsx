@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition, useRef } from "react";
+import { useState, useTransition, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -19,16 +19,42 @@ const timeSlots = [
   "04:30 PM - 07:00 PM",
 ];
 
+const defaultSubServices: Record<string, string[]> = {
+  "Waterproofing": [
+    "Roof & Slab Waterproofing",
+    "Terrace Waterproofing",
+    "Bathroom Seepage Waterproofing",
+    "Basement & Retaining Wall Grouting",
+    "Underground & Overhead Water Tanks",
+  ],
+  "Wooden Flooring": [
+    "SPC Click-Lock Flooring",
+    "Premium Laminate Flooring",
+    "Engineered Wood Flooring",
+    "Luxury Vinyl Flooring (LVP)",
+  ],
+  "PVC (Polyvinyl Chloride)": [
+    "SPC Click-Lock Flooring",
+    "Luxury Vinyl Planks (LVP) / Tiles (LVT)",
+    "Roll & Sheet PVC Flooring",
+    "Anti-Static (ESD) PVC Flooring",
+    "PVC Wall Panels & Cladding",
+  ],
+};
+
 export default function QuoteForm() {
   const [isPending, startTransition] = useTransition();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
+  const [settings, setSettings] = useState<any>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const {
     register,
     handleSubmit,
     reset,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<QuoteFormValues>({
     resolver: zodResolver(QuoteSchema) as any,
@@ -39,6 +65,7 @@ export default function QuoteForm() {
       city: "",
       address: "",
       service: "Waterproofing",
+      subService: "",
       propertyType: "Residential",
       area: 0,
       budget: 0,
@@ -47,6 +74,52 @@ export default function QuoteForm() {
       message: "",
     },
   });
+
+  const selectedService = watch("service");
+
+  useEffect(() => {
+    async function loadSettings() {
+      try {
+        const { getSettings } = await import("@/actions/cmsActions");
+        const res = await getSettings();
+        if (res.success) {
+          setSettings(res.settings);
+        }
+      } catch (error) {
+        console.error("Error loading form settings:", error);
+      }
+    }
+    loadSettings();
+  }, []);
+
+  const getSubcategories = () => {
+    if (selectedService === "Waterproofing") {
+      return settings?.waterproofingSubcategories && settings.waterproofingSubcategories.length > 0
+        ? settings.waterproofingSubcategories
+        : defaultSubServices["Waterproofing"];
+    }
+    if (selectedService === "Wooden Flooring") {
+      return settings?.flooringSubcategories && settings.flooringSubcategories.length > 0
+        ? settings.flooringSubcategories
+        : defaultSubServices["Wooden Flooring"];
+    }
+    if (selectedService === "PVC (Polyvinyl Chloride)") {
+      return settings?.pvcSubcategories && settings.pvcSubcategories.length > 0
+        ? settings.pvcSubcategories
+        : defaultSubServices["PVC (Polyvinyl Chloride)"];
+    }
+    return [];
+  };
+
+  const subCategories = getSubcategories();
+
+  useEffect(() => {
+    if (subCategories && subCategories.length > 0) {
+      setValue("subService", subCategories[0]);
+    } else {
+      setValue("subService", "");
+    }
+  }, [selectedService, settings]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -218,7 +291,7 @@ export default function QuoteForm() {
       </div>
 
       {/* Group 3: Service, Property Type, Area, Budget */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+      <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4 ${subCategories.length > 0 ? "lg:grid-cols-5" : "lg:grid-cols-4"}`}>
         <div className="space-y-1">
           <label htmlFor="service" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
             Required Service
@@ -234,6 +307,26 @@ export default function QuoteForm() {
             <option value="PVC (Polyvinyl Chloride)">PVC (Polyvinyl Chloride)</option>
           </select>
         </div>
+
+        {subCategories.length > 0 && (
+          <div className="space-y-1 animate-fade-in">
+            <label htmlFor="subService" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+              Sub-Category / Type
+            </label>
+            <select
+              id="subService"
+              disabled={isPending}
+              {...register("subService")}
+              className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-primary bg-white"
+            >
+              {subCategories.map((sub: string) => (
+                <option key={sub} value={sub}>
+                  {sub}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
         <div className="space-y-1">
           <label htmlFor="propertyType" className="text-xs font-bold text-slate-700 uppercase tracking-wider">

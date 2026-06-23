@@ -16,6 +16,7 @@ export const InspectionSchema = z.object({
   service: z.enum(["Waterproofing", "Wooden Flooring", "PVC (Polyvinyl Chloride)"], {
     message: "Please select a valid service",
   }),
+  subService: z.string().optional(),
   preferredDate: z.string().min(1, "Please select a preferred date"),
   preferredTime: z.string().min(1, "Please select a preferred time slot"),
   remarks: z.string().optional(),
@@ -30,6 +31,7 @@ export const QuoteSchema = z.object({
   service: z.enum(["Waterproofing", "Wooden Flooring", "PVC (Polyvinyl Chloride)"], {
     message: "Please select a service",
   }),
+  subService: z.string().optional(),
   propertyType: z.enum(["Residential", "Commercial", "Industrial"], {
     message: "Please select a property type",
   }),

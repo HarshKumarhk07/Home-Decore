@@ -8,12 +8,12 @@ const defaultSubServices = [
   {
     name: "Roof & Slab Waterproofing",
     desc: "Provides structural sealing of slab surfaces. We scrape away old coatings, grout structural joints, and install elastic elastomeric overlays that expand and contract with temperature changes.",
-    image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&q=80&w=600",
+    image: "/roof and slab waterproofing.jpg",
   },
   {
     name: "Terrace Waterproofing",
     desc: "Exposed terraces suffer severe thermal expansion and rain beating. We apply heavy-duty multi-layer liquid polyurethane membranes with embedded fiberglass mesh to absorb structural stresses.",
-    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=600",
+    image: "/Terrace Waterproofing.jpg",
   },
   {
     name: "Bathroom Seepage Waterproofing",
@@ -23,12 +23,12 @@ const defaultSubServices = [
   {
     name: "Basement & Retaining Wall Grouting",
     desc: "Stops positive and negative side groundwater penetration. We inject low-viscosity PU resins and chemical grouts under high pressure to fill internal voids, voids, and micro-cracks in walls.",
-    image: "https://images.unsplash.com/photo-1590069261209-f8e9b8642343?auto=format&fit=crop&q=80&w=600",
+    image: "/Basement & Retaining Wall Grouting.jpg",
   },
   {
     name: "Underground & Overhead Water Tanks",
     desc: "Seals water tanks from the inside using non-toxic food-grade epoxy coatings. Prevents contamination, structural corrosion, and outward leakage.",
-    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=600",
+    image: "/Underground & Overhead Water Tanks.jpg",
   },
 ];
 

@@ -7,12 +7,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
-import { Loader2, Lock, Mail, ShieldAlert } from "lucide-react";
+import { Loader2, Lock, Mail, ShieldAlert, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
+  securityPin: z.string().length(4, "PIN must be exactly 4 digits"),
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
@@ -28,7 +29,7 @@ export default function AdminLoginPage() {
     formState: { errors },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { email: "", password: "" },
+    defaultValues: { email: "", password: "", securityPin: "" },
   });
 
   const onSubmit = (data: LoginFormValues) => {
@@ -38,6 +39,7 @@ export default function AdminLoginPage() {
         const result = await signIn("credentials", {
           email: data.email,
           password: data.password,
+          securityPin: data.securityPin,
           redirect: false,
         });
 
@@ -129,6 +131,30 @@ export default function AdminLoginPage() {
               />
             </div>
             {errors.password && <p className="text-[11px] text-red-400 font-semibold">{errors.password.message}</p>}
+          </div>
+
+          {/* Security PIN */}
+          <div className="space-y-1">
+            <label htmlFor="securityPin" className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+              Security PIN
+            </label>
+            <div className="relative">
+              <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500 pointer-events-none">
+                <ShieldCheck className="w-4 h-4" />
+              </span>
+              <input
+                id="securityPin"
+                type="password"
+                maxLength={4}
+                disabled={isPending}
+                placeholder="••••"
+                {...register("securityPin")}
+                className={`w-full bg-slate-950/80 border rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-100 placeholder-slate-650 focus:outline-none focus:ring-1 focus:ring-accent ${
+                  errors.securityPin ? "border-red-500" : "border-slate-800"
+                }`}
+              />
+            </div>
+            {errors.securityPin && <p className="text-[11px] text-red-400 font-semibold">{errors.securityPin.message}</p>}
           </div>
 
           {/* Submit */}

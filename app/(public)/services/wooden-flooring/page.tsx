@@ -24,7 +24,7 @@ const defaultFloorTypes = [
     desc: "Combines real hardwood veneer as the top layer with multiple plywood core layers beneath. It can be sanded and polished over time, offering unmatched organic timber aesthetics and high structural value to premium homes.",
     thickness: "14mm to 15mm",
     warranty: "25 Years structural warranty",
-    image: "https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&q=80&w=600",
+    image: "/Engineered Wood Flooring.jpeg",
   },
   {
     name: "Luxury Vinyl Flooring (LVP)",
