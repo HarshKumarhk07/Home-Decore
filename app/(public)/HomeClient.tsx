@@ -19,7 +19,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import BeforeAfterSlider from "@/components/ui/BeforeAfterSlider";
+
 import { Card, CardContent } from "@/components/ui/card";
 import { FaWhatsapp } from "react-icons/fa";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
@@ -30,9 +30,10 @@ interface HomeClientProps {
   testimonials: any[];
   faqs: any[];
   settings?: any;
+  categories?: any[];
 }
 
-export default function HomeClient({ projects, testimonials, faqs, settings }: HomeClientProps) {
+export default function HomeClient({ projects, testimonials, faqs, settings, categories = [] }: HomeClientProps) {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -61,35 +62,43 @@ export default function HomeClient({ projects, testimonials, faqs, settings }: H
     visible: { y: 0, opacity: 1, transition: { duration: 0.5, ease: "easeOut" as const } },
   };
 
-  const services = [
-    {
-      title: "Waterproofing",
-      href: "/services/waterproofing",
-      desc: "Scientific waterproofing solutions to seal structural leakage, damp walls, and roof cracks. Up to 10 years warranty.",
-      items: settings?.waterproofingSubcategories && settings.waterproofingSubcategories.length > 0
-        ? settings.waterproofingSubcategories
-        : ["Roof Waterproofing", "Terrace Waterproofing", "Bathroom Waterproofing", "Basement Waterproofing", "Water Tank Waterproofing"],
-      bg: "/waterproofing.jpg",
-    },
-    {
-      title: "Wooden Flooring",
-      href: "/services/wooden-flooring",
-      desc: "Premium wood and vinyl planks laid with scratch-resistant German technology. 100% moisture-proof options.",
-      items: settings?.flooringSubcategories && settings.flooringSubcategories.length > 0
-        ? settings.flooringSubcategories
-        : ["Laminate Flooring", "Vinyl Flooring", "SPC Click-lock Flooring", "Engineered Wood Flooring"],
-      bg: "/wooden flooring.jpg",
-    },
-    {
-      title: "PVC (Polyvinyl Chloride)",
-      href: "/services/pvc",
-      desc: "Premium water-resistant PVC wall cladding panels and SPC flooring solutions designed for long-lasting structural hygiene and elegance.",
-      items: settings?.pvcSubcategories && settings.pvcSubcategories.length > 0
-        ? settings.pvcSubcategories
-        : ["SPC Click Flooring", "LVT / LVP Planks", "Roll & Sheet PVC", "ESD Anti-Static PVC", "PVC Wall Cladding"],
-      bg: "/PVC (Polyvinyl Chloride).jpg",
-    },
-  ];
+  const services = categories && categories.length > 0
+    ? categories.map((cat: any) => ({
+        title: cat.name,
+        href: `/services/${cat.slug}`,
+        desc: cat.description,
+        items: cat.subcategories.slice(0, 5).map((sub: any) => sub.name),
+        bg: cat.image,
+      }))
+    : [
+        {
+          title: "Waterproofing",
+          href: "/services/waterproofing",
+          desc: "Scientific waterproofing solutions to seal structural leakage, damp walls, and roof cracks. Up to 10 years warranty.",
+          items: settings?.waterproofingSubcategories && settings.waterproofingSubcategories.length > 0
+            ? settings.waterproofingSubcategories
+            : ["Roof Waterproofing", "Terrace Waterproofing", "Bathroom Waterproofing", "Basement Waterproofing", "Water Tank Waterproofing"],
+          bg: "/waterproofing.jpg",
+        },
+        {
+          title: "Wooden Flooring",
+          href: "/services/wooden-flooring",
+          desc: "Premium wood and vinyl planks laid with scratch-resistant German technology. 100% moisture-proof options.",
+          items: settings?.flooringSubcategories && settings.flooringSubcategories.length > 0
+            ? settings.flooringSubcategories
+            : ["Laminate Flooring", "Vinyl Flooring", "SPC Click-lock Flooring", "Engineered Wood Flooring"],
+          bg: "/wooden flooring.jpg",
+        },
+        {
+          title: "PVC (Polyvinyl Chloride)",
+          href: "/services/pvc",
+          desc: "Premium water-resistant PVC wall cladding panels and SPC flooring solutions designed for long-lasting structural hygiene and elegance.",
+          items: settings?.pvcSubcategories && settings.pvcSubcategories.length > 0
+            ? settings.pvcSubcategories
+            : ["SPC Click Flooring", "LVT / LVP Planks", "Roll & Sheet PVC", "ESD Anti-Static PVC", "PVC Wall Cladding"],
+          bg: "/PVC (Polyvinyl Chloride).jpg",
+        },
+      ];
 
   const whyChooseUs = [
     {
@@ -252,34 +261,32 @@ export default function HomeClient({ projects, testimonials, faqs, settings }: H
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8"
+            className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-8"
           >
             {services.map((svc, idx) => (
               <motion.div key={idx} variants={itemVariants} className="h-full">
-                <Card className="group relative overflow-hidden border border-slate-200/80 shadow-md hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col h-full bg-white rounded-2xl pt-0 pb-0 gap-0">
-                  <div className="relative h-56 w-full overflow-hidden">
+                <Card className="group relative overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col h-full bg-white rounded-2xl pt-0 pb-0 gap-0">
+                  <div className="relative h-32 sm:h-48 md:h-56 w-full overflow-hidden">
                     <Image src={svc.bg} alt={svc.title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent"></div>
-                    <h3 className="absolute bottom-4 left-6 text-white font-serif text-2xl font-bold">{svc.title}</h3>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent"></div>
+                    <h3 className="absolute bottom-2 left-2 sm:bottom-4 sm:left-6 text-white font-serif text-sm sm:text-lg md:text-xl lg:text-2xl font-bold leading-tight">{svc.title}</h3>
                   </div>
-                  <CardContent className="p-6 flex-grow flex flex-col justify-between">
-                    <div className="space-y-4">
-                      <p className="text-sm text-slate-600 leading-relaxed">{svc.desc}</p>
-                      <ul className="space-y-2">
+                  <CardContent className="p-3 sm:p-5 md:p-6 flex-grow flex flex-col justify-between space-y-3 sm:space-y-4">
+                    <div className="space-y-2 sm:space-y-4">
+                      <p className="text-[10px] sm:text-xs md:text-sm text-slate-600 leading-relaxed line-clamp-2 md:line-clamp-none">{svc.desc}</p>
+                      <ul className="hidden sm:block space-y-2">
                         {svc.items.map((it: string, itemIdx: number) => (
                           <li key={itemIdx} className="flex items-center space-x-2 text-sm text-slate-700 font-medium">
                             <CheckCircle2 className="w-4 h-4 text-accent shrink-0" />
-                            <span>{it}</span>
+                            <span className="truncate">{it}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
-                    <div className="pt-6">
-                      <Button asChild className="w-full bg-slate-900 hover:bg-primary text-white font-bold rounded-xl transition-all duration-300 text-xs sm:text-sm hover:shadow-[0_4px_12px_rgba(30,64,175,0.2)]">
+                    <div className="pt-1">
+                      <Button asChild className="w-full bg-slate-900 hover:bg-primary text-white font-bold rounded-xl py-1.5 sm:py-3 text-[10px] sm:text-xs h-auto transition-all duration-300">
                         <Link href={svc.href}>
                           <span>Explore</span>
-                          <span className="hidden sm:inline"> {svc.title}</span>
-                          <ArrowRight className="w-4 h-4 ml-1.5 sm:ml-2 shrink-0" />
                         </Link>
                       </Button>
                     </div>
@@ -450,63 +457,7 @@ export default function HomeClient({ projects, testimonials, faqs, settings }: H
         </div>
       </section>
 
-      {/* BEFORE & AFTER SHOWCASE */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6 }}
-              className="space-y-6"
-            >
-              <div className="inline-flex items-center space-x-2 bg-primary-light px-3 py-1 rounded-full text-primary font-semibold text-xs uppercase tracking-wider">
-                <Wrench className="w-3.5 h-3.5 mr-1 text-accent" /> Before / After Transformation
-              </div>
-              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-primary leading-tight">
-                Inspect the Power of Scientific Restoration
-              </h2>
-              <p className="text-slate-600 leading-relaxed">
-                Swipe left and right to inspect the effectiveness of our structural terrace membrane treatment. We strip away loose plaster, apply high-adhesion chemical layers, and lay topcoats that make buildings completely leakproof.
-              </p>
-              <div className="space-y-3 pt-2">
-                <div className="flex items-center space-x-3 text-sm text-slate-700">
-                  <CheckCircle2 className="w-5 h-5 text-accent" />
-                  <span>Cures wall dampness and flaking paint permanently</span>
-                </div>
-                <div className="flex items-center space-x-3 text-sm text-slate-700">
-                  <CheckCircle2 className="w-5 h-5 text-accent" />
-                  <span>Stops chemical decay and reinforcement corrosion</span>
-                </div>
-                <div className="flex items-center space-x-3 text-sm text-slate-700">
-                  <CheckCircle2 className="w-5 h-5 text-accent" />
-                  <span>Includes written warranty certificate</span>
-                </div>
-              </div>
-              <div className="pt-4">
-                <Button asChild className="bg-primary hover:bg-primary-hover text-white rounded-xl px-6 py-5 font-semibold">
-                  <Link href="/gallery">View Full Gallery</Link>
-                </Button>
-              </div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6 }}
-              className="px-1 py-4 bg-slate-50 border border-slate-100 rounded-3xl"
-            >
-              <BeforeAfterSlider
-                beforeImage="/before.jpg"
-                afterImage="/after.jpg"
-                beforeLabel="Leaking Damp Concrete"
-                afterLabel="Waterproof Polyurethane Finish"
-              />
-            </motion.div>
-          </div>
-        </div>
-      </section>
+
 
       {/* FEATURED PROJECTS */}
       {projects.length > 0 && (
@@ -535,7 +486,7 @@ export default function HomeClient({ projects, testimonials, faqs, settings }: H
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-100px" }}
-              className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
             >
               {projects.map((proj) => (
                 <motion.div key={proj.slug} variants={itemVariants} className="h-full flex flex-col">

@@ -18,6 +18,7 @@ import {
   Bell,
   User,
   FileText,
+  Wrench,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
@@ -86,6 +87,11 @@ export default function AdminLayoutClient({ session, children }: AdminLayoutClie
       name: "Manage Leads",
       href: "/admin/leads",
       icon: <Users className="w-5 h-5" />,
+    },
+    {
+      name: "Services",
+      href: "/admin/services",
+      icon: <Wrench className="w-5 h-5" />,
     },
     {
       name: "Projects",

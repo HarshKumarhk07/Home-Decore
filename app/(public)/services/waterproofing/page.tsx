@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ShieldCheck, AlertCircle, CheckCircle, Layers } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getSettings } from "@/actions/cmsActions";
+import { getSettings, getServiceCategoryBySlug } from "@/actions/cmsActions";
 
 const defaultSubServices = [
   {
@@ -40,17 +40,12 @@ export const metadata = {
 export default async function WaterproofingPage() {
   const settingsRes = await getSettings();
   const settings = settingsRes.success ? settingsRes.settings : null;
-  const subcategoriesList = settings?.waterproofingSubcategories || [];
 
-  const servicesToRender = subcategoriesList.length > 0
-    ? subcategoriesList.map((name: string) => {
-        const found = defaultSubServices.find(s => s.name.toLowerCase() === name.toLowerCase());
-        return {
-          name,
-          desc: found?.desc || `Professional waterproofing treatment for ${name}. Our experts use advanced scanning and premium brand-certified sealants to ensure a leak-proof finish with a long-term warranty.`,
-          image: found?.image || "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=600",
-        };
-      })
+  const catRes = await getServiceCategoryBySlug("waterproofing");
+  const category = catRes.success ? catRes.category : null;
+
+  const servicesToRender = category && category.subcategories && category.subcategories.length > 0
+    ? category.subcategories
     : defaultSubServices;
 
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://homedecorater.in";
@@ -73,7 +68,7 @@ export default async function WaterproofingPage() {
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
       "name": "Waterproofing Services Catalog",
-      "itemListElement": servicesToRender.map((sub) => ({
+      "itemListElement": servicesToRender.map((sub: any) => ({
         "@type": "Offer",
         "itemOffered": {
           "@type": "Service",
@@ -134,8 +129,8 @@ export default async function WaterproofingPage() {
             <h2 className="font-serif text-2xl sm:text-3xl font-bold text-primary mb-8 border-l-4 border-accent pl-4">
               Our Specialized Waterproofing Treatments
             </h2>
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
-              {servicesToRender.map((sub, idx) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+              {servicesToRender.map((sub: any, idx: number) => (
                 <div key={idx} className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full hover:-translate-y-1">
                   <div className="relative h-48 w-full">
                     <Image
@@ -152,15 +147,43 @@ export default async function WaterproofingPage() {
                     <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                       {sub.desc}
                     </p>
-                    <div className="flex items-center space-x-2 text-xs font-bold text-primary bg-primary-light p-3 rounded-xl border border-primary/10">
-                      <CheckCircle className="w-4 h-4 text-accent shrink-0" />
-                      <span>Includes site scan & written warranty</span>
+                    <div className="space-y-3">
+                      <div className="flex items-center space-x-2 text-xs font-bold text-primary bg-primary-light p-3 rounded-xl border border-primary/10">
+                        <CheckCircle className="w-4 h-4 text-accent shrink-0" />
+                        <span>Includes site scan & written warranty</span>
+                      </div>
+                      <Button asChild className="w-full bg-primary hover:bg-primary-hover text-white font-bold rounded-xl py-2 cursor-pointer text-xs">
+                        <Link href="/inspection">Book Free Inspection</Link>
+                      </Button>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
+
+          {/* Bottom CTA Section */}
+          <div className="bg-primary text-white rounded-3xl p-8 sm:p-12 text-center max-w-4xl mx-auto shadow-md space-y-6 mt-16">
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold leading-snug">
+              Request Your Free Site Audit & Moisture Assessment
+            </h2>
+            <p className="text-slate-200 text-sm max-w-xl mx-auto leading-relaxed">
+              Our engineers visit your property, scan concrete moisture levels with professional tools, and suggest the right system.
+            </p>
+            <div className="pt-2 flex flex-wrap justify-center gap-4">
+              <Button asChild className="bg-accent hover:bg-accent-hover text-dark font-bold rounded-xl px-8 py-6 text-base cursor-pointer">
+                <Link href="/inspection">
+                  Book Free Site Audit
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className="border-slate-400 text-white hover:bg-white hover:text-dark font-bold rounded-xl px-8 py-6 text-base cursor-pointer">
+                <Link href="/quote">
+                  Get Free Estimate
+                </Link>
+              </Button>
+            </div>
+          </div>
+
         </div>
       </div>
     </>

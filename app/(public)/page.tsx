@@ -5,6 +5,7 @@ import FAQ from "@/models/FAQ";
 import WebsiteSettings from "@/models/WebsiteSettings";
 import HomeClient from "./HomeClient";
 import { fallbackProjects, fallbackTestimonials, fallbackFaqs } from "@/lib/fallbackData";
+import { getServiceCategories } from "@/actions/cmsActions";
 
 // Force dynamic or incremental revalidation (ISR) to pull new lead-updated dashboard items.
 export const revalidate = 60; // Revalidate page every 60 seconds
@@ -14,12 +15,17 @@ export default async function HomePage() {
   let testimonials: any[] = [];
   let faqs: any[] = [];
   let settings: any = null;
+  let categories: any[] = [];
 
   try {
     await connectToDatabase();
 
     // Fetch settings
     settings = await WebsiteSettings.findOne().lean();
+
+    // Fetch categories
+    const categoriesRes = await getServiceCategories();
+    categories = categoriesRes.success ? categoriesRes.categories : [];
 
     // Fetch featured projects
     const dbProjects = await Project.find({ isFeatured: true }).limit(3).lean();
@@ -115,6 +121,7 @@ export default async function HomePage() {
         testimonials={testimonials}
         faqs={faqs}
         settings={settingsPlain}
+        categories={categories}
       />
     </>
   );

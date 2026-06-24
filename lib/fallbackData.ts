@@ -64,21 +64,21 @@ export const fallbackTestimonials = [
     serviceReceived: "Waterproofing",
     rating: 5,
     feedbackText: "Our basement was flooded every monsoon. Home Decorater did pressure injection grouting and it is bone dry now. Truly professional crew!",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150",
+    avatar: "/Arun Verma.jpg",
   },
   {
     clientName: "Shreya Ghoshal",
     serviceReceived: "Wooden Flooring",
     rating: 5,
     feedbackText: "The herringbone SPC flooring they installed looks absolutely gorgeous. Extremely neat work, completed in just 3 days! High recommendation.",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150",
+    avatar: "/Shreya Ghoshal.jpg",
   },
   {
     clientName: "Karan Johar",
     serviceReceived: "PVC (Polyvinyl Chloride)",
     rating: 5,
     feedbackText: "Superb execution of PVC wall paneling and SPC flooring. The dustless execution and neat finishes were outstanding.",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150",
+    avatar: "/Karan Johar.jpg",
   }
 ];
 

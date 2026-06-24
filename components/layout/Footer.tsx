@@ -75,7 +75,7 @@ export default function Footer() {
               <Link href="/about" className="hover:text-accent transition-colors duration-200">About Us</Link>
               <Link href="/projects" className="hover:text-accent transition-colors duration-200">Projects</Link>
               <Link href="/gallery" className="hover:text-accent transition-colors duration-200">Gallery</Link>
-              <Link href="/testimonials" className="hover:text-accent transition-colors duration-200">Reviews</Link>
+              <Link href="/testimonials" prefetch={false} className="hover:text-accent transition-colors duration-200">Reviews</Link>
               <Link href="/faq" className="hover:text-accent transition-colors duration-200">FAQ</Link>
               <Link href="/contact" className="hover:text-accent transition-colors duration-200">Contact Us</Link>
               <Link href="/quote" className="hover:text-accent transition-colors duration-200">Get Quote</Link>

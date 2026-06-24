@@ -1,24 +1,9 @@
 import type { Metadata } from "next";
-import { Outfit, Playfair_Display, Geist } from "next/font/google";
 import "./globals.css";
 
 // Force environment variable validation during startup
 import "@/lib/env";
 import { cn } from "@/lib/utils";
-
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
-
-const outfit = Outfit({
-  variable: "--font-outfit",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
-});
-
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-});
 
 export const metadata: Metadata = {
   title: "Home Decorater | Waterproofing, PVC & Wooden Flooring Specialists",
@@ -33,8 +18,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", outfit.variable, playfair.variable, "font-sans", geist.variable)}
+      className={cn("h-full", "antialiased", "font-sans")}
     >
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800;900&family=Geist:wght@100..900&display=swap" rel="stylesheet" />
+      </head>
       <body className="min-h-full flex flex-col font-sans">
         {children}
       </body>

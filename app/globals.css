@@ -49,6 +49,10 @@
 }
 
 :root {
+  --font-outfit: "Outfit", sans-serif;
+  --font-playfair: "Playfair Display", serif;
+  --font-sans: "Outfit", system-ui, -apple-system, sans-serif;
+  --font-serif: "Playfair Display", Georgia, serif;
   --background: #ffffff;
   --foreground: #0f172a;
   

@@ -8,32 +8,43 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-const servicesList = [
-  { name: "Waterproofing", href: "/services/waterproofing" },
-  { name: "Wooden Flooring", href: "/services/wooden-flooring" },
-  { name: "PVC (Polyvinyl Chloride)", href: "/services/pvc" },
-];
-
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(false);
   const [settings, setSettings] = useState<any>(null);
+  const [categories, setCategories] = useState<any[]>([]);
   const pathname = usePathname();
 
+  const servicesList = categories && categories.length > 0
+    ? categories.map((cat: any) => ({
+        name: cat.name,
+        href: `/services/${cat.slug}`,
+        subcategories: cat.subcategories.map((sub: any) => sub.name)
+      }))
+    : [
+        { name: "Waterproofing", href: "/services/waterproofing", subcategories: settings?.waterproofingSubcategories || [] },
+        { name: "Wooden Flooring", href: "/services/wooden-flooring", subcategories: settings?.flooringSubcategories || [] },
+        { name: "PVC (Polyvinyl Chloride)", href: "/services/pvc", subcategories: settings?.pvcSubcategories || [] },
+      ];
+
   useEffect(() => {
-    async function loadSettings() {
+    async function loadData() {
       try {
-        const { getSettings } = await import("@/actions/cmsActions");
+        const { getSettings, getServiceCategories } = await import("@/actions/cmsActions");
         const res = await getSettings();
         if (res.success) {
           setSettings(res.settings);
         }
+        const catsRes = await getServiceCategories();
+        if (catsRes.success) {
+          setCategories(catsRes.categories);
+        }
       } catch (error) {
-        console.error("Error loading header settings:", error);
+        console.error("Error loading header data:", error);
       }
     }
-    loadSettings();
+    loadData();
   }, []);
 
   useEffect(() => {
@@ -67,27 +78,30 @@ export default function Header() {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b",
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b bg-white",
         isScrolled
-          ? "bg-white/85 backdrop-blur-md border-slate-200/80 shadow-lg py-1"
-          : "bg-white/95 border-slate-100 shadow-sm py-2"
+          ? "border-slate-200/80 shadow-lg py-1"
+          : "border-slate-100 shadow-sm py-2"
       )}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center group">
+          <Link href="/" className="flex items-center gap-3 group">
             <Image
               src="/HOME DECORATER LOGO (2).png"
               alt="Home Decorater Logo"
-              width={300}
-              height={96}
+              width={160}
+              height={160}
               className={cn(
                 "w-auto object-contain transition-all duration-300 group-hover:scale-105",
-                isScrolled ? "h-14 lg:h-16" : "h-16 lg:h-20"
+                isScrolled ? "h-10 lg:h-12" : "h-12 lg:h-14"
               )}
               priority
             />
+            <span className="font-sans font-black text-black tracking-wide text-xs sm:text-sm md:text-base uppercase whitespace-nowrap">
+              Home Decorater
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -135,13 +149,10 @@ export default function Header() {
                 )} />
               </button>
 
-              <div className="absolute left-0 mt-3 w-64 rounded-2xl bg-white/95 backdrop-blur-md p-2 shadow-2xl border border-slate-100/50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+              <div className="absolute left-0 mt-3 w-64 rounded-2xl bg-white p-2 shadow-2xl border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
                 <div className="py-1 divide-y divide-slate-100">
                   {servicesList.map((service) => {
-                    const subList =
-                      service.name === "Waterproofing" ? settings?.waterproofingSubcategories :
-                      service.name === "Wooden Flooring" ? settings?.flooringSubcategories :
-                      service.name === "PVC (Polyvinyl Chloride)" ? settings?.pvcSubcategories : null;
+                    const subList = service.subcategories;
 
                     return (
                       <div key={service.name} className="py-2 first:pt-0 last:pb-0 px-1">
@@ -177,6 +188,7 @@ export default function Header() {
               <Link
                 key={link.name}
                 href={link.href}
+                prefetch={link.href === "/testimonials" ? false : undefined}
                 className={cn(
                   "relative py-1.5 text-sm font-semibold transition-colors duration-200 hover:text-primary group/nav",
                   pathname === link.href ? "text-primary" : "text-slate-600"
@@ -251,10 +263,7 @@ export default function Header() {
             </button>
             <div className={`pl-4 space-y-1 transition-all duration-300 overflow-hidden ${activeDropdown ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"}`}>
               {servicesList.map((service) => {
-                const subList =
-                  service.name === "Waterproofing" ? settings?.waterproofingSubcategories :
-                  service.name === "Wooden Flooring" ? settings?.flooringSubcategories :
-                  service.name === "PVC (Polyvinyl Chloride)" ? settings?.pvcSubcategories : null;
+                const subList = service.subcategories;
 
                 return (
                   <div key={service.name} className="py-1">
@@ -285,6 +294,7 @@ export default function Header() {
             <Link
               key={link.name}
               href={link.href}
+              prefetch={link.href === "/testimonials" ? false : undefined}
               className={`block px-3 py-2 rounded-xl text-base font-medium ${
                 pathname === link.href ? "bg-primary-light text-primary font-bold" : "text-gray-700 hover:bg-gray-50"
               }`}

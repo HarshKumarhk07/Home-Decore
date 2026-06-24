@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ShieldCheck, Sparkles, Layers, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getSettings } from "@/actions/cmsActions";
+import { getSettings, getServiceCategoryBySlug } from "@/actions/cmsActions";
 
 const defaultPvcServices = [
   {
@@ -45,18 +45,12 @@ export const metadata = {
 export default async function PvcPage() {
   const settingsRes = await getSettings();
   const settings = settingsRes.success ? settingsRes.settings : null;
-  const subcategoriesList = settings?.pvcSubcategories || [];
 
-  const servicesToRender = subcategoriesList.length > 0
-    ? subcategoriesList.map((name: string) => {
-        const found = defaultPvcServices.find(p => p.name.toLowerCase() === name.toLowerCase());
-        return {
-          name,
-          desc: found?.desc || `Professional grade PVC/SPC installation of ${name} with heavy-wear protection, water resistance, and smooth polymer finishes.`,
-          specification: found?.specification || "Custom Thickness & Spec",
-          image: found?.image || "/PVC (Polyvinyl Chloride).jpg",
-        };
-      })
+  const catRes = await getServiceCategoryBySlug("pvc");
+  const category = catRes.success ? catRes.category : null;
+
+  const servicesToRender = category && category.subcategories && category.subcategories.length > 0
+    ? category.subcategories
     : defaultPvcServices;
 
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://homedecorater.in";
@@ -79,7 +73,7 @@ export default async function PvcPage() {
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
       "name": "PVC Services Catalog",
-      "itemListElement": servicesToRender.map((svc) => ({
+      "itemListElement": servicesToRender.map((svc: any) => ({
         "@type": "Offer",
         "itemOffered": {
           "@type": "Service",
@@ -151,8 +145,8 @@ export default async function PvcPage() {
             <h2 className="font-serif text-2xl sm:text-3xl font-bold text-primary mb-8 border-l-4 border-accent pl-4">
               Our Premium PVC & SPC Installations
             </h2>
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
-              {servicesToRender.map((svc, idx) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+              {servicesToRender.map((svc: any, idx: number) => (
                 <div key={idx} className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full hover:-translate-y-1">
                   <div className="relative h-48 w-full">
                     <Image
@@ -169,14 +163,42 @@ export default async function PvcPage() {
                     <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                       {svc.desc}
                     </p>
-                    <div className="text-xs font-bold text-slate-500 border-t border-slate-100 pt-4">
-                      Specification: <span className="text-primary font-bold">{svc.specification}</span>
+                    <div className="space-y-3">
+                      <div className="text-xs font-bold text-slate-500 border-t border-slate-100 pt-4">
+                        Specification: <span className="text-primary font-bold">{svc.specification}</span>
+                      </div>
+                      <Button asChild className="w-full bg-primary hover:bg-primary-hover text-white font-bold rounded-xl py-2 cursor-pointer text-xs">
+                        <Link href="/quote">Request PVC Estimate</Link>
+                      </Button>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
+
+          {/* Bottom CTA Section */}
+          <div className="bg-primary text-white rounded-3xl p-8 sm:p-12 text-center max-w-4xl mx-auto shadow-md space-y-6 mt-16">
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold leading-snug">
+              Request Your Free PVC & SPC Site Quote
+            </h2>
+            <p className="text-slate-200 text-sm max-w-xl mx-auto leading-relaxed">
+              Contact us for expert PVC wall paneling and anti-static ESD flooring installations. Free quote.
+            </p>
+            <div className="pt-2 flex flex-wrap justify-center gap-4">
+              <Button asChild className="bg-accent hover:bg-accent-hover text-dark font-bold rounded-xl px-8 py-6 text-base cursor-pointer">
+                <Link href="/inspection">
+                  Book Free Site Audit
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className="border-slate-400 text-white hover:bg-white hover:text-dark font-bold rounded-xl px-8 py-6 text-base cursor-pointer">
+                <Link href="/quote">
+                  Get Free Estimate
+                </Link>
+              </Button>
+            </div>
+          </div>
+
         </div>
       </div>
     </>

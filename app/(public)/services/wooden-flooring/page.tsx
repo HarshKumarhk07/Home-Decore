@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ShieldCheck, Flame, Droplet, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getSettings } from "@/actions/cmsActions";
+import { getSettings, getServiceCategoryBySlug } from "@/actions/cmsActions";
 
 const defaultFloorTypes = [
   {
@@ -43,19 +43,12 @@ export const metadata = {
 export default async function WoodenFlooringPage() {
   const settingsRes = await getSettings();
   const settings = settingsRes.success ? settingsRes.settings : null;
-  const subcategoriesList = settings?.flooringSubcategories || [];
 
-  const floorTypesToRender = subcategoriesList.length > 0
-    ? subcategoriesList.map((name: string) => {
-        const found = defaultFloorTypes.find(f => f.name.toLowerCase() === name.toLowerCase());
-        return {
-          name,
-          desc: found?.desc || `High-durability professional flooring installation of ${name} with robust underlayment protection, click-lock stability, and premium aesthetics.`,
-          thickness: found?.thickness || "5mm to 12mm",
-          warranty: found?.warranty || "10 Years premium warranty",
-          image: found?.image || "https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&q=80&w=600",
-        };
-      })
+  const catRes = await getServiceCategoryBySlug("wooden-flooring");
+  const category = catRes.success ? catRes.category : null;
+
+  const floorTypesToRender = category && category.subcategories && category.subcategories.length > 0
+    ? category.subcategories
     : defaultFloorTypes;
 
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://homedecorater.in";
@@ -78,7 +71,7 @@ export default async function WoodenFlooringPage() {
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
       "name": "Flooring Services Catalog",
-      "itemListElement": floorTypesToRender.map((floor) => ({
+      "itemListElement": floorTypesToRender.map((floor: any) => ({
         "@type": "Offer",
         "itemOffered": {
           "@type": "Service",
@@ -157,7 +150,7 @@ export default async function WoodenFlooringPage() {
               Explore Flooring Types
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
-              {floorTypesToRender.map((floor, idx) => (
+              {floorTypesToRender.map((floor: any, idx: number) => (
                 <div key={idx} className="bg-white border border-slate-100 rounded-3xl p-6 sm:p-8 shadow-sm flex flex-col sm:flex-row gap-6 hover:shadow-md transition-all duration-300 hover:-translate-y-1">
                   <div className="relative w-full sm:w-48 h-48 rounded-2xl overflow-hidden shrink-0 shadow">
                     <Image 
@@ -173,15 +166,43 @@ export default async function WoodenFlooringPage() {
                       <h3 className="font-serif text-xl font-bold text-primary">{floor.name}</h3>
                       <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mt-2">{floor.desc}</p>
                     </div>
-                    <div className="flex flex-wrap gap-4 text-xs font-semibold border-t border-slate-100 pt-4 text-slate-500">
-                      <div>Thickness: <span className="text-primary font-bold">{floor.thickness}</span></div>
-                      <div>Warranty: <span className="text-primary font-bold">{floor.warranty}</span></div>
+                    <div className="space-y-3">
+                      <div className="flex flex-wrap gap-4 text-xs font-semibold border-t border-slate-100 pt-4 text-slate-500">
+                        <div>Thickness: <span className="text-primary font-bold">{floor.thickness}</span></div>
+                        <div>Warranty: <span className="text-primary font-bold">{floor.warranty}</span></div>
+                      </div>
+                      <Button asChild className="w-full sm:w-auto bg-primary hover:bg-primary-hover text-white font-bold rounded-xl py-1.5 px-4 cursor-pointer text-xs">
+                        <Link href="/quote">Get Flooring Estimate</Link>
+                      </Button>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
+
+          {/* Bottom CTA Section */}
+          <div className="bg-primary text-white rounded-3xl p-8 sm:p-12 text-center max-w-4xl mx-auto shadow-md space-y-6 mt-16">
+            <h2 className="font-serif text-2xl sm:text-3xl font-bold leading-snug">
+              Request Your Free Site Audit & Sample Selection
+            </h2>
+            <p className="text-slate-200 text-sm max-w-xl mx-auto leading-relaxed">
+              We bring sample catalogs directly to your site and evaluate your subfloor base moisture levels.
+            </p>
+            <div className="pt-2 flex flex-wrap justify-center gap-4">
+              <Button asChild className="bg-accent hover:bg-accent-hover text-dark font-bold rounded-xl px-8 py-6 text-base cursor-pointer">
+                <Link href="/inspection">
+                  Book Free Site Audit
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className="border-slate-400 text-white hover:bg-white hover:text-dark font-bold rounded-xl px-8 py-6 text-base cursor-pointer">
+                <Link href="/quote">
+                  Get Free Estimate
+                </Link>
+              </Button>
+            </div>
+          </div>
+
         </div>
       </div>
     </>

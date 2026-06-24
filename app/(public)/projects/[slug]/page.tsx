@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { connectToDatabase } from "@/lib/mongodb";
 import Project from "@/models/Project";
-import BeforeAfterSlider from "@/components/ui/BeforeAfterSlider";
+
 import { Button } from "@/components/ui/button";
 import { MapPin, Calendar, ShieldCheck, Wrench, Clock, Maximize2, User, ChevronLeft } from "lucide-react";
 import { fallbackProjects } from "@/lib/fallbackData";
@@ -128,20 +128,7 @@ export default async function ProjectDetailPage({ params }: Props) {
               />
             </div>
 
-            {/* Before After Slider (if present) */}
-            {project.beforeAfter?.before && project.beforeAfter?.after && (
-              <div className="space-y-4 bg-white p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-sm">
-                <h3 className="font-serif text-xl font-bold text-primary flex items-center">
-                  <Wrench className="w-5 h-5 text-accent mr-2" /> Before & After Slider
-                </h3>
-                <BeforeAfterSlider
-                  beforeImage={project.beforeAfter.before}
-                  afterImage={project.beforeAfter.after}
-                  beforeLabel="Dampness/Damaged State"
-                  afterLabel="Finished Result"
-                />
-              </div>
-            )}
+
 
             {/* Description */}
             <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-sm space-y-4">
