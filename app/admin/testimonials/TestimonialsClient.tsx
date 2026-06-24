@@ -57,6 +57,9 @@ export default function TestimonialsClient() {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // Reset input so the same file can be re-selected if needed
+    e.target.value = "";
+
     setUploadingImage(true);
     const toastId = toast.loading("Uploading avatar to cloud storage...");
 
@@ -231,16 +234,9 @@ export default function TestimonialsClient() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Customer Avatar / Photo URL</label>
-                <div className="flex space-x-3">
-                  <input
-                    type="text"
-                    value={editingTestimonial.avatar}
-                    onChange={(e) => setEditingTestimonial((prev: any) => ({ ...prev, avatar: e.target.value }))}
-                    className="flex-grow bg-slate-900 border border-slate-800 rounded-none px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
-                    placeholder="/avatar.jpg or https://..."
-                  />
-                  <label className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-none px-4 py-2.5 text-xs font-semibold cursor-pointer flex items-center space-x-1 shrink-0">
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Customer Avatar / Photo</label>
+                <div className="flex items-center space-x-4">
+                  <label className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-none px-5 py-2.5 text-xs font-semibold cursor-pointer flex items-center space-x-2">
                     <UploadCloud className="w-4 h-4" />
                     <span>{uploadingImage ? "Uploading..." : "Upload File"}</span>
                     <input
@@ -251,6 +247,9 @@ export default function TestimonialsClient() {
                       onChange={handleImageUpload}
                     />
                   </label>
+                  {editingTestimonial.avatar && (
+                    <span className="text-xs text-slate-400 italic truncate max-w-xs">{editingTestimonial.avatar.split("/").pop()}</span>
+                  )}
                 </div>
                 {editingTestimonial.avatar && (
                   <div className="relative w-16 h-16 border border-slate-800 mt-2 rounded-full overflow-hidden bg-slate-900">

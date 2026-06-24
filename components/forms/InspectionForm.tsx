@@ -44,7 +44,7 @@ const defaultSubServices: Record<string, string[]> = {
 
 export default function InspectionForm() {
   const [isPending, startTransition] = useTransition();
-  const [settings, setSettings] = useState<any>(null);
+  const [categories, setCategories] = useState<any[]>([]);
 
   const {
     register,
@@ -71,37 +71,30 @@ export default function InspectionForm() {
   const selectedService = watch("service");
 
   useEffect(() => {
-    async function loadSettings() {
+    async function loadCategories() {
       try {
-        const { getSettings } = await import("@/actions/cmsActions");
-        const res = await getSettings();
-        if (res.success) {
-          setSettings(res.settings);
+        const { getServiceCategories } = await import("@/actions/cmsActions");
+        const res = await getServiceCategories();
+        if (res.success && res.categories && res.categories.length > 0) {
+          setCategories(res.categories);
+          // Set default service to first category name
+          setValue("service", res.categories[0].name);
         }
       } catch (error) {
-        console.error("Error loading form settings:", error);
+        console.error("Error loading categories for form:", error);
       }
     }
-    loadSettings();
+    loadCategories();
   }, []);
 
-  const getSubcategories = () => {
-    if (selectedService === "Waterproofing") {
-      return settings?.waterproofingSubcategories && settings.waterproofingSubcategories.length > 0
-        ? settings.waterproofingSubcategories
-        : defaultSubServices["Waterproofing"];
+  // Derive subcategories from selected category
+  const getSubcategories = (): string[] => {
+    if (categories.length > 0) {
+      const cat = categories.find((c: any) => c.name === selectedService);
+      return cat?.subcategories?.map((s: any) => s.name).filter(Boolean) || [];
     }
-    if (selectedService === "Wooden Flooring") {
-      return settings?.flooringSubcategories && settings.flooringSubcategories.length > 0
-        ? settings.flooringSubcategories
-        : defaultSubServices["Wooden Flooring"];
-    }
-    if (selectedService === "PVC (Polyvinyl Chloride)") {
-      return settings?.pvcSubcategories && settings.pvcSubcategories.length > 0
-        ? settings.pvcSubcategories
-        : defaultSubServices["PVC (Polyvinyl Chloride)"];
-    }
-    return [];
+    // Fallback to hardcoded defaults
+    return defaultSubServices[selectedService] || [];
   };
 
   const subCategories = getSubcategories();
@@ -112,7 +105,7 @@ export default function InspectionForm() {
     } else {
       setValue("subService", "");
     }
-  }, [selectedService, settings]);
+  }, [selectedService, categories]);
 
   const onSubmit = (data: InspectionFormValues) => {
     startTransition(async () => {
@@ -199,9 +192,20 @@ export default function InspectionForm() {
           {...register("service")}
           className="w-full border border-slate-200 rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 bg-white transition-all duration-200"
         >
-          <option value="Waterproofing">Waterproofing Solutions</option>
-          <option value="Wooden Flooring">Wooden Flooring</option>
-          <option value="PVC (Polyvinyl Chloride)">PVC (Polyvinyl Chloride)</option>
+          {categories.length > 0
+            ? categories.map((cat: any) => (
+                <option key={cat._id || cat.name} value={cat.name}>
+                  {cat.name}
+                </option>
+              ))
+            : (
+              <>
+                <option value="Waterproofing">Waterproofing Solutions</option>
+                <option value="Wooden Flooring">Wooden Flooring</option>
+                <option value="PVC (Polyvinyl Chloride)">PVC (Polyvinyl Chloride)</option>
+              </>
+            )
+          }
         </select>
         {errors.service && <p className="text-xs text-red-500 font-semibold">{errors.service.message}</p>}
       </div>

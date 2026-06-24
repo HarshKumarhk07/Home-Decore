@@ -167,13 +167,14 @@ export default function Header() {
                         {subList && subList.length > 0 && (
                           <div className="mt-1 pl-3 space-y-0.5 border-l border-slate-100 ml-3">
                             {subList.map((sub: string) => (
-                              <div
+                              <Link
                                 key={sub}
-                                className="text-[11px] text-slate-500 hover:text-primary transition-colors cursor-default truncate py-0.5"
+                                href={service.href}
+                                className="text-[11px] text-slate-500 hover:text-primary hover:font-semibold transition-colors cursor-pointer truncate py-0.5 block"
                                 title={sub}
                               >
                                 • {sub}
-                              </div>
+                              </Link>
                             ))}
                           </div>
                         )}
@@ -231,8 +232,10 @@ export default function Header() {
       {/* Mobile Menu */}
       <div
         className={`lg:hidden transition-all duration-300 ease-in-out ${
-          isOpen ? "max-h-screen opacity-100 visible" : "max-h-0 opacity-0 invisible"
-        } overflow-hidden bg-white border-t border-gray-100 shadow-inner`}
+          isOpen
+            ? "max-h-[85vh] opacity-100 visible overflow-y-auto"
+            : "max-h-0 opacity-0 invisible overflow-hidden"
+        } bg-white border-t border-gray-100 shadow-inner`}
       >
         <div className="px-4 pt-2 pb-6 space-y-2">
           <Link
@@ -261,7 +264,7 @@ export default function Header() {
               <span>Services</span>
               <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${activeDropdown ? "rotate-180" : ""}`} />
             </button>
-            <div className={`pl-4 space-y-1 transition-all duration-300 overflow-hidden ${activeDropdown ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"}`}>
+            <div className={`pl-4 space-y-1 transition-all duration-300 overflow-hidden ${activeDropdown ? "max-h-[2000px] opacity-100" : "max-h-0 opacity-0"}`}>
               {servicesList.map((service) => {
                 const subList = service.subcategories;
 
@@ -278,9 +281,13 @@ export default function Header() {
                     {subList && subList.length > 0 && (
                       <div className="pl-6 mt-0.5 space-y-0.5 border-l border-slate-100 ml-3">
                         {subList.map((sub: string) => (
-                          <div key={sub} className="text-[11px] text-slate-500 py-0.5">
+                          <Link
+                            key={sub}
+                            href={service.href}
+                            className="text-[11px] text-slate-500 hover:text-primary hover:font-semibold transition-colors py-0.5 block"
+                          >
                             • {sub}
-                          </div>
+                          </Link>
                         ))}
                       </div>
                     )}

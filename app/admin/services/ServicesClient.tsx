@@ -54,6 +54,9 @@ export default function ServicesClient() {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // Reset input so the same file can be re-selected if needed
+    e.target.value = "";
+
     setUploadingImage(target === "cat" ? "cat" : `sub-${target}`);
     const toastId = toast.loading("Uploading image to cloud storage...");
 
@@ -229,26 +232,22 @@ export default function ServicesClient() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Category Main Image URL *</label>
-                <div className="flex space-x-3">
-                  <input
-                    type="text"
-                    value={editingCategory.image}
-                    onChange={(e) => setEditingCategory((prev: any) => ({ ...prev, image: e.target.value }))}
-                    className="flex-grow bg-slate-900 border border-slate-800 rounded-none px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
-                    placeholder="/waterproofing.jpg or https://..."
-                  />
-                  <label className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-none px-4 py-2.5 text-xs font-semibold cursor-pointer flex items-center space-x-1">
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Category Main Image *</label>
+                <div className="flex items-center space-x-4">
+                  <label className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-none px-5 py-2.5 text-xs font-semibold cursor-pointer flex items-center space-x-2">
                     <UploadCloud className="w-4 h-4" />
                     <span>{uploadingImage === "cat" ? "Uploading..." : "Upload File"}</span>
                     <input
                       type="file"
                       accept="image/*"
                       className="hidden"
-                      disabled={uploadingImage !== null}
+                      disabled={uploadingImage === "cat"}
                       onChange={(e) => handleImageUpload(e, "cat")}
                     />
                   </label>
+                  {editingCategory.image && (
+                    <span className="text-xs text-slate-400 italic truncate max-w-xs">{editingCategory.image.split("/").pop()}</span>
+                  )}
                 </div>
                 {editingCategory.image && (
                   <div className="relative w-20 h-20 border border-slate-800 mt-2 rounded-none overflow-hidden bg-slate-900">
@@ -325,26 +324,22 @@ export default function ServicesClient() {
                       </div>
 
                       <div className="space-y-1">
-                        <label className="text-[10px] font-bold text-slate-500 uppercase">Subcategory Image URL *</label>
-                        <div className="flex space-x-2">
-                          <input
-                            type="text"
-                            value={sub.image}
-                            onChange={(e) => handleSubcategoryChange(subIdx, "image", e.target.value)}
-                            className="flex-grow bg-slate-900 border border-slate-800 rounded-none px-3 py-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-accent"
-                            placeholder="/image.jpg"
-                          />
-                          <label className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-none px-3 py-2 text-[10px] font-semibold cursor-pointer flex items-center space-x-1 shrink-0">
+                        <label className="text-[10px] font-bold text-slate-500 uppercase">Subcategory Image *</label>
+                        <div className="flex items-center space-x-2">
+                          <label className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-none px-3 py-2 text-[10px] font-semibold cursor-pointer flex items-center space-x-1">
                             <UploadCloud className="w-3.5 h-3.5" />
-                            <span>{uploadingImage === `sub-${subIdx}` ? "..." : "Upload"}</span>
+                            <span>{uploadingImage === `sub-${subIdx}` ? "Uploading..." : "Upload File"}</span>
                             <input
                               type="file"
                               accept="image/*"
                               className="hidden"
-                              disabled={uploadingImage !== null}
+                              disabled={uploadingImage === `sub-${subIdx}`}
                               onChange={(e) => handleImageUpload(e, subIdx)}
                             />
                           </label>
+                          {sub.image && (
+                            <span className="text-[10px] text-slate-400 italic truncate max-w-[120px]">{sub.image.split("/").pop()}</span>
+                          )}
                         </div>
                         {sub.image && (
                           <div className="relative w-12 h-12 border border-slate-800 mt-1 rounded-none overflow-hidden bg-slate-900">
@@ -416,20 +411,21 @@ export default function ServicesClient() {
         ) : (
           // LIST STATE
           <div className="space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+            {/* Header — stacks on mobile */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-800 pb-4">
               <div>
-                <h3 className="font-serif text-lg font-bold text-white flex items-center space-x-2">
-                  <Wrench className="w-5 h-5 text-accent" />
-                  <span>Service Categories & Subcategories</span>
+                <h3 className="font-serif text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                  <Wrench className="w-5 h-5 text-accent shrink-0" />
+                  Service Categories &amp; Subcategories
                 </h3>
-                <p className="text-xs text-slate-400">Configure public service cards and subcategories dynamically.</p>
+                <p className="text-xs text-slate-400 mt-0.5">Configure public service cards and subcategories dynamically.</p>
               </div>
               <Button
                 type="button"
                 onClick={startNewCategory}
-                className="bg-accent hover:bg-accent-hover text-dark font-bold rounded-none px-4 py-2 text-xs flex items-center space-x-1.5"
+                className="bg-accent hover:bg-accent-hover text-dark font-bold rounded-none px-4 py-2 text-xs flex items-center gap-1.5 shrink-0 self-start sm:self-auto"
               >
-                <Plus className="w-4 h-4" /> <span>Add New Category</span>
+                <Plus className="w-4 h-4" /> Add New Category
               </Button>
             </div>
 
@@ -440,56 +436,61 @@ export default function ServicesClient() {
               </div>
             ) : categories.length === 0 ? (
               <div className="text-center py-12 text-slate-500 italic">
-                No categories found. Click 'Add New Category' to create one.
+                No categories found. Click &apos;Add New Category&apos; to create one.
               </div>
             ) : (
-              <div className="grid grid-cols-1 gap-6">
+              <div className="grid grid-cols-1 gap-4">
                 {categories.map((cat) => (
                   <div
                     key={cat._id}
-                    className="bg-slate-950 border border-slate-850 p-6 rounded-none flex flex-col md:flex-row gap-6 items-start justify-between"
+                    className="bg-slate-950 border border-slate-800 rounded-none overflow-hidden"
                   >
-                    <div className="flex gap-4 items-start">
+                    {/* Card top: image + info */}
+                    <div className="flex gap-4 p-4">
                       {cat.image ? (
-                        <div className="relative w-20 h-20 border border-slate-800 rounded-none overflow-hidden bg-slate-900 shrink-0">
+                        <div className="relative w-16 h-16 sm:w-20 sm:h-20 border border-slate-800 rounded-none overflow-hidden bg-slate-900 shrink-0">
                           <Image src={cat.image} alt={cat.name} fill className="object-cover" />
                         </div>
                       ) : (
-                        <div className="w-20 h-20 border border-slate-800 rounded-none bg-slate-900 flex items-center justify-center shrink-0">
-                          <FileImage className="w-8 h-8 text-slate-600" />
+                        <div className="w-16 h-16 sm:w-20 sm:h-20 border border-slate-800 rounded-none bg-slate-900 flex items-center justify-center shrink-0">
+                          <FileImage className="w-7 h-7 text-slate-600" />
                         </div>
                       )}
-                      <div className="space-y-1">
-                        <h4 className="font-serif text-base font-bold text-white">{cat.name}</h4>
+                      <div className="space-y-1 min-w-0 flex-1">
+                        <h4 className="font-serif text-sm sm:text-base font-bold text-white truncate">{cat.name}</h4>
                         <div className="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-md inline-block font-mono">
-                          Slug: {cat.slug}
+                          /{cat.slug}
                         </div>
-                        <p className="text-xs text-slate-400 leading-relaxed line-clamp-2 max-w-xl font-medium mt-1">
+                        <p className="text-[11px] text-slate-400 leading-relaxed line-clamp-2 mt-1">
                           {cat.description}
                         </p>
                         {cat.subcategories && cat.subcategories.length > 0 && (
-                          <div className="pt-2 text-xs text-slate-500">
-                            <strong>Subcategories ({cat.subcategories.length}): </strong>
-                            {cat.subcategories.map((s: any) => s.name).join(", ")}
+                          <div className="pt-1 flex flex-wrap gap-1">
+                            {cat.subcategories.map((s: any) => (
+                              <span key={s.name} className="text-[9px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded">
+                                {s.name}
+                              </span>
+                            ))}
                           </div>
                         )}
                       </div>
                     </div>
 
-                    <div className="flex md:flex-col gap-2 w-full md:w-auto shrink-0 pt-4 md:pt-0">
+                    {/* Card actions: always full-width at bottom */}
+                    <div className="border-t border-slate-800 flex">
                       <Button
                         type="button"
                         onClick={() => startEditCategory(cat)}
-                        className="bg-slate-800 hover:bg-slate-700 text-white rounded-none px-4 py-2 text-xs flex items-center justify-center space-x-1.5 w-full border border-slate-700"
+                        className="flex-1 bg-slate-800 hover:bg-slate-700 text-white rounded-none py-2 text-xs flex items-center justify-center gap-1.5 border-r border-slate-700"
                       >
-                        <Edit2 className="w-3.5 h-3.5" /> <span>Edit Category</span>
+                        <Edit2 className="w-3.5 h-3.5" /> Edit Category
                       </Button>
                       <Button
                         type="button"
                         onClick={() => handleDeleteCategory(cat._id)}
-                        className="bg-red-950/20 hover:bg-red-950 text-red-500 rounded-none px-4 py-2 text-xs flex items-center justify-center space-x-1.5 w-full border border-red-950/40"
+                        className="flex-1 bg-red-950/20 hover:bg-red-950 text-red-500 rounded-none py-2 text-xs flex items-center justify-center gap-1.5"
                       >
-                        <Trash2 className="w-3.5 h-3.5" /> <span>Delete</span>
+                        <Trash2 className="w-3.5 h-3.5" /> Delete
                       </Button>
                     </div>
                   </div>
@@ -497,6 +498,7 @@ export default function ServicesClient() {
               </div>
             )}
           </div>
+
         )}
       </div>
     </div>

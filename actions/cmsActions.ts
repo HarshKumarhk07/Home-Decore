@@ -531,9 +531,12 @@ export async function saveServiceCategory(data: any) {
     }
 
     revalidatePath("/admin/settings");
+    revalidatePath("/admin/services");
     revalidatePath("/");
     revalidatePath("/services");
     revalidatePath(`/services/${categoryData.slug}`);
+    // Revalidate the dynamic catch-all so any slug variant updates too
+    revalidatePath("/services/[slug]", "page");
 
     return { success: true, message: "Category saved successfully!", category: JSON.parse(JSON.stringify(result)) };
   } catch (error: any) {
@@ -557,9 +560,11 @@ export async function deleteServiceCategory(id: string) {
     await ServiceCategory.findByIdAndDelete(id);
 
     revalidatePath("/admin/settings");
+    revalidatePath("/admin/services");
     revalidatePath("/");
     revalidatePath("/services");
     revalidatePath(`/services/${slug}`);
+    revalidatePath("/services/[slug]", "page");
 
     return { success: true, message: "Category deleted successfully!" };
   } catch (error: any) {
