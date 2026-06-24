@@ -113,16 +113,16 @@ export default function GalleryClient({ initialItems }: GalleryClientProps) {
 
       {/* Lightbox Dialog */}
       <Dialog open={!!selectedImage} onOpenChange={(open) => !open && setSelectedImage(null)}>
-        <DialogContent className="max-w-4xl p-1 bg-transparent border-none outline-none shadow-none flex items-center justify-center">
+        <DialogContent className="max-w-[92vw] w-[92vw] h-[88vh] p-3 bg-black/95 outline-none shadow-2xl flex items-center justify-center ring-2 ring-white/50 rounded-2xl [&>[data-slot='dialog-close']]:bg-gray-900/90 [&>[data-slot='dialog-close']]:text-white [&>[data-slot='dialog-close']]:hover:bg-gray-800 [&>[data-slot='dialog-close']]:border [&>[data-slot='dialog-close']]:border-white/40 [&>[data-slot='dialog-close']]:z-50">
           {selectedImage && (
-            <div className="relative w-full aspect-16/10 rounded-2xl overflow-hidden">
+            <div className="relative w-full h-full rounded-xl overflow-hidden">
               <DialogTitle className="sr-only">Zoomed image</DialogTitle>
               <Image
                 src={selectedImage}
                 alt="Zoomed Site Work Preview"
                 fill
                 className="object-contain"
-                sizes="100vw"
+                sizes="92vw"
                 priority
               />
             </div>

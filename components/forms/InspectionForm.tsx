@@ -59,6 +59,7 @@ export default function InspectionForm() {
       name: "",
       phone: "",
       email: "",
+      city: "",
       address: "",
       service: "Waterproofing",
       subService: "",
@@ -181,6 +182,45 @@ export default function InspectionForm() {
         {errors.email && <p className="text-xs text-red-500 font-semibold">{errors.email.message}</p>}
       </div>
 
+      {/* City & Address row */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* City */}
+        <div className="space-y-1">
+          <label htmlFor="city" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+            City
+          </label>
+          <input
+            id="city"
+            type="text"
+            disabled={isPending}
+            placeholder="e.g. Mumbai, Delhi..."
+            {...register("city")}
+            className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+              errors.city ? "border-red-500 focus:ring-red-500" : "border-slate-200"
+            }`}
+          />
+          {errors.city && <p className="text-xs text-red-500 font-semibold">{errors.city.message}</p>}
+        </div>
+
+        {/* Address */}
+        <div className="space-y-1">
+          <label htmlFor="address" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+            Site Address
+          </label>
+          <textarea
+            id="address"
+            rows={3}
+            disabled={isPending}
+            placeholder="Complete address of the building/site..."
+            {...register("address")}
+            className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+              errors.address ? "border-red-500 focus:ring-red-500" : "border-slate-200"
+            }`}
+          />
+          {errors.address && <p className="text-xs text-red-500 font-semibold">{errors.address.message}</p>}
+        </div>
+      </div>
+
       {/* Service selection */}
       <div className="space-y-1">
         <label htmlFor="service" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
@@ -232,23 +272,6 @@ export default function InspectionForm() {
         </div>
       )}
 
-      {/* Address */}
-      <div className="space-y-1">
-        <label htmlFor="address" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-          Site Address
-        </label>
-        <textarea
-          id="address"
-          rows={3}
-          disabled={isPending}
-          placeholder="Complete address of the building/site to be inspected..."
-          {...register("address")}
-          className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
-            errors.address ? "border-red-500 focus:ring-red-500" : "border-slate-200"
-          }`}
-        />
-        {errors.address && <p className="text-xs text-red-500 font-semibold">{errors.address.message}</p>}
-      </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Preferred Date */}

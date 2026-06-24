@@ -83,7 +83,7 @@ export async function submitInspectionBooking(rawFields: any) {
       return { success: false, message: "Invalid form input." };
     }
 
-    const { name, phone, email, address, service, subService, preferredDate, preferredTime, remarks } = parsed.data;
+    const { name, phone, email, city, address, service, subService, preferredDate, preferredTime, remarks } = parsed.data;
 
     await connectToDatabase();
     const leadId = await generateLeadId();
@@ -93,6 +93,7 @@ export async function submitInspectionBooking(rawFields: any) {
       customerName: name,
       phone,
       email,
+      city: city || "",
       address,
       service,
       preferredDate: new Date(preferredDate),

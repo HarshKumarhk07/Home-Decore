@@ -133,7 +133,7 @@ export default function HomeClient({ projects, testimonials, faqs, settings, cat
   return (
     <div className="overflow-x-hidden">
       {/* HERO SECTION */}
-      <section className="relative min-h-[90vh] flex items-center justify-center bg-dark text-white overflow-hidden py-20">
+      <section className="relative bg-dark text-white pt-12 pb-24 sm:pt-20">
         {/* Background Image overlay */}
         <div className="absolute inset-0 z-0">
           <Image
@@ -147,38 +147,17 @@ export default function HomeClient({ projects, testimonials, faqs, settings, cat
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start pt-8">
             {/* Left Column: Copy & CTAs */}
             <div className="lg:col-span-7 space-y-6">
-              <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="inline-flex items-center space-x-2 bg-slate-800/80 backdrop-blur-md px-4 py-1.5 rounded-full border border-accent/20"
-              >
-                <Sparkles className="w-4 h-4 text-accent animate-pulse" />
-                <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-accent">
-                  Premium Home Transformations
-                </span>
-              </motion.div>
 
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.1 }}
-                className="font-serif text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight text-white tracking-tight"
-              >
+              <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight text-white tracking-tight">
                 Professional <span className="text-accent">Waterproofing</span>, Flooring & PVC
-              </motion.h1>
+              </h1>
 
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.3 }}
-                className="text-base sm:text-lg md:text-xl text-slate-300 max-w-2xl leading-relaxed"
-              >
+              <p className="text-base sm:text-lg md:text-xl text-slate-300 max-w-2xl leading-relaxed">
                 Protect, decorate, and elevate your space. Scientific execution, brand-certified materials, and up to 10-year written warranties.
-              </motion.p>
+              </p>
 
               {/* CTAs */}
               <motion.div

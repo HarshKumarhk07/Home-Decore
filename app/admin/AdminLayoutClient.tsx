@@ -40,6 +40,7 @@ export default function AdminLayoutClient({ session, children }: AdminLayoutClie
     if (pathname === "/admin/login") return;
 
     const fetchNotifications = async () => {
+      if (typeof window !== "undefined" && !navigator.onLine) return;
       try {
         const res = await fetch("/api/leads/notifications");
         if (res.ok) {
@@ -54,7 +55,8 @@ export default function AdminLayoutClient({ session, children }: AdminLayoutClie
           }
         }
       } catch (err) {
-        console.error("Failed to poll notifications:", err);
+        if (typeof window !== "undefined" && !navigator.onLine) return;
+        console.warn("Failed to poll notifications:", err);
       }
     };
 

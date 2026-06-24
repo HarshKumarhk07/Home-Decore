@@ -12,6 +12,7 @@ export const InspectionSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   phone: z.string().regex(/^[0-9+\s-]{10,15}$/, "Please enter a valid phone number"),
   email: z.string().email("Please enter a valid email address"),
+  city: z.string().min(2, "Please enter your city").optional(),
   address: z.string().min(10, "Please enter your complete site address"),
   service: z.enum(["Waterproofing", "Wooden Flooring", "PVC (Polyvinyl Chloride)"], {
     message: "Please select a valid service",

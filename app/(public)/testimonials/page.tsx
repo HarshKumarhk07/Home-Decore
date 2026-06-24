@@ -29,10 +29,8 @@ export default async function TestimonialsPage() {
     console.error("Failed to query testimonials for page:", err);
   }
 
-  // Fallback testimonials if database is empty or connection fails
-  if (list.length === 0) {
-    list = fallbackTestimonials;
-  }
+  // Combine database testimonials with fallback/demo testimonials
+  list = [...list, ...fallbackTestimonials];
 
   return (
     <div className="bg-slate-50 min-h-screen py-16">

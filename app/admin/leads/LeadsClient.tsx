@@ -338,13 +338,13 @@ export default function LeadsClient({ initialLeads, employees, currentUser }: Le
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <span className="text-xs bg-primary-light/10 text-primary border border-primary/20 px-2.5 py-0.5 rounded-full font-medium">
+                    <span className="text-xs bg-primary-light/10 text-primary border border-primary/20 px-2.5 py-1 rounded-md font-medium whitespace-nowrap inline-block max-w-[160px] truncate" title={lead.service}>
                       {lead.service}
                     </span>
                   </td>
                   <td className="px-6 py-4">{lead.city || "N/A"}</td>
                   <td className="px-6 py-4">
-                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-semibold ${getStatusBadgeClass(lead.status)}`}>
+                    <span className={`text-[10px] px-2.5 py-1 rounded-md font-semibold whitespace-nowrap inline-block ${getStatusBadgeClass(lead.status)}`}>
                       {lead.status}
                     </span>
                   </td>

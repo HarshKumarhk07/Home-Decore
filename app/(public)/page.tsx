@@ -63,9 +63,8 @@ export default async function HomePage() {
     featuredProjects = fallbackProjects;
   }
 
-  if (testimonials.length === 0) {
-    testimonials = fallbackTestimonials;
-  }
+  // Combine database testimonials with fallback/demo testimonials
+  testimonials = [...testimonials, ...fallbackTestimonials];
 
   if (faqs.length === 0) {
     faqs = fallbackFaqs;

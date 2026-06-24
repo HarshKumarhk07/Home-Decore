@@ -80,224 +80,210 @@ export default function SettingsClient({ initialSettings }: SettingsClientProps)
 
   return (
     <div className="space-y-6 max-w-5xl">
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-lg">
-        <Tabs defaultValue="company" className="w-full">
-          <TabsList className="bg-slate-950 border border-slate-800 rounded-xl p-1 grid grid-cols-4 gap-2 mb-6">
-            <TabsTrigger value="company" className="rounded-lg text-xs sm:text-sm flex items-center justify-center space-x-1.5 py-2">
-              <Building className="w-4 h-4 shrink-0" />
-              <span className="hidden sm:inline">Company</span>
-            </TabsTrigger>
-            <TabsTrigger value="hours" className="rounded-lg text-xs sm:text-sm flex items-center justify-center space-x-1.5 py-2">
-              <Clock className="w-4 h-4 shrink-0" />
-              <span className="hidden sm:inline">Hours & Maps</span>
-            </TabsTrigger>
-            <TabsTrigger value="socials" className="rounded-lg text-xs sm:text-sm flex items-center justify-center space-x-1.5 py-2">
-              <Share2 className="w-4 h-4 shrink-0" />
-              <span className="hidden sm:inline">Socials</span>
-            </TabsTrigger>
-            <TabsTrigger value="seo" className="rounded-lg text-xs sm:text-sm flex items-center justify-center space-x-1.5 py-2">
-              <Search className="w-4 h-4 shrink-0" />
-              <span className="hidden sm:inline">SEO Config</span>
-            </TabsTrigger>
-          </TabsList>
+      <form onSubmit={handleSubmit(onSubmitSettings)} className="space-y-8">
+        
+        {/* 1. Company Details */}
+        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-lg space-y-6">
+          <div className="flex items-center space-x-2 border-b border-slate-800 pb-4">
+            <Building className="w-5 h-5 text-accent" />
+            <h2 className="text-lg font-bold text-white">Company Information</h2>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Company Name</label>
+              <input
+                type="text"
+                disabled={isPending}
+                {...register("companyName")}
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
+              />
+            </div>
 
-          {/* 1. Company Tab */}
-          <TabsContent value="company" className="space-y-4 pt-2">
-            <form onSubmit={handleSubmit(onSubmitSettings)} className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Company Name</label>
-                  <input
-                    type="text"
-                    disabled={isPending}
-                    {...register("companyName")}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
-                  />
-                </div>
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Email Address</label>
+              <input
+                type="email"
+                disabled={isPending}
+                {...register("email")}
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
+              />
+            </div>
+          </div>
 
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Email Address</label>
-                  <input
-                    type="email"
-                    disabled={isPending}
-                    {...register("email")}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
-                  />
-                </div>
-              </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Telephone Phone</label>
+              <input
+                type="text"
+                disabled={isPending}
+                {...register("phoneNumber")}
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
+              />
+            </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Telephone Phone</label>
-                  <input
-                    type="text"
-                    disabled={isPending}
-                    {...register("phoneNumber")}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
-                  />
-                </div>
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">WhatsApp Number</label>
+              <input
+                type="text"
+                disabled={isPending}
+                {...register("whatsappNumber")}
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
+              />
+            </div>
+          </div>
 
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">WhatsApp Number</label>
-                  <input
-                    type="text"
-                    disabled={isPending}
-                    {...register("whatsappNumber")}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
-                  />
-                </div>
-              </div>
+          <div className="space-y-1">
+            <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Headquarters Address</label>
+            <textarea
+              rows={3}
+              disabled={isPending}
+              {...register("address")}
+              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
+            />
+          </div>
+        </div>
 
-              <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Headquarters Address</label>
-                <textarea
-                  rows={3}
-                  disabled={isPending}
-                  {...register("address")}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
-                />
-              </div>
+        {/* 2. Hours & Maps */}
+        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-lg space-y-6">
+          <div className="flex items-center space-x-2 border-b border-slate-800 pb-4">
+            <Clock className="w-5 h-5 text-accent" />
+            <h2 className="text-lg font-bold text-white">Business Hours & Location Map</h2>
+          </div>
 
-              <div className="pt-4 text-right">
-                <Button type="submit" disabled={isPending} className="bg-accent hover:bg-accent-hover text-dark font-bold px-6 py-2 rounded-xl text-sm">
-                  {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save Company Info"}
-                </Button>
-              </div>
-            </form>
-          </TabsContent>
+          <div className="space-y-1">
+            <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Business Operating Hours</label>
+            <input
+              type="text"
+              disabled={isPending}
+              {...register("businessHours")}
+              placeholder="Mon - Sat: 9:00 AM - 6:30 PM"
+              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
+            />
+          </div>
 
-          {/* 2. Hours & Maps Tab */}
-          <TabsContent value="hours" className="space-y-4 pt-2">
-            <form onSubmit={handleSubmit(onSubmitSettings)} className="space-y-4">
-              <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Business Operating Hours</label>
-                <input
-                  type="text"
-                  disabled={isPending}
-                  {...register("businessHours")}
-                  placeholder="Mon - Sat: 9:00 AM - 6:30 PM"
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
-                />
-              </div>
+          <div className="space-y-1">
+            <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Google Maps Embed link (Iframe Src)</label>
+            <textarea
+              rows={4}
+              disabled={isPending}
+              {...register("googleMapsEmbed")}
+              placeholder="https://www.google.com/maps/embed?..."
+              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
+            />
+          </div>
+        </div>
 
-              <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Google Maps Embed link (Iframe Src)</label>
-                <textarea
-                  rows={4}
-                  disabled={isPending}
-                  {...register("googleMapsEmbed")}
-                  placeholder="https://www.google.com/maps/embed?..."
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
-                />
-              </div>
+        {/* 3. Socials */}
+        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-lg space-y-6">
+          <div className="flex items-center space-x-2 border-b border-slate-800 pb-4">
+            <Share2 className="w-5 h-5 text-accent" />
+            <h2 className="text-lg font-bold text-white">Social Media Links</h2>
+          </div>
 
-              <div className="pt-4 text-right">
-                <Button type="submit" disabled={isPending} className="bg-accent hover:bg-accent-hover text-dark font-bold px-6 py-2 rounded-xl text-sm">
-                  {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save Hours & Maps"}
-                </Button>
-              </div>
-            </form>
-          </TabsContent>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Facebook Link</label>
+              <input
+                type="text"
+                disabled={isPending}
+                {...register("socialLinks.facebook")}
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
+              />
+            </div>
 
-          {/* 3. Socials Tab */}
-          <TabsContent value="socials" className="space-y-4 pt-2">
-            <form onSubmit={handleSubmit(onSubmitSettings)} className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Facebook Link</label>
-                  <input
-                    type="text"
-                    disabled={isPending}
-                    {...register("socialLinks.facebook")}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
-                  />
-                </div>
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Instagram Link</label>
+              <input
+                type="text"
+                disabled={isPending}
+                {...register("socialLinks.instagram")}
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
+              />
+            </div>
+          </div>
 
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Instagram Link</label>
-                  <input
-                    type="text"
-                    disabled={isPending}
-                    {...register("socialLinks.instagram")}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
-                  />
-                </div>
-              </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Twitter Link</label>
+              <input
+                type="text"
+                disabled={isPending}
+                {...register("socialLinks.twitter")}
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
+              />
+            </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Twitter Link</label>
-                  <input
-                    type="text"
-                    disabled={isPending}
-                    {...register("socialLinks.twitter")}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
-                  />
-                </div>
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">LinkedIn Link</label>
+              <input
+                type="text"
+                disabled={isPending}
+                {...register("socialLinks.linkedin")}
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
+              />
+            </div>
+          </div>
+        </div>
 
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">LinkedIn Link</label>
-                  <input
-                    type="text"
-                    disabled={isPending}
-                    {...register("socialLinks.linkedin")}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
-                  />
-                </div>
-              </div>
+        {/* 4. SEO Config */}
+        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-lg space-y-6">
+          <div className="flex items-center space-x-2 border-b border-slate-800 pb-4">
+            <Search className="w-5 h-5 text-accent" />
+            <h2 className="text-lg font-bold text-white">SEO Configuration</h2>
+          </div>
 
-              <div className="pt-4 text-right">
-                <Button type="submit" disabled={isPending} className="bg-accent hover:bg-accent-hover text-dark font-bold px-6 py-2 rounded-xl text-sm">
-                  {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save Social Links"}
-                </Button>
-              </div>
-            </form>
-          </TabsContent>
+          <div className="space-y-1">
+            <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Default Meta Title</label>
+            <input
+              type="text"
+              disabled={isPending}
+              {...register("seoMetadata.title")}
+              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
+            />
+          </div>
 
-          {/* 4. SEO Config Tab */}
-          <TabsContent value="seo" className="space-y-4 pt-2">
-            <form onSubmit={handleSubmit(onSubmitSettings)} className="space-y-4">
-              <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Default Meta Title</label>
-                <input
-                  type="text"
-                  disabled={isPending}
-                  {...register("seoMetadata.title")}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
-                />
-              </div>
+          <div className="space-y-1">
+            <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Default Meta Description</label>
+            <textarea
+              rows={3}
+              disabled={isPending}
+              {...register("seoMetadata.description")}
+              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
+            />
+          </div>
 
-              <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Default Meta Description</label>
-                <textarea
-                  rows={3}
-                  disabled={isPending}
-                  {...register("seoMetadata.description")}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
-                />
-              </div>
+          <div className="space-y-1">
+            <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Default Meta Keywords (comma separated)</label>
+            <input
+              type="text"
+              disabled={isPending}
+              {...register("seoMetadata.keywords")}
+              placeholder="waterproofing, wooden flooring, pvc"
+              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
+            />
+          </div>
+        </div>
 
-              <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Default Meta Keywords (comma separated)</label>
-                <input
-                  type="text"
-                  disabled={isPending}
-                  {...register("seoMetadata.keywords")}
-                  placeholder="waterproofing, wooden flooring, pvc"
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
-                />
-              </div>
+        {/* Unified Save Button */}
+        <div className="flex justify-end pt-4">
+          <Button
+            type="submit"
+            disabled={isPending}
+            className="bg-accent hover:bg-accent-hover text-dark font-bold px-8 py-3.5 rounded-xl text-sm flex items-center space-x-2 transition-all duration-200 hover:scale-[1.02]"
+          >
+            {isPending ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <>
+                <span>Save All Settings</span>
+                <Save className="w-4 h-4" />
+              </>
+            )}
+          </Button>
+        </div>
 
-              <div className="pt-4 text-right">
-                <Button type="submit" disabled={isPending} className="bg-accent hover:bg-accent-hover text-dark font-bold px-6 py-2 rounded-xl text-sm">
-                  {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save SEO Configurations"}
-                </Button>
-              </div>
-            </form>
-          </TabsContent>
-
-        </Tabs>
-      </div>
+      </form>
     </div>
   );
 }
