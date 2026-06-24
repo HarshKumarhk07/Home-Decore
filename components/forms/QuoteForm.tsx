@@ -211,8 +211,8 @@ export default function QuoteForm() {
             disabled={isPending}
             placeholder="John Doe"
             {...register("customerName")}
-            className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 ${
-              errors.customerName ? "border-red-500 focus:ring-red-500" : "border-slate-200 focus:ring-primary"
+            className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+              errors.customerName ? "border-red-500 focus:ring-red-500" : "border-slate-200"
             }`}
           />
           {errors.customerName && <p className="text-xs text-red-500 font-semibold">{errors.customerName.message}</p>}
@@ -228,8 +228,8 @@ export default function QuoteForm() {
             disabled={isPending}
             placeholder="+91 99999 99999"
             {...register("phone")}
-            className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 ${
-              errors.phone ? "border-red-500 focus:ring-red-500" : "border-slate-200 focus:ring-primary"
+            className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+              errors.phone ? "border-red-500 focus:ring-red-500" : "border-slate-200"
             }`}
           />
           {errors.phone && <p className="text-xs text-red-500 font-semibold">{errors.phone.message}</p>}
@@ -245,8 +245,8 @@ export default function QuoteForm() {
             disabled={isPending}
             placeholder="john@example.com"
             {...register("email")}
-            className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 ${
-              errors.email ? "border-red-500 focus:ring-red-500" : "border-slate-200 focus:ring-primary"
+            className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+              errors.email ? "border-red-500 focus:ring-red-500" : "border-slate-200"
             }`}
           />
           {errors.email && <p className="text-xs text-red-500 font-semibold">{errors.email.message}</p>}
@@ -265,8 +265,8 @@ export default function QuoteForm() {
             disabled={isPending}
             placeholder="Noida / Delhi / Gurugram"
             {...register("city")}
-            className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 ${
-              errors.city ? "border-red-500 focus:ring-red-500" : "border-slate-200 focus:ring-primary"
+            className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+              errors.city ? "border-red-500 focus:ring-red-500" : "border-slate-200"
             }`}
           />
           {errors.city && <p className="text-xs text-red-500 font-semibold">{errors.city.message}</p>}
@@ -282,8 +282,8 @@ export default function QuoteForm() {
             disabled={isPending}
             placeholder="Flat/House No, Building, Area details..."
             {...register("address")}
-            className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 ${
-              errors.address ? "border-red-500 focus:ring-red-500" : "border-slate-200 focus:ring-primary"
+            className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+              errors.address ? "border-red-500 focus:ring-red-500" : "border-slate-200"
             }`}
           />
           {errors.address && <p className="text-xs text-red-500 font-semibold">{errors.address.message}</p>}
@@ -300,7 +300,7 @@ export default function QuoteForm() {
             id="service"
             disabled={isPending}
             {...register("service")}
-            className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-primary bg-white"
+            className="w-full border border-slate-200 rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 bg-white transition-all duration-200"
           >
             <option value="Waterproofing">Waterproofing Solutions</option>
             <option value="Wooden Flooring">Wooden Flooring</option>
@@ -317,7 +317,7 @@ export default function QuoteForm() {
               id="subService"
               disabled={isPending}
               {...register("subService")}
-              className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-primary bg-white"
+              className="w-full border border-slate-200 rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 bg-white transition-all duration-200"
             >
               {subCategories.map((sub: string) => (
                 <option key={sub} value={sub}>
@@ -336,7 +336,7 @@ export default function QuoteForm() {
             id="propertyType"
             disabled={isPending}
             {...register("propertyType")}
-            className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-primary bg-white"
+            className="w-full border border-slate-200 rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 bg-white transition-all duration-200"
           >
             <option value="Residential">Residential</option>
             <option value="Commercial">Commercial</option>
@@ -354,8 +354,8 @@ export default function QuoteForm() {
             disabled={isPending}
             placeholder="1200"
             {...register("area")}
-            className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 ${
-              errors.area ? "border-red-500 focus:ring-red-500" : "border-slate-200 focus:ring-primary"
+            className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+              errors.area ? "border-red-500 focus:ring-red-500" : "border-slate-200"
             }`}
           />
           {errors.area && <p className="text-xs text-red-500 font-semibold">{errors.area.message}</p>}
@@ -371,8 +371,8 @@ export default function QuoteForm() {
             disabled={isPending}
             placeholder="50000"
             {...register("budget")}
-            className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 ${
-              errors.budget ? "border-red-500 focus:ring-red-500" : "border-slate-200 focus:ring-primary"
+            className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+              errors.budget ? "border-red-500 focus:ring-red-500" : "border-slate-200"
             }`}
           />
           {errors.budget && <p className="text-xs text-red-500 font-semibold">{errors.budget.message}</p>}
@@ -391,8 +391,8 @@ export default function QuoteForm() {
             disabled={isPending}
             min={new Date().toISOString().split("T")[0]}
             {...register("preferredDate")}
-            className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 ${
-              errors.preferredDate ? "border-red-500 focus:ring-red-500" : "border-slate-200 focus:ring-primary"
+            className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+              errors.preferredDate ? "border-red-500 focus:ring-red-500" : "border-slate-200"
             }`}
           />
           {errors.preferredDate && <p className="text-xs text-red-500 font-semibold">{errors.preferredDate.message}</p>}
@@ -406,7 +406,7 @@ export default function QuoteForm() {
             id="preferredTime"
             disabled={isPending}
             {...register("preferredTime")}
-            className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-primary bg-white"
+            className="w-full border border-slate-200 rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 bg-white transition-all duration-200"
           >
             {timeSlots.map((slot) => (
               <option key={slot} value={slot}>
@@ -429,7 +429,7 @@ export default function QuoteForm() {
             disabled={isPending || selectedFiles.length >= 3}
             onClick={() => fileInputRef.current?.click()}
             variant="outline"
-            className="w-full sm:w-auto border-dashed border-slate-350 hover:bg-slate-50 rounded-xl py-6 px-6 flex items-center space-x-2 text-slate-650 cursor-pointer"
+            className="w-full sm:w-auto border-dashed border-slate-350 hover:bg-slate-50 rounded-none py-6 px-6 flex items-center space-x-2 text-slate-650 cursor-pointer"
           >
             <UploadCloud className="w-5 h-5 text-accent shrink-0" />
             <span>Select Images</span>
@@ -451,12 +451,12 @@ export default function QuoteForm() {
         {previews.length > 0 && (
           <div className="grid grid-cols-3 gap-4 pt-2 max-w-md">
             {previews.map((preview, index) => (
-              <div key={index} className="relative h-20 rounded-xl overflow-hidden border border-slate-100 shadow-sm group">
+              <div key={index} className="relative h-20 rounded-none overflow-hidden border border-slate-100 shadow-sm group">
                 <img src={preview} alt="Attached Preview" className="w-full h-full object-cover" />
                 <button
                   type="button"
                   onClick={() => removeFile(index)}
-                  className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full hover:bg-red-650 shadow transition-colors"
+                  className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-none hover:bg-red-650 shadow transition-colors"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
@@ -477,7 +477,7 @@ export default function QuoteForm() {
           disabled={isPending}
           placeholder="E.g., Seepage symptoms, preferred colors, wood texture preferences..."
           {...register("message")}
-          className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+          className="w-full border border-slate-200 rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200"
         />
       </div>
 
@@ -485,7 +485,7 @@ export default function QuoteForm() {
       <Button
         type="submit"
         disabled={isPending}
-        className="w-full bg-primary hover:bg-primary-hover text-white rounded-xl py-4 font-bold text-sm shadow-md transition-colors"
+        className="w-full bg-primary hover:bg-primary-hover text-white rounded-none py-4 font-bold text-sm shadow-md transition-colors cursor-pointer"
       >
         {isPending ? (
           <>

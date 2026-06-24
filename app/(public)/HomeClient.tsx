@@ -218,7 +218,7 @@ export default function HomeClient({ projects, testimonials, faqs, settings }: H
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
-                className="bg-white/95 backdrop-blur-md border border-slate-100 rounded-none p-6 sm:p-8 shadow-2xl text-slate-900"
+                className="bg-white/90 backdrop-blur-xl border border-slate-200/50 rounded-none p-6 sm:p-8 shadow-[0_20px_50px_rgba(30,64,175,0.18)] text-slate-900 transition-all duration-300 hover:shadow-[0_20px_50px_rgba(30,64,175,0.25)]"
               >
                 <div className="mb-4">
                   <h3 className="font-serif text-xl sm:text-2xl font-bold text-primary mb-1">Book Free Site Inspection</h3>
@@ -256,9 +256,9 @@ export default function HomeClient({ projects, testimonials, faqs, settings }: H
           >
             {services.map((svc, idx) => (
               <motion.div key={idx} variants={itemVariants} className="h-full">
-                <Card className="overflow-hidden border border-slate-200/80 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col h-full bg-white rounded-2xl pt-0 pb-0 gap-0">
-                  <div className="relative h-56 w-full">
-                    <Image src={svc.bg} alt={svc.title} fill className="object-cover" />
+                <Card className="group relative overflow-hidden border border-slate-200/80 shadow-md hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col h-full bg-white rounded-2xl pt-0 pb-0 gap-0">
+                  <div className="relative h-56 w-full overflow-hidden">
+                    <Image src={svc.bg} alt={svc.title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent"></div>
                     <h3 className="absolute bottom-4 left-6 text-white font-serif text-2xl font-bold">{svc.title}</h3>
                   </div>
@@ -275,7 +275,7 @@ export default function HomeClient({ projects, testimonials, faqs, settings }: H
                       </ul>
                     </div>
                     <div className="pt-6">
-                      <Button asChild className="w-full bg-slate-900 hover:bg-primary text-white font-semibold rounded-xl transition-colors duration-300 text-xs sm:text-sm">
+                      <Button asChild className="w-full bg-slate-900 hover:bg-primary text-white font-bold rounded-xl transition-all duration-300 text-xs sm:text-sm hover:shadow-[0_4px_12px_rgba(30,64,175,0.2)]">
                         <Link href={svc.href}>
                           <span>Explore</span>
                           <span className="hidden sm:inline"> {svc.title}</span>
@@ -322,44 +322,131 @@ export default function HomeClient({ projects, testimonials, faqs, settings }: H
       </section>
 
       {/* WHY CHOOSE US */}
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
-            className="text-center max-w-3xl mx-auto mb-16 space-y-4"
-          >
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-primary">
-              Why Home Decorater is the Standard
-            </h2>
-            <p className="text-slate-600">
-              We do not believe in short-cuts. We analyze the chemical properties of structural leakage and substrates to perform long-lasting modifications.
-            </p>
-          </motion.div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            
+            {/* Left Column: Heading, description, action links */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6 }}
+              className="lg:col-span-5 space-y-6"
+            >
+              <span className="text-sm font-semibold tracking-wider text-primary uppercase block">
+                Why Home Decorator?
+              </span>
+              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-primary leading-tight">
+                Why Home Decorator is the Standard
+              </h2>
+              <p className="text-slate-650 text-sm sm:text-base leading-relaxed">
+                We do not believe in short-cuts. We analyze the chemical properties of structural leakage and substrates to perform long-lasting modifications.
+              </p>
+              
+              <div className="w-16 h-[2px] bg-accent"></div>
+              
+              <div className="flex flex-wrap gap-x-8 gap-y-3 pt-2">
+                <Link
+                  href="/quote"
+                  className="inline-flex items-center text-sm font-bold text-primary hover:text-accent group transition-colors duration-200"
+                >
+                  <span>Get Free Quote</span>
+                  <ArrowRight className="w-4 h-4 ml-1.5 transition-transform group-hover:translate-x-1" />
+                </Link>
+                <Link
+                  href="/inspection"
+                  className="inline-flex items-center text-sm font-bold text-primary hover:text-accent group transition-colors duration-200"
+                >
+                  <span>Book a Service</span>
+                  <ArrowRight className="w-4 h-4 ml-1.5 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </div>
+            </motion.div>
 
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8"
-          >
-            {whyChooseUs.map((item, idx) => (
-              <motion.div
-                key={idx}
-                variants={itemVariants}
-                className="p-6 rounded-2xl bg-white border border-slate-100 hover:border-primary/20 shadow-sm hover:shadow-md transition-all duration-300 group"
-              >
-                <div className="p-3 bg-primary-light rounded-xl w-fit mb-4 group-hover:scale-110 transition-transform duration-300">
-                  {item.icon}
-                </div>
-                <h3 className="font-serif text-lg font-bold text-primary mb-2">{item.title}</h3>
-                <p className="text-sm text-slate-600 leading-relaxed">{item.desc}</p>
-              </motion.div>
-            ))}
-          </motion.div>
+            {/* Right Column: 2-column features grid with line dividers */}
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-x-10 md:gap-y-12 relative"
+            >
+              {/* Left feature column */}
+              <div className="space-y-10">
+                {/* Feature 1 */}
+                <motion.div variants={itemVariants} className="flex items-start space-x-4 sm:space-x-5 group pb-8 border-b border-slate-300">
+                  <div className="relative w-14 h-14 rounded-none overflow-hidden shrink-0 border border-slate-200/80 shadow-sm group-hover:scale-105 transition-all duration-350 bg-white">
+                    <Image
+                      src="/Scientific Moisture Testing logo.jpg"
+                      alt={whyChooseUs[0].title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <h3 className="font-serif text-base sm:text-lg font-bold text-primary tracking-tight leading-snug">{whyChooseUs[0].title}</h3>
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">{whyChooseUs[0].desc}</p>
+                  </div>
+                </motion.div>
+
+                {/* Feature 2 */}
+                <motion.div variants={itemVariants} className="flex items-start space-x-4 sm:space-x-5 group">
+                  <div className="relative w-14 h-14 rounded-none overflow-hidden shrink-0 border border-slate-200/80 shadow-sm group-hover:scale-105 transition-all duration-350 bg-white">
+                    <Image
+                      src="/Written Long-term Warranty.jpg"
+                      alt={whyChooseUs[1].title}
+                      fill
+                      className="object-contain p-1"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <h3 className="font-serif text-base sm:text-lg font-bold text-primary tracking-tight leading-snug">{whyChooseUs[1].title}</h3>
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">{whyChooseUs[1].desc}</p>
+                  </div>
+                </motion.div>
+              </div>
+
+              {/* Vertical line divider on tablet/desktop */}
+              <div className="hidden md:block absolute top-0 bottom-0 left-1/2 w-[1px] bg-slate-300 -translate-x-1/2" />
+
+              {/* Right feature column */}
+              <div className="space-y-10 md:pl-6 lg:pl-8">
+                {/* Feature 3 */}
+                <motion.div variants={itemVariants} className="flex items-start space-x-4 sm:space-x-5 group pb-8 border-b border-slate-300">
+                  <div className="relative w-14 h-14 rounded-none overflow-hidden shrink-0 border border-slate-200/80 shadow-sm group-hover:scale-105 transition-all duration-350 bg-white">
+                    <Image
+                      src="/Expert Trained Crews.jpg"
+                      alt={whyChooseUs[2].title}
+                      fill
+                      className="object-contain p-1"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <h3 className="font-serif text-base sm:text-lg font-bold text-primary tracking-tight leading-snug">{whyChooseUs[2].title}</h3>
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">{whyChooseUs[2].desc}</p>
+                  </div>
+                </motion.div>
+
+                {/* Feature 4 */}
+                <motion.div variants={itemVariants} className="flex items-start space-x-4 sm:space-x-5 group">
+                  <div className="relative w-14 h-14 rounded-none overflow-hidden shrink-0 border border-slate-200/80 shadow-sm group-hover:scale-105 transition-all duration-350 bg-white">
+                    <Image
+                      src="/transparent-billing.jpg"
+                      alt={whyChooseUs[3].title}
+                      fill
+                      className="object-contain p-1"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <h3 className="font-serif text-base sm:text-lg font-bold text-primary tracking-tight leading-snug">{whyChooseUs[3].title}</h3>
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">{whyChooseUs[3].desc}</p>
+                  </div>
+                </motion.div>
+              </div>
+
+            </motion.div>
+          </div>
         </div>
       </section>
 
@@ -514,13 +601,16 @@ export default function HomeClient({ projects, testimonials, faqs, settings }: H
               <motion.div
                 key={idx}
                 variants={itemVariants}
-                className="relative group p-6 rounded-2xl bg-slate-50 hover:bg-white border border-slate-100 hover:border-primary/10 transition-all duration-300 shadow-sm"
+                className="relative group p-8 rounded-3xl bg-slate-50 hover:bg-white border border-slate-100 hover:border-primary/10 transition-all duration-300 shadow-sm hover:shadow-[0_20px_40px_rgba(30,64,175,0.05)] hover:-translate-y-1.5"
               >
-                <span className="font-serif text-5xl font-black text-slate-200 group-hover:text-accent/30 transition-colors duration-300 block mb-4">
+                <span className="font-serif text-6xl font-black bg-gradient-to-r from-slate-200 to-slate-300 bg-clip-text text-transparent group-hover:from-accent/30 group-hover:to-accent/10 transition-all duration-300 block mb-5 select-none">
                   {step.num}
                 </span>
                 <h3 className="font-serif text-lg font-bold text-primary mb-2">{step.title}</h3>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">{step.desc}</p>
+                {idx < 3 && (
+                  <div className="hidden lg:block absolute top-1/2 -right-4 w-8 h-[2px] bg-slate-200/60 z-10 group-hover:bg-accent/40 transition-colors duration-300" />
+                )}
               </motion.div>
             ))}
           </motion.div>
@@ -669,7 +759,7 @@ export default function HomeClient({ projects, testimonials, faqs, settings }: H
 
       {/* Pop-up Site Inspection Form on website load */}
       <Dialog open={isPopupOpen} onOpenChange={setIsPopupOpen}>
-        <DialogContent className="sm:max-w-md p-6 max-h-[90vh] overflow-y-auto bg-white border border-slate-200 rounded-none">
+        <DialogContent className="sm:max-w-md p-6 max-h-[90vh] overflow-y-auto bg-white border border-slate-200/60 rounded-none shadow-2xl">
           <DialogHeader className="mb-2">
             <DialogTitle className="font-serif text-2xl font-bold text-primary">Book Free Site Inspection</DialogTitle>
             <DialogDescription className="text-slate-500 text-xs sm:text-sm">

@@ -20,7 +20,7 @@ export default function InspectionPage() {
           {/* Details Sidebar */}
           <div className="space-y-8 lg:col-span-1">
             <div className="space-y-4">
-              <span className="text-xs font-semibold uppercase tracking-wider text-accent bg-primary-light px-3 py-1 rounded-full text-primary">
+              <span className="text-xs font-semibold uppercase tracking-wider text-accent bg-primary-light px-3 py-1 rounded-none text-primary">
                 Free Service
               </span>
               <h1 className="font-serif text-3xl sm:text-4xl font-extrabold text-primary leading-tight">
@@ -33,8 +33,8 @@ export default function InspectionPage() {
 
             <div className="space-y-6 pt-4 border-t border-slate-200">
               {valueProps.map((prop, idx) => (
-                <div key={idx} className="flex items-start space-x-3 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
-                  <div className="p-2 bg-primary-light rounded-xl text-primary shrink-0">
+                <div key={idx} className="flex items-start space-x-3 bg-white p-4 rounded-none border border-slate-100 shadow-sm">
+                  <div className="p-2 bg-primary-light rounded-none text-primary shrink-0">
                     {prop.icon}
                   </div>
                   <div>
@@ -47,7 +47,7 @@ export default function InspectionPage() {
           </div>
 
           {/* Form Card */}
-          <div className="lg:col-span-2 bg-white border border-slate-100 rounded-3xl p-6 sm:p-10 shadow-sm">
+          <div className="lg:col-span-2 bg-white border border-slate-100 rounded-none p-6 sm:p-10 shadow-sm">
             <h3 className="font-serif text-2xl font-bold text-primary mb-6">Inspection Details</h3>
             <InspectionForm />
           </div>

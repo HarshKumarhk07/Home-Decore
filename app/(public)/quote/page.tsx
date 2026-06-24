@@ -18,7 +18,7 @@ export default function QuotePage() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <span className="text-xs font-semibold uppercase tracking-wider text-accent bg-primary-light px-3 py-1 rounded-full text-primary">
+          <span className="text-xs font-semibold uppercase tracking-wider text-accent bg-primary-light px-3 py-1 rounded-none text-primary">
             Request Callback
           </span>
           <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary leading-tight">
@@ -30,15 +30,15 @@ export default function QuotePage() {
         </div>
 
         {/* Form Container */}
-        <div className="bg-white border border-slate-100 rounded-3xl p-6 sm:p-10 shadow-sm space-y-8">
+        <div className="bg-white border border-slate-100 rounded-none p-6 sm:p-10 shadow-sm space-y-8">
           <QuoteForm />
         </div>
 
         {/* Bottom Trust Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto pt-4">
           {trustMetrics.map((metric, idx) => (
-            <div key={idx} className="flex items-center space-x-3 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
-              <div className="p-2 bg-primary-light rounded-xl text-primary shrink-0">
+            <div key={idx} className="flex items-center space-x-3 bg-white p-4 rounded-none border border-slate-100 shadow-sm">
+              <div className="p-2 bg-primary-light rounded-none text-primary shrink-0">
                 {metric.icon}
               </div>
               <span className="text-xs font-semibold text-slate-700 leading-snug">{metric.text}</span>

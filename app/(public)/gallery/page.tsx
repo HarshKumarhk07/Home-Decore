@@ -15,7 +15,23 @@ export default async function GalleryPage() {
 
   try {
     await connectToDatabase();
-    const dbItems = await Gallery.find({}).sort({ createdAt: -1 }).lean();
+    let dbItems = await Gallery.find({}).sort({ createdAt: -1 }).lean();
+    
+    // Seed default items into the database if empty
+    if (dbItems.length === 0) {
+      const itemsToInsert = fallbackGallery.map((item) => ({
+        ...item,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }));
+      try {
+        await Gallery.insertMany(itemsToInsert);
+        dbItems = await Gallery.find({}).sort({ createdAt: -1 }).lean();
+      } catch (seedErr) {
+        console.error("Failed to seed fallback gallery items:", seedErr);
+      }
+    }
+
     items = dbItems.map((item: any) => ({
       ...item,
       _id: item._id.toString(),

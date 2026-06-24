@@ -64,10 +64,10 @@ export default function AdminLoginPage() {
       <div className="absolute top-1/4 left-1/4 w-80 h-80 bg-primary/20 rounded-full blur-[100px] pointer-events-none"></div>
       <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent/15 rounded-full blur-[100px] pointer-events-none"></div>
 
-      <div className="relative z-10 w-full max-w-md bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-3xl p-8 sm:p-10 shadow-2xl space-y-6 text-white">
+      <div className="relative z-10 w-full max-w-md bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-none p-8 sm:p-10 shadow-2xl space-y-6 text-white">
         {/* Header */}
         <div className="text-center space-y-2">
-          <div className="p-3 bg-primary/25 border border-primary/20 rounded-2xl w-fit mx-auto text-accent">
+          <div className="p-3 bg-primary/25 border border-primary/20 rounded-none w-fit mx-auto text-accent">
             <Lock className="w-6 h-6" />
           </div>
           <span className="font-serif text-2xl font-bold tracking-tight block pt-2">
@@ -79,7 +79,7 @@ export default function AdminLoginPage() {
         </div>
 
         {errorMsg && (
-          <div className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-xl flex items-center space-x-2 text-xs font-semibold">
+          <div className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-none flex items-center space-x-2 text-xs font-semibold">
             <ShieldAlert className="w-5 h-5 shrink-0" />
             <span>{errorMsg}</span>
           </div>
@@ -102,7 +102,7 @@ export default function AdminLoginPage() {
                 disabled={isPending}
                 placeholder="admin@homedecorater.in"
                 {...register("email")}
-                className={`w-full bg-slate-950/80 border rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-100 placeholder-slate-650 focus:outline-none focus:ring-1 focus:ring-accent ${
+                className={`w-full bg-slate-950/80 border rounded-none pl-10 pr-4 py-2.5 text-sm text-slate-100 placeholder-slate-650 focus:outline-none focus:ring-1 focus:ring-accent ${
                   errors.email ? "border-red-500" : "border-slate-800"
                 }`}
               />
@@ -125,7 +125,7 @@ export default function AdminLoginPage() {
                 disabled={isPending}
                 placeholder="••••••••"
                 {...register("password")}
-                className={`w-full bg-slate-950/80 border rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-100 placeholder-slate-650 focus:outline-none focus:ring-1 focus:ring-accent ${
+                className={`w-full bg-slate-950/80 border rounded-none pl-10 pr-4 py-2.5 text-sm text-slate-100 placeholder-slate-650 focus:outline-none focus:ring-1 focus:ring-accent ${
                   errors.password ? "border-red-500" : "border-slate-800"
                 }`}
               />
@@ -149,7 +149,7 @@ export default function AdminLoginPage() {
                 disabled={isPending}
                 placeholder="••••"
                 {...register("securityPin")}
-                className={`w-full bg-slate-950/80 border rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-100 placeholder-slate-650 focus:outline-none focus:ring-1 focus:ring-accent ${
+                className={`w-full bg-slate-950/80 border rounded-none pl-10 pr-4 py-2.5 text-sm text-slate-100 placeholder-slate-650 focus:outline-none focus:ring-1 focus:ring-accent ${
                   errors.securityPin ? "border-red-500" : "border-slate-800"
                 }`}
               />
@@ -161,7 +161,7 @@ export default function AdminLoginPage() {
           <Button
             type="submit"
             disabled={isPending}
-            className="w-full bg-accent hover:bg-accent-hover text-dark font-bold rounded-xl py-3 text-sm transition-all duration-300 mt-2 cursor-pointer"
+            className="w-full bg-accent hover:bg-accent-hover text-dark font-bold rounded-none py-3 text-sm transition-all duration-300 mt-2 cursor-pointer"
           >
             {isPending ? (
               <>

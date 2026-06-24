@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { connectToDatabase } from "@/lib/mongodb";
 import Gallery from "@/models/Gallery";
 import GalleryClient from "./GalleryClient";
+import { fallbackGallery } from "@/lib/fallbackData";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +17,19 @@ export default async function AdminGalleryPage() {
   let photosList: any[] = [];
   try {
     await connectToDatabase();
-    const dbPhotos = await Gallery.find({}).sort({ createdAt: -1 }).lean();
+    let dbPhotos = await Gallery.find({}).sort({ createdAt: -1 }).lean();
+    
+    // Seed default items into the database if the collection is empty
+    if (dbPhotos.length === 0) {
+      const itemsToInsert = fallbackGallery.map((item) => ({
+        ...item,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }));
+      await Gallery.insertMany(itemsToInsert);
+      dbPhotos = await Gallery.find({}).sort({ createdAt: -1 }).lean();
+    }
+
     photosList = dbPhotos.map((p: any) => ({
       ...p,
       _id: p._id.toString(),

@@ -61,8 +61,8 @@ export default function ContactForm() {
             disabled={isPending}
             placeholder="John Doe"
             {...register("name")}
-            className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 ${
-              errors.name ? "border-red-500 focus:ring-red-500" : "border-slate-200 focus:ring-primary"
+            className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+              errors.name ? "border-red-500 focus:ring-red-500" : "border-slate-200"
             }`}
           />
           {errors.name && <p className="text-xs text-red-500 font-semibold">{errors.name.message}</p>}
@@ -79,8 +79,8 @@ export default function ContactForm() {
             disabled={isPending}
             placeholder="+91 99999 99999"
             {...register("phone")}
-            className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 ${
-              errors.phone ? "border-red-500 focus:ring-red-500" : "border-slate-200 focus:ring-primary"
+            className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+              errors.phone ? "border-red-500 focus:ring-red-500" : "border-slate-200"
             }`}
           />
           {errors.phone && <p className="text-xs text-red-500 font-semibold">{errors.phone.message}</p>}
@@ -98,8 +98,8 @@ export default function ContactForm() {
           disabled={isPending}
           placeholder="john@example.com"
           {...register("email")}
-          className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 ${
-            errors.email ? "border-red-500 focus:ring-red-500" : "border-slate-200 focus:ring-primary"
+          className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+            errors.email ? "border-red-500 focus:ring-red-500" : "border-slate-200"
           }`}
         />
         {errors.email && <p className="text-xs text-red-500 font-semibold">{errors.email.message}</p>}
@@ -116,8 +116,8 @@ export default function ContactForm() {
           disabled={isPending}
           placeholder="Service Inquiry"
           {...register("subject")}
-          className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 ${
-            errors.subject ? "border-red-500 focus:ring-red-500" : "border-slate-200 focus:ring-primary"
+          className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+            errors.subject ? "border-red-500 focus:ring-red-500" : "border-slate-200"
           }`}
         />
         {errors.subject && <p className="text-xs text-red-500 font-semibold">{errors.subject.message}</p>}
@@ -134,8 +134,8 @@ export default function ContactForm() {
           disabled={isPending}
           placeholder="Tell us about your requirements..."
           {...register("message")}
-          className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 ${
-            errors.message ? "border-red-500 focus:ring-red-500" : "border-slate-200 focus:ring-primary"
+          className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+            errors.message ? "border-red-500 focus:ring-red-500" : "border-slate-200"
           }`}
         />
         {errors.message && <p className="text-xs text-red-500 font-semibold">{errors.message.message}</p>}
@@ -145,7 +145,7 @@ export default function ContactForm() {
       <Button
         type="submit"
         disabled={isPending}
-        className="w-full bg-primary hover:bg-primary-hover text-white rounded-xl py-3 font-semibold text-sm transition-colors duration-300"
+        className="w-full bg-primary hover:bg-primary-hover text-white rounded-none py-3 font-semibold text-sm transition-colors duration-300 cursor-pointer"
       >
         {isPending ? (
           <>

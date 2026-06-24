@@ -90,10 +90,10 @@ export const fallbackFaqs = [
 ];
 
 export const fallbackGallery = [
-  { title: "Terrace Waterproofing Undercoat", category: "waterproofing", imageUrl: "/waterproofing.jpg" },
-  { title: "Basement Chemical Injection Grouting", category: "waterproofing", imageUrl: "/waterproofing.jpg" },
+  { title: "Terrace Waterproofing Undercoat", category: "waterproofing", imageUrl: "/Terrace Waterproofing.jpg" },
+  { title: "Basement Chemical Injection Grouting", category: "waterproofing", imageUrl: "/Basement & Retaining Wall Grouting.jpg" },
   { title: "Premium Oak Laminate Installation", category: "wooden-flooring", imageUrl: "/wooden flooring.jpg" },
-  { title: "Eco-Friendly SPC Vinyl Kitchen Flooring", category: "wooden-flooring", imageUrl: "/wooden flooring.jpg" },
-  { title: "Waterproof PVC Wall Cladding", category: "pvc", imageUrl: "/PVC (Polyvinyl Chloride).jpg" },
-  { title: "Seamless PVC Roll Flooring", category: "pvc", imageUrl: "/PVC (Polyvinyl Chloride).jpg" }
+  { title: "Eco-Friendly SPC Vinyl Kitchen Flooring", category: "wooden-flooring", imageUrl: "/Engineered Wood Flooring.jpeg" },
+  { title: "Waterproof PVC Wall Cladding", category: "pvc", imageUrl: "/PVC Wall Panels & Cladding.jpg" },
+  { title: "Seamless PVC Roll Flooring", category: "pvc", imageUrl: "/Roll & Sheet PVC Flooring.jpg" }
 ];

@@ -128,7 +128,7 @@ export default function GalleryClient({ initialPhotos }: GalleryClientProps) {
               <span>Add Photo</span>
             </Button>
           </DialogTrigger>
-          <DialogContent className="bg-slate-900 border-slate-800 text-slate-100 rounded-3xl p-6 sm:p-8">
+          <DialogContent className="bg-slate-900 border-slate-800 text-slate-100 rounded-none p-6 sm:p-8">
             <DialogHeader>
               <DialogTitle className="font-serif text-lg font-bold text-white">Add Photo to Gallery</DialogTitle>
             </DialogHeader>
@@ -140,7 +140,7 @@ export default function GalleryClient({ initialPhotos }: GalleryClientProps) {
                   placeholder="E.g., Terrace Chemical Coating"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-none px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
                 />
               </div>
 
@@ -149,7 +149,7 @@ export default function GalleryClient({ initialPhotos }: GalleryClientProps) {
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent bg-slate-950"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-none px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent bg-slate-950"
                 >
                   <option value="waterproofing">Waterproofing</option>
                   <option value="wooden-flooring">Wooden Flooring</option>
@@ -165,7 +165,7 @@ export default function GalleryClient({ initialPhotos }: GalleryClientProps) {
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
                     variant="outline"
-                    className="border-dashed border-slate-800 hover:bg-slate-800/50 rounded-xl py-6 px-4 flex items-center space-x-2 text-xs text-slate-400 cursor-pointer"
+                    className="border-dashed border-slate-800 hover:bg-slate-800/50 rounded-none py-6 px-4 flex items-center space-x-2 text-xs text-slate-400 cursor-pointer"
                   >
                     <UploadCloud className="w-5 h-5 text-accent shrink-0" />
                     <span>Upload Image</span>
@@ -185,7 +185,7 @@ export default function GalleryClient({ initialPhotos }: GalleryClientProps) {
                 </div>
 
                 {previewUrl && (
-                  <div className="relative h-32 w-48 rounded-xl overflow-hidden border border-slate-800 mt-2 shadow group">
+                  <div className="relative h-32 w-48 rounded-none overflow-hidden border border-slate-800 mt-2 shadow group">
                     <img src={previewUrl} alt="Upload Preview" className="w-full h-full object-cover" />
                     <button
                       type="button"
@@ -205,7 +205,7 @@ export default function GalleryClient({ initialPhotos }: GalleryClientProps) {
               <Button
                 type="submit"
                 disabled={isPending}
-                className="w-full bg-accent hover:bg-accent-hover text-dark font-bold py-2.5 rounded-xl text-xs flex items-center justify-center cursor-pointer"
+                className="w-full bg-accent hover:bg-accent-hover text-dark font-bold py-2.5 rounded-none text-xs flex items-center justify-center cursor-pointer"
               >
                 {isPending ? (
                   <>

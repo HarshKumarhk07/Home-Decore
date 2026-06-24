@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown, Phone, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 const servicesList = [
   { name: "Waterproofing", href: "/services/waterproofing" },
@@ -65,7 +66,12 @@ export default function Header() {
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 bg-white opacity-100 border-b border-slate-200 shadow-md py-2 transition-all duration-300"
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b",
+        isScrolled
+          ? "bg-white/85 backdrop-blur-md border-slate-200/80 shadow-lg py-1"
+          : "bg-white/95 border-slate-100 shadow-sm py-2"
+      )}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
@@ -76,7 +82,10 @@ export default function Header() {
               alt="Home Decorater Logo"
               width={300}
               height={96}
-              className="h-20 lg:h-24 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+              className={cn(
+                "w-auto object-contain transition-all duration-300 group-hover:scale-105",
+                isScrolled ? "h-14 lg:h-16" : "h-16 lg:h-20"
+              )}
               priority
             />
           </Link>
@@ -85,34 +94,49 @@ export default function Header() {
           <nav className="hidden lg:flex items-center space-x-7">
             <Link
               href="/"
-              className={`text-sm font-medium transition-colors hover:text-accent ${
-                pathname === "/" ? "text-primary font-semibold" : "text-gray-700"
-              }`}
+              className={cn(
+                "relative py-1.5 text-sm font-semibold transition-colors duration-200 hover:text-primary group/nav",
+                pathname === "/" ? "text-primary" : "text-slate-600"
+              )}
             >
-              Home
+              <span>Home</span>
+              <span className={cn(
+                "absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300",
+                pathname === "/" ? "w-full" : "w-0 group-hover/nav:w-full"
+              )} />
             </Link>
             <Link
               href="/about"
-              className={`text-sm font-medium transition-colors hover:text-accent ${
-                pathname === "/about" ? "text-primary font-semibold" : "text-gray-700"
-              }`}
+              className={cn(
+                "relative py-1.5 text-sm font-semibold transition-colors duration-200 hover:text-primary group/nav",
+                pathname === "/about" ? "text-primary" : "text-slate-600"
+              )}
             >
-              About Us
+              <span>About Us</span>
+              <span className={cn(
+                "absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300",
+                pathname === "/about" ? "w-full" : "w-0 group-hover/nav:w-full"
+              )} />
             </Link>
 
             {/* Services Dropdown */}
             <div className="relative group">
               <button
-                className={`flex items-center space-x-1 text-sm font-medium transition-colors hover:text-accent ${
-                  pathname.startsWith("/services") ? "text-primary font-semibold" : "text-gray-700"
-                }`}
+                className={cn(
+                  "relative py-1.5 flex items-center space-x-1 text-sm font-semibold transition-colors duration-200 hover:text-primary group/nav",
+                  pathname.startsWith("/services") ? "text-primary" : "text-slate-600"
+                )}
               >
                 <span>Services</span>
-                <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
+                <ChevronDown className="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" />
+                <span className={cn(
+                  "absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300",
+                  pathname.startsWith("/services") ? "w-full" : "w-0 group-hover/nav:w-full"
+                )} />
               </button>
 
-              <div className="absolute left-0 mt-2 w-64 rounded-xl bg-white shadow-xl ring-1 ring-black/5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-1 group-hover:translate-y-0 z-50">
-                <div className="py-2 px-1 divide-y divide-slate-100">
+              <div className="absolute left-0 mt-3 w-64 rounded-2xl bg-white/95 backdrop-blur-md p-2 shadow-2xl border border-slate-100/50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                <div className="py-1 divide-y divide-slate-100">
                   {servicesList.map((service) => {
                     const subList =
                       service.name === "Waterproofing" ? settings?.waterproofingSubcategories :
@@ -120,17 +144,17 @@ export default function Header() {
                       service.name === "PVC (Polyvinyl Chloride)" ? settings?.pvcSubcategories : null;
 
                     return (
-                      <div key={service.name} className="py-2 first:pt-0 last:pb-0 px-2">
+                      <div key={service.name} className="py-2 first:pt-0 last:pb-0 px-1">
                         <Link
                           href={service.href}
-                          className={`block px-2 py-1 text-sm font-semibold rounded-lg hover:bg-primary-light hover:text-primary transition-colors ${
-                            pathname === service.href ? "bg-primary-light text-primary" : "text-gray-900"
+                          className={`block px-3 py-1.5 text-sm font-bold rounded-xl hover:bg-primary-light hover:text-primary transition-colors ${
+                            pathname === service.href ? "bg-primary-light text-primary" : "text-slate-800"
                           }`}
                         >
                           {service.name}
                         </Link>
                         {subList && subList.length > 0 && (
-                          <div className="mt-1 pl-3 space-y-0.5">
+                          <div className="mt-1 pl-3 space-y-0.5 border-l border-slate-100 ml-3">
                             {subList.map((sub: string) => (
                               <div
                                 key={sub}
@@ -153,24 +177,29 @@ export default function Header() {
               <Link
                 key={link.name}
                 href={link.href}
-                className={`text-sm font-medium transition-colors hover:text-accent ${
-                  pathname === link.href ? "text-primary font-semibold" : "text-gray-700"
-                }`}
+                className={cn(
+                  "relative py-1.5 text-sm font-semibold transition-colors duration-200 hover:text-primary group/nav",
+                  pathname === link.href ? "text-primary" : "text-slate-600"
+                )}
               >
-                {link.name}
+                <span>{link.name}</span>
+                <span className={cn(
+                  "absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300",
+                  pathname === link.href ? "w-full" : "w-0 group-hover/nav:w-full"
+                )} />
               </Link>
             ))}
           </nav>
 
           {/* Desktop Right Actions */}
-          <div className="hidden lg:flex items-center space-x-4">
-            <Link href="tel:+919999999999" className="flex items-center space-x-2 text-sm font-medium text-gray-700 hover:text-primary transition-colors">
-              <div className="p-2 bg-primary-light rounded-full text-primary">
+          <div className="hidden lg:flex items-center space-x-5">
+            <Link href="tel:+919999999999" className="flex items-center space-x-2 text-sm font-bold text-slate-700 hover:text-primary group transition-colors duration-200">
+              <div className="p-2 bg-primary-light group-hover:bg-primary group-hover:text-white rounded-full text-primary transition-all duration-300">
                 <Phone className="w-4 h-4" />
               </div>
-              <span className="font-semibold">+91 99999 99999</span>
+              <span className="font-bold">+91 99999 99999</span>
             </Link>
-            <Button asChild className="bg-primary hover:bg-primary-hover text-white font-semibold shadow-md border border-primary/20 rounded-xl px-5">
+            <Button asChild className="bg-gradient-to-r from-primary to-blue-700 hover:from-blue-700 hover:to-primary text-white font-bold shadow-[0_4px_14px_rgba(30,64,175,0.25)] hover:shadow-[0_4px_20px_rgba(30,64,175,0.35)] hover:-translate-y-0.5 active:translate-y-0 rounded-xl px-5 py-2.5 transition-all duration-300 cursor-pointer">
               <Link href="/quote">Get Free Quote</Link>
             </Button>
           </div>

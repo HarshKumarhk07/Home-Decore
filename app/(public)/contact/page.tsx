@@ -25,7 +25,7 @@ export default function ContactPage() {
         {/* Info Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           {/* Details */}
-          <div className="bg-white border border-slate-100 p-8 rounded-3xl shadow-sm space-y-6 lg:col-span-1">
+          <div className="bg-white border border-slate-100 p-8 rounded-none shadow-sm space-y-6 lg:col-span-1">
             <h3 className="font-serif text-xl font-bold text-primary border-b border-slate-100 pb-4">
               Office Information
             </h3>
@@ -67,7 +67,7 @@ export default function ContactPage() {
           </div>
 
           {/* Form */}
-          <div className="bg-white border border-slate-100 p-8 rounded-3xl shadow-sm lg:col-span-2">
+          <div className="bg-white border border-slate-100 p-8 rounded-none shadow-sm lg:col-span-2">
             <h3 className="font-serif text-2xl font-bold text-primary mb-6">Send Message</h3>
             <ContactForm />
           </div>
@@ -78,7 +78,7 @@ export default function ContactPage() {
           <h3 className="font-serif text-xl font-bold text-primary pl-1 flex items-center">
             Find Us on Google Maps <ExternalLink className="w-4 h-4 ml-1.5 text-accent" />
           </h3>
-          <div className="relative h-[300px] sm:h-[450px] rounded-3xl overflow-hidden shadow-sm border border-slate-200">
+          <div className="relative h-[300px] sm:h-[450px] rounded-none overflow-hidden shadow-sm border border-slate-200">
             <iframe
               src={mapEmbedUrl}
               width="100%"

@@ -144,8 +144,8 @@ export default function InspectionForm() {
             disabled={isPending}
             placeholder="John Doe"
             {...register("name")}
-            className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-1 ${
-              errors.name ? "border-red-500 focus:ring-red-500" : "border-slate-200 focus:ring-primary"
+            className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+              errors.name ? "border-red-500 focus:ring-red-500" : "border-slate-200"
             }`}
           />
           {errors.name && <p className="text-xs text-red-500 font-semibold">{errors.name.message}</p>}
@@ -162,8 +162,8 @@ export default function InspectionForm() {
             disabled={isPending}
             placeholder="+91 99999 99999"
             {...register("phone")}
-            className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-1 ${
-              errors.phone ? "border-red-500 focus:ring-red-500" : "border-slate-200 focus:ring-primary"
+            className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+              errors.phone ? "border-red-500 focus:ring-red-500" : "border-slate-200"
             }`}
           />
           {errors.phone && <p className="text-xs text-red-500 font-semibold">{errors.phone.message}</p>}
@@ -181,8 +181,8 @@ export default function InspectionForm() {
           disabled={isPending}
           placeholder="john@example.com"
           {...register("email")}
-          className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-1 ${
-            errors.email ? "border-red-500 focus:ring-red-500" : "border-slate-200 focus:ring-primary"
+          className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+            errors.email ? "border-red-500 focus:ring-red-500" : "border-slate-200"
           }`}
         />
         {errors.email && <p className="text-xs text-red-500 font-semibold">{errors.email.message}</p>}
@@ -197,7 +197,7 @@ export default function InspectionForm() {
           id="service"
           disabled={isPending}
           {...register("service")}
-          className="w-full border border-slate-200 rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-primary bg-white"
+          className="w-full border border-slate-200 rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 bg-white transition-all duration-200"
         >
           <option value="Waterproofing">Waterproofing Solutions</option>
           <option value="Wooden Flooring">Wooden Flooring</option>
@@ -216,7 +216,7 @@ export default function InspectionForm() {
             id="subService"
             disabled={isPending}
             {...register("subService")}
-            className="w-full border border-slate-200 rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-primary bg-white"
+            className="w-full border border-slate-200 rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 bg-white transition-all duration-200"
           >
             {subCategories.map((sub: string) => (
               <option key={sub} value={sub}>
@@ -239,8 +239,8 @@ export default function InspectionForm() {
           disabled={isPending}
           placeholder="Complete address of the building/site to be inspected..."
           {...register("address")}
-          className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-1 ${
-            errors.address ? "border-red-500 focus:ring-red-500" : "border-slate-200 focus:ring-primary"
+          className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+            errors.address ? "border-red-500 focus:ring-red-500" : "border-slate-200"
           }`}
         />
         {errors.address && <p className="text-xs text-red-500 font-semibold">{errors.address.message}</p>}
@@ -258,8 +258,8 @@ export default function InspectionForm() {
             disabled={isPending}
             min={new Date().toISOString().split("T")[0]}
             {...register("preferredDate")}
-            className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-1 ${
-              errors.preferredDate ? "border-red-500 focus:ring-red-500" : "border-slate-200 focus:ring-primary"
+            className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+              errors.preferredDate ? "border-red-500 focus:ring-red-500" : "border-slate-200"
             }`}
           />
           {errors.preferredDate && <p className="text-xs text-red-500 font-semibold">{errors.preferredDate.message}</p>}
@@ -274,7 +274,7 @@ export default function InspectionForm() {
             id="preferredTime"
             disabled={isPending}
             {...register("preferredTime")}
-            className="w-full border border-slate-200 rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-primary bg-white"
+            className="w-full border border-slate-200 rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 bg-white transition-all duration-200"
           >
             {timeSlots.map((slot) => (
               <option key={slot} value={slot}>
@@ -297,7 +297,7 @@ export default function InspectionForm() {
           disabled={isPending}
           placeholder="E.g., Seepage on drawing room ceiling, cracks on terrace floor..."
           {...register("remarks")}
-          className="w-full border border-slate-200 rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+          className="w-full border border-slate-200 rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200"
         />
       </div>
 
@@ -305,7 +305,7 @@ export default function InspectionForm() {
       <Button
           type="submit"
           disabled={isPending}
-          className="w-full bg-primary hover:bg-primary-hover text-white rounded-none py-3 font-semibold text-sm transition-colors duration-300"
+          className="w-full bg-gradient-to-r from-primary to-blue-700 hover:from-blue-700 hover:to-primary text-white rounded-none py-3 font-bold text-sm shadow-[0_4px_14px_rgba(30,64,175,0.25)] hover:shadow-[0_4px_20px_rgba(30,64,175,0.35)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 cursor-pointer"
       >
         {isPending ? (
           <>

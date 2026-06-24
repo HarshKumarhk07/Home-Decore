@@ -9,6 +9,7 @@ import Testimonial from "@/models/Testimonial";
 import FAQ from "@/models/FAQ";
 import BlogPost from "@/models/BlogPost";
 import Lead from "@/models/Lead";
+import { fallbackGallery } from "@/lib/fallbackData";
 
 export const dynamic = "force-dynamic";
 
@@ -148,14 +149,7 @@ export async function GET() {
 
     // 4. Seed Gallery
     await Gallery.deleteMany({});
-    await Gallery.create([
-      { title: "Terrace Waterproofing Undercoat", category: "waterproofing", imageUrl: "/waterproofing.jpg" },
-      { title: "Basement Chemical Grouting", category: "waterproofing", imageUrl: "/waterproofing.jpg" },
-      { title: "Premium Oak Flooring", category: "wooden-flooring", imageUrl: "/wooden flooring.jpg" },
-      { title: "Eco-Friendly SPC Flooring", category: "wooden-flooring", imageUrl: "/wooden flooring.jpg" },
-      { title: "Waterproof PVC Wall Cladding", category: "pvc", imageUrl: "/PVC (Polyvinyl Chloride).jpg" },
-      { title: "Seamless PVC Roll Flooring", category: "pvc", imageUrl: "/PVC (Polyvinyl Chloride).jpg" }
-    ]);
+    await Gallery.create(fallbackGallery as any);
 
     // 5. Seed Testimonials
     await Testimonial.deleteMany({});
