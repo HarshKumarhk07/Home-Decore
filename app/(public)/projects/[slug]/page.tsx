@@ -22,9 +22,9 @@ export async function generateMetadata({ params }: Props) {
     if (!project) {
       project = fallbackProjects.find((p) => p.slug === slug) as any;
     }
-    if (!project) return { title: "Project Not Found | Homes" };
+    if (!project) return { title: "Project Not Found | Homesdecorator" };
     return {
-      title: `${project.title} | Homes Projects`,
+      title: `${project.title} | Homesdecorator Projects`,
       description: project.description.substring(0, 160),
     };
   } catch (err) {
@@ -32,11 +32,11 @@ export async function generateMetadata({ params }: Props) {
     const project = fallbackProjects.find((p) => p.slug === slug);
     if (project) {
       return {
-        title: `${project.title} | Homes Projects`,
+        title: `${project.title} | Homesdecorator Projects`,
         description: project.description.substring(0, 160),
       };
     }
-    return { title: "Project Details | Homes" };
+    return { title: "Project Details | Homesdecorator" };
   }
 }
 
@@ -79,7 +79,7 @@ export default async function ProjectDetailPage({ params }: Props) {
     "image": project.images,
     "creator": {
       "@type": "HomeAndConstructionBusiness",
-      "name": "Homes",
+      "name": "Homesdecorator",
       "url": baseUrl
     },
     "contentLocation": {

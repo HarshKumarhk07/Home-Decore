@@ -2,7 +2,7 @@ import ContactForm from "@/components/forms/ContactForm";
 import { MapPin, Phone, Mail, Clock, ExternalLink } from "lucide-react";
 
 export const metadata = {
-  title: "Contact Our Office | Homes",
+  title: "Contact Our Office | Homesdecorator",
   description: "Get in touch with our sector office in Sector 62 Noida. Call, email, or find directions on Google Maps.",
 };
 
@@ -87,7 +87,7 @@ export default function ContactPage() {
               allowFullScreen={true}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Homes Sector 62 Office Location"
+              title="Homesdecorator Sector 62 Office Location"
             ></iframe>
           </div>
         </div>

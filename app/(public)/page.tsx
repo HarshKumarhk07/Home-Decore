@@ -75,7 +75,7 @@ export default async function HomePage() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "HomeAndConstructionBusiness",
-    "name": settings?.companyName || "Homes",
+    "name": settings?.companyName || "Homesdecorator",
     "image": settings?.logoUrl || `${baseUrl}/favicon.ico`,
     "@id": `${baseUrl}/#organization`,
     "url": baseUrl,

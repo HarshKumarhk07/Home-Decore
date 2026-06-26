@@ -6,7 +6,7 @@ import { fallbackGallery } from "@/lib/fallbackData";
 export const revalidate = 60; // Revalidate every minute
 
 export const metadata = {
-  title: "Photo Gallery & Work Samples | Homes",
+  title: "Photo Gallery & Work Samples | Homesdecorator",
   description: "Explore photos of our actual waterproofing processes, wooden flooring textures, and PVC installations completed on client sites.",
 };
 

@@ -39,7 +39,7 @@ export async function GET() {
     // 2. Seed Website Settings
     await WebsiteSettings.deleteMany({});
     await WebsiteSettings.create({
-      companyName: "Homes",
+      companyName: "Homesdecorator",
       logoUrl: "",
       phoneNumber: "+91 99999 99999",
       whatsappNumber: "919999999999",
@@ -54,7 +54,7 @@ export async function GET() {
         linkedin: "https://linkedin.com/company/homedecorater",
       },
       seoMetadata: {
-        title: "Homes | Waterproofing, Wooden Flooring, PVC Specialists",
+        title: "Homesdecorator | Waterproofing, Wooden Flooring, PVC Specialists",
         description: "Premium waterproofing, flooring, and PVC wall panel cladding solutions with up to 10 years warranty. Serving residential and commercial clients.",
         keywords: "waterproofing, wooden flooring, pvc cladding, spc flooring, moisture testing, wall paneling",
       },
@@ -292,7 +292,7 @@ export async function GET() {
         clientName: "Arun Verma",
         serviceReceived: "Waterproofing",
         rating: 5,
-        feedbackText: "Our basement was flooded every monsoon. Homes did pressure injection grouting and it is bone dry now. Truly professional crew!",
+        feedbackText: "Our basement was flooded every monsoon. Homesdecorator did pressure injection grouting and it is bone dry now. Truly professional crew!",
         avatar: "/Arun Verma.jpg",
         isApproved: true,
       },

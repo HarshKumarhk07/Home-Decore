@@ -33,7 +33,7 @@ const defaultSubServices = [
 ];
 
 export const metadata = {
-  title: "Scientific Waterproofing Services | Homes",
+  title: "Scientific Waterproofing Services | Homesdecorator",
   description: "Stop structural leaks with professional waterproofing treatments for roofs, terraces, bathrooms, and basements. Up to 10-year warranty.",
 };
 
@@ -57,7 +57,7 @@ export default async function WaterproofingPage() {
     "description": "Stop structural leaks with professional waterproofing treatments for roofs, terraces, bathrooms, and basements. Up to 10-year warranty.",
     "provider": {
       "@type": "HomeAndConstructionBusiness",
-      "name": "Homes",
+      "name": "Homesdecorator",
       "url": baseUrl
     },
     "serviceType": "Waterproofing",

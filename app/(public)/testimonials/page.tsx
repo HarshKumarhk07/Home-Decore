@@ -9,7 +9,7 @@ import { fallbackTestimonials } from "@/lib/fallbackData";
 export const revalidate = 60; // Revalidate every minute
 
 export const metadata = {
-  title: "Customer Reviews & Case Studies | Homes",
+  title: "Customer Reviews & Case Studies | Homesdecorator",
   description: "Read verified feedback from home owners, building developers, and office managers who hired us for PVC, waterproofing, or flooring.",
 };
 

@@ -24,14 +24,14 @@ export async function getSettings() {
     if (!settings) {
       // Create default settings if empty
       settings = await WebsiteSettings.create({
-        companyName: "Homes",
+        companyName: "Homesdecorator",
         phoneNumber: "+91 99999 99999",
         whatsappNumber: "919999999999",
         email: "info@homedecorater.in",
         address: "Plot 42, Sector 62, Noida, UP, India",
         businessHours: "Mon - Sat: 9:00 AM - 6:30 PM",
         socialLinks: { facebook: "", instagram: "", twitter: "", linkedin: "" },
-        seoMetadata: { title: "Homes", description: "Waterproofing and Flooring", keywords: "waterproofing" },
+        seoMetadata: { title: "Homesdecorator", description: "Waterproofing and Flooring", keywords: "waterproofing" },
         waterproofingSubcategories: [
           "Roof & Slab Waterproofing",
           "Terrace Waterproofing",
@@ -265,7 +265,7 @@ export async function saveBlogPost(data: any, existingSlug?: string) {
     await connectToDatabase();
 
     const slug = sanitizedData.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-    const postData = { ...sanitizedData, slug, author: session.user.name || "Homes Team" };
+    const postData = { ...sanitizedData, slug, author: session.user.name || "Homesdecorator Team" };
 
     if (existingSlug) {
       await BlogPost.findOneAndUpdate({ slug: existingSlug }, postData);

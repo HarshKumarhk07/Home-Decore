@@ -26,7 +26,7 @@ const BlogPostSchema = new Schema<IBlogPost>(
       enum: ["waterproofing", "wooden-flooring", "pvc", "general"],
       required: true,
     },
-    author: { type: String, default: "Homes Team" },
+    author: { type: String, default: "Homesdecorator Team" },
     tags: [{ type: String }],
     publishedAt: { type: Date, default: Date.now },
   },

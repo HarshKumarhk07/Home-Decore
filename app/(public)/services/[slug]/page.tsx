@@ -30,12 +30,12 @@ export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const res = await getServiceCategoryBySlug(slug);
   if (!res.success || !res.category) {
-    return { title: "Service Not Found | Homes" };
+    return { title: "Service Not Found | Homesdecorator" };
   }
   const cat = res.category;
   return {
-    title: `${cat.name} | Homes`,
-    description: cat.description || `Professional ${cat.name} services by Homes.`,
+    title: `${cat.name} | Homesdecorator`,
+    description: cat.description || `Professional ${cat.name} services by Homesdecorator.`,
   };
 }
 

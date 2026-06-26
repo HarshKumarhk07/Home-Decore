@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { getServiceCategories } from "@/actions/cmsActions";
 
 export const metadata = {
-  title: "Professional Home Services | Homes",
+  title: "Professional Home Services | Homesdecorator",
   description: "Explore our specialized home improvement services: scientific waterproofing, premium wooden flooring, and PVC cladding/flooring.",
 };
 

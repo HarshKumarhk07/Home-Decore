@@ -7,7 +7,7 @@ import { Calendar, User, ArrowRight, Tag } from "lucide-react";
 export const revalidate = 60; // Revalidate every minute
 
 export const metadata = {
-  title: "Expert Home Care Blog & Guides | Homes",
+  title: "Expert Home Care Blog & Guides | Homesdecorator",
   description: "Read technical guides on waterproofing, wood floor selections, wall paint shades, and dampness protection tips from our field engineers.",
 };
 
@@ -38,7 +38,7 @@ export default async function BlogPage() {
         excerpt: "Seepage and dampness ruin your home's aesthetics and structural integrity. Learn about the primary causes and long-term scientific solutions.",
         category: "waterproofing",
         publishedAt: new Date().toISOString(),
-        author: "Homes Team",
+        author: "Homesdecorator Team",
       },
       {
         title: "Complete Guide to Choosing Between Laminate, SPC, and Engineered Wood",
@@ -47,7 +47,7 @@ export default async function BlogPage() {
         excerpt: "Compare flooring options based on cost, durability, water resistance, and aesthetics to make the right choice for your next home renovation.",
         category: "wooden-flooring",
         publishedAt: new Date().toISOString(),
-        author: "Homes Team",
+        author: "Homesdecorator Team",
       }
     ];
   }

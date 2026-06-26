@@ -63,7 +63,7 @@ export const fallbackTestimonials = [
     clientName: "Arun Verma",
     serviceReceived: "Waterproofing",
     rating: 5,
-    feedbackText: "Our basement was flooded every monsoon. Homes did pressure injection grouting and it is bone dry now. Truly professional crew!",
+    feedbackText: "Our basement was flooded every monsoon. Homesdecorator did pressure injection grouting and it is bone dry now. Truly professional crew!",
     avatar: "/Arun Verma.jpg",
   },
   {

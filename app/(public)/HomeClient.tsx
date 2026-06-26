@@ -443,10 +443,10 @@ export default function HomeClient({ projects, testimonials, faqs, settings, cat
               className="lg:col-span-5 space-y-6"
             >
               <span className="text-sm font-semibold tracking-wider text-primary uppercase block">
-                Why Homes?
+                Why Homesdecorator?
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-primary leading-tight">
-                Why Homes is the Standard
+                Why Homesdecorator is the Standard
               </h2>
               <p className="text-slate-650 text-sm sm:text-base leading-relaxed">
                 We do not believe in short-cuts. We analyze the chemical properties of structural leakage and substrates to perform long-lasting modifications.
