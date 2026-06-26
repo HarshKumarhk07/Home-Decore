@@ -5,7 +5,7 @@ import FaqClient from "./FaqClient";
 export const revalidate = 60; // Revalidate every minute
 
 export const metadata = {
-  title: "Frequently Asked Questions | Home Decorater",
+  title: "Frequently Asked Questions | Homes",
   description: "Find answers regarding our site moisture assessments, structural waterproofing warranties, flooring installations, and PVC setups.",
 };
 

@@ -14,7 +14,7 @@ export async function GET() {
 
     await connectToDatabase();
 
-    const query: any = { status: "New" };
+    const query: any = { status: { $in: ["New", "Inspection Scheduled"] } };
 
     // Enforce Employee role restriction: Can only see their assigned new leads
     if (session.user.role === "employee") {

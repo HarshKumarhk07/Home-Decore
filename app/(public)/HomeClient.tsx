@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import {
   ShieldCheck,
   Calendar,
@@ -24,6 +24,36 @@ import { Card, CardContent } from "@/components/ui/card";
 import { FaWhatsapp } from "react-icons/fa";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import InspectionForm from "@/components/forms/InspectionForm";
+
+function Counter({ value, duration = 1.5, suffix = "" }: { value: number; duration?: number; suffix?: string }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  useEffect(() => {
+    if (!isInView) return;
+    let start = 0;
+    const end = value;
+    const totalMiliseconds = duration * 1000;
+    const incrementTime = 20;
+    const steps = totalMiliseconds / incrementTime;
+    const stepValue = Math.ceil(end / steps);
+    
+    const timer = setInterval(() => {
+      start += stepValue;
+      if (start >= end) {
+        setCount(end);
+        clearInterval(timer);
+      } else {
+        setCount(start);
+      }
+    }, incrementTime);
+
+    return () => clearInterval(timer);
+  }, [isInView, value, duration]);
+
+  return <span ref={ref}>{count}{suffix}</span>;
+}
 
 interface HomeClientProps {
   projects: any[];
@@ -149,56 +179,148 @@ export default function HomeClient({ projects, testimonials, faqs, settings, cat
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start pt-8">
             {/* Left Column: Copy & CTAs */}
-            <div className="lg:col-span-7 space-y-6">
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              className="lg:col-span-7 space-y-8"
+            >
+              {/* Top Label */}
+              <motion.div variants={itemVariants} className="space-y-2">
+                <p className="text-xs sm:text-sm font-bold tracking-[0.2em] text-slate-300 uppercase">
+                  TRUSTED WATERPROOFING SPECIALISTS
+                </p>
+                <div className="w-16 h-[2px] bg-[#D4AF37]" />
+              </motion.div>
 
-              <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight text-white tracking-tight">
-                Professional <span className="text-accent">Waterproofing</span>, Flooring & PVC
-              </h1>
+              {/* Main Heading */}
+              <motion.h1
+                variants={{
+                  hidden: { y: 30, opacity: 0 },
+                  visible: { y: 0, opacity: 1, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+                }}
+                className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] text-white tracking-tight"
+              >
+                Protect Every <br />
+                Corner of Your <br />
+                <span className="text-[#D4AF37]">Dream Home.</span>
+              </motion.h1>
 
-              <p className="text-base sm:text-lg md:text-xl text-slate-300 max-w-2xl leading-relaxed">
-                Protect, decorate, and elevate your space. Scientific execution, brand-certified materials, and up to 10-year written warranties.
-              </p>
+              {/* Subheading */}
+              <motion.p
+                variants={itemVariants}
+                className="text-base sm:text-lg md:text-xl text-slate-350 max-w-2xl leading-relaxed font-light"
+              >
+                Advanced waterproofing, premium flooring, wall painting, and PVC solutions delivered by certified experts using industry-leading materials backed by long-term warranties.
+              </motion.p>
 
               {/* CTAs */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-                className="flex flex-wrap gap-4 pt-4"
+                variants={itemVariants}
+                className="flex flex-wrap gap-4 pt-2"
               >
-                <Button asChild className="bg-primary hover:bg-primary-hover text-white px-8 py-6 rounded-xl font-bold shadow-lg border border-primary/20 text-base cursor-pointer">
-                  <Link href="/quote">Get Free Quote</Link>
-                </Button>
+                <motion.div
+                  whileHover={{ y: -4 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                >
+                  <Button asChild className="bg-primary hover:bg-primary-hover text-white px-8 py-6 rounded-lg font-bold shadow-lg border border-primary/20 text-base cursor-pointer transition-all duration-300">
+                    <Link href="/quote">Get Free Quote</Link>
+                  </Button>
+                </motion.div>
                 
-                <Button asChild variant="outline" className="border-accent hover:bg-accent hover:text-dark text-white px-8 py-6 rounded-xl font-bold text-base transition-all duration-300 cursor-pointer">
-                  <Link href="/inspection">
-                    <Calendar className="w-5 h-5 mr-2" /> Book Site Inspection
-                  </Link>
-                </Button>
+                <motion.div
+                  whileHover={{ y: -4 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                >
+                  <Button asChild variant="outline" className="border-white/20 hover:border-white hover:bg-white/10 text-white px-8 py-6 rounded-lg font-bold text-base transition-all duration-300 cursor-pointer">
+                    <Link href="/inspection">Book Site Inspection</Link>
+                  </Button>
+                </motion.div>
               </motion.div>
 
-              {/* Direct Connect Buttons */}
+              {/* Statistics Row */}
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
-                className="flex flex-wrap gap-6 pt-6 text-sm text-slate-400"
+                variants={itemVariants}
+                className="flex flex-wrap items-stretch justify-between gap-y-6 gap-x-4 py-8 border-y border-white/10 my-4"
               >
-                <Link href="tel:+919999999999" className="flex items-center space-x-2 hover:text-white transition-colors duration-200">
-                  <Phone className="w-4 h-4 text-accent animate-bounce" />
-                  <span>Call Now: <strong>+91 99999 99999</strong></span>
-                </Link>
-                <a
-                  href="https://wa.me/919999999999?text=Hi!%20I%20want%20to%20know%20more%20about%20Home%20Decorater%20services."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center space-x-2 hover:text-white transition-colors duration-200"
-                >
-                  <FaWhatsapp className="w-4 h-4 text-[#25D366]" />
-                  <span>WhatsApp: <strong>Chat with Experts</strong></span>
-                </a>
+                <div className="flex-1 min-w-[120px] flex flex-col justify-center text-left">
+                  <span className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                    <Counter value={2500} suffix="+" />
+                  </span>
+                  <p className="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider font-semibold mt-1">
+                    Projects Completed
+                  </p>
+                </div>
+                
+                <div className="hidden md:block w-[1px] bg-white/10 self-stretch" />
+
+                <div className="flex-1 min-w-[120px] flex flex-col justify-center text-left md:pl-4">
+                  <span className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                    <Counter value={10} suffix="+" />
+                  </span>
+                  <p className="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider font-semibold mt-1">
+                    Years Experience
+                  </p>
+                </div>
+                
+                <div className="hidden md:block w-[1px] bg-white/10 self-stretch" />
+
+                <div className="flex-1 min-w-[120px] flex flex-col justify-center text-left md:pl-4">
+                  <span className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                    <Counter value={98} suffix="%" />
+                  </span>
+                  <p className="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider font-semibold mt-1">
+                    Customer Satisfaction
+                  </p>
+                </div>
               </motion.div>
-            </div>
+
+              {/* Trust Strip */}
+              <motion.div
+                variants={itemVariants}
+                className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs sm:text-sm font-semibold tracking-wider text-slate-300 py-2"
+              >
+                <span>Certified Applicators</span>
+                <span className="text-[#D4AF37]">•</span>
+                <span>ISO Quality Materials</span>
+                <span className="text-[#D4AF37]">•</span>
+                <span>PAN India Service</span>
+                <span className="text-[#D4AF37]">•</span>
+                <span>Free Site Inspection</span>
+              </motion.div>
+
+              {/* Contact Strip */}
+              <motion.div
+                variants={itemVariants}
+                className="flex flex-wrap items-center justify-between gap-6 pt-6 border-t border-white/10 text-xs sm:text-sm text-slate-400"
+              >
+                <div className="flex flex-col space-y-0.5">
+                  <span className="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Call Us</span>
+                  <a href="tel:+919999999999" className="text-white hover:text-[#D4AF37] font-bold text-sm transition-colors">
+                    +91 99999 99999
+                  </a>
+                </div>
+                
+                <div className="flex flex-col space-y-0.5">
+                  <span className="text-[10px] uppercase tracking-wider text-slate-500 font-bold">WhatsApp Support</span>
+                  <a
+                    href="https://wa.me/919999999999?text=Hi!%20I%20want%20to%20know%20more%20about%20Home%20Decorater%20services."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white hover:text-[#D4AF37] font-bold text-sm transition-colors"
+                  >
+                    Chat with Experts
+                  </a>
+                </div>
+
+                <div className="flex flex-col space-y-0.5">
+                  <span className="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Available</span>
+                  <span className="text-white font-bold text-sm">Mon–Sat</span>
+                </div>
+              </motion.div>
+            </motion.div>
 
             {/* Right Column: Embedded Form Card */}
             <div className="lg:col-span-5 w-full mt-8 lg:mt-0">
@@ -321,10 +443,10 @@ export default function HomeClient({ projects, testimonials, faqs, settings, cat
               className="lg:col-span-5 space-y-6"
             >
               <span className="text-sm font-semibold tracking-wider text-primary uppercase block">
-                Why Home Decorator?
+                Why Homes?
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-primary leading-tight">
-                Why Home Decorator is the Standard
+                Why Homes is the Standard
               </h2>
               <p className="text-slate-650 text-sm sm:text-base leading-relaxed">
                 We do not believe in short-cuts. We analyze the chemical properties of structural leakage and substrates to perform long-lasting modifications.

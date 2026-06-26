@@ -2,7 +2,7 @@ import InspectionForm from "@/components/forms/InspectionForm";
 import { ShieldCheck, Flame, Compass, Wrench } from "lucide-react";
 
 export const metadata = {
-  title: "Book Free Site Inspection | Home Decorater",
+  title: "Book Free Site Inspection | Homes",
   description: "Schedule a free technical inspection of your property to analyze seepage, wood flooring bases, or wall shade requirements.",
 };
 

@@ -6,7 +6,7 @@ import { fallbackProjects } from "@/lib/fallbackData";
 export const revalidate = 60; // Revalidate every minute
 
 export const metadata = {
-  title: "Our Portfolio of Completed Projects | Home Decorater",
+  title: "Our Portfolio of Completed Projects | Homes",
   description: "Browse our successfully completed waterproofing, flooring, and PVC projects in residential and commercial sectors.",
 };
 

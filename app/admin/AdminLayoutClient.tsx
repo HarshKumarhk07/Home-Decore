@@ -136,8 +136,8 @@ export default function AdminLayoutClient({ session, children }: AdminLayoutClie
       <div className="md:hidden flex items-center justify-between bg-slate-900 border-b border-slate-800 px-4 py-4 shrink-0">
         <Link href="/admin/dashboard" className="flex items-center">
           <Image
-            src="/HOME DECORATER LOGO (2).png"
-            alt="Home Decorater Logo"
+            src="/logo.PNG"
+            alt="Homes Logo"
             width={135}
             height={38}
             className="h-9 w-auto object-contain"
@@ -163,8 +163,8 @@ export default function AdminLayoutClient({ session, children }: AdminLayoutClie
           <div className="px-6 pb-2 hidden md:block">
             <Link href="/admin/dashboard" className="flex items-center">
               <Image
-                src="/HOME DECORATER LOGO (2).png"
-                alt="Home Decorater Logo"
+                src="/logo.PNG"
+                alt="Homes Logo"
                 width={140}
                 height={40}
                 className="h-10 w-auto object-contain"

@@ -32,7 +32,12 @@ export default function BlogClient({ initialPosts }: BlogClientProps) {
         return;
       }
       setImageFile(file);
-      setPreviewUrl(URL.createObjectURL(file));
+      
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result as string);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -42,7 +47,6 @@ export default function BlogClient({ initialPosts }: BlogClientProps) {
     setExcerpt("");
     setContent("");
     setImageFile(null);
-    if (previewUrl) URL.revokeObjectURL(previewUrl);
     setPreviewUrl(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
@@ -78,7 +82,7 @@ export default function BlogClient({ initialPosts }: BlogClientProps) {
           content,
           coverImage: uploadRes.url,
           tags: [category],
-          publishedAt: new Date(),
+          publishedAt: new Date().toISOString(),
         };
 
         const res = await saveBlogPost(payload);

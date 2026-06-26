@@ -4,8 +4,8 @@ import { ShieldCheck, Award, Sparkles, Clock, Hammer, Calendar } from "lucide-re
 import { Button } from "@/components/ui/button";
 
 export const metadata = {
-  title: "About Us | Home Decorater",
-  description: "Learn about Home Decorater's history, team dedication, and scientific moisture scanning process for waterproofing, flooring, and PVC.",
+  title: "About Us | Homes",
+  description: "Learn about Homes's history, team dedication, and scientific moisture scanning process for waterproofing, flooring, and PVC.",
 };
 
 export default function AboutPage() {
@@ -40,7 +40,7 @@ export default function AboutPage() {
               Engineering Secure & Beautiful Spaces
             </h1>
             <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-              At Home Decorater, we believe home improvement is a science, not a surface fix. Established with a commitment to solve structural water seepage, we expanded our competencies to premium wooden flooring installations and PVC wall panel cladding.
+              At Homes, we believe home improvement is a science, not a surface fix. Established with a commitment to solve structural water seepage, we expanded our competencies to premium wooden flooring installations and PVC wall panel cladding.
             </p>
             <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
               We employ directly-trained workers and use brand-certified products like Dr. Fixit polyurethane membranes, premium PVC cladding panels, and premium European SPC flooring planks. This ensures that every contract is completed to the highest standards.

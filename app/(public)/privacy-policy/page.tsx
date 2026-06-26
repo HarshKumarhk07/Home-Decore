@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "Privacy Policy | Home Decorater",
-  description: "Learn how Home Decorater collects, manages, and protects customer inquiry details and uploaded site images.",
+  title: "Privacy Policy | Homes",
+  description: "Learn how Homes collects, manages, and protects customer inquiry details and uploaded site images.",
 };
 
 export default function PrivacyPolicyPage() {
@@ -11,7 +11,7 @@ export default function PrivacyPolicyPage() {
           Privacy Policy
         </h1>
         <p className="text-sm leading-relaxed">
-          At Home Decorater, we prioritize the privacy and security of our visitors and clients. This privacy policy document outlines the types of personal information that is collected, recorded, and processed when you submit an inquiry form on our website.
+          At Homes, we prioritize the privacy and security of our visitors and clients. This privacy policy document outlines the types of personal information that is collected, recorded, and processed when you submit an inquiry form on our website.
         </p>
 
         <h2 className="font-serif text-xl font-bold text-primary pt-4">1. Information We Collect</h2>

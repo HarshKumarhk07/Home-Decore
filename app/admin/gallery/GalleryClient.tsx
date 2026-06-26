@@ -31,7 +31,12 @@ export default function GalleryClient({ initialPhotos }: GalleryClientProps) {
         return;
       }
       setImageFile(file);
-      setPreviewUrl(URL.createObjectURL(file));
+      
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result as string);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -39,7 +44,6 @@ export default function GalleryClient({ initialPhotos }: GalleryClientProps) {
     setTitle("");
     setCategory("waterproofing");
     setImageFile(null);
-    if (previewUrl) URL.revokeObjectURL(previewUrl);
     setPreviewUrl(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
   };

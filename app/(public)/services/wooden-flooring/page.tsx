@@ -36,7 +36,7 @@ const defaultFloorTypes = [
 ];
 
 export const metadata = {
-  title: "Premium Wooden Flooring Services | Home Decorater",
+  title: "Premium Wooden Flooring Services | Homes",
   description: "Laminate, vinyl, SPC, and engineered wood floor installations with European click-lock joints and wear warranties. Book a site visit today.",
 };
 
@@ -60,7 +60,7 @@ export default async function WoodenFlooringPage() {
     "description": "Laminate, vinyl, SPC, and engineered wood floor installations with European click-lock joints and wear warranties. Book a site visit today.",
     "provider": {
       "@type": "HomeAndConstructionBusiness",
-      "name": "Home Decorater",
+      "name": "Homes",
       "url": baseUrl
     },
     "serviceType": "Wooden Flooring",

@@ -89,8 +89,8 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
             <Image
-              src="/HOME DECORATER LOGO (2).png"
-              alt="Home Decorater Logo"
+              src="/logo.PNG"
+              alt="Homes Logo"
               width={160}
               height={160}
               className={cn(
@@ -100,7 +100,7 @@ export default function Header() {
               priority
             />
             <span className="font-sans font-black text-black tracking-wide text-xs sm:text-sm md:text-base uppercase whitespace-nowrap">
-              Home Decorater
+              Homes
             </span>
           </Link>
 

@@ -30,7 +30,7 @@ export interface IWebsiteSettings extends Document {
 
 const WebsiteSettingsSchema = new Schema<IWebsiteSettings>(
   {
-    companyName: { type: String, required: true, default: "Home Decorater" },
+    companyName: { type: String, required: true, default: "Homes" },
     logoUrl: { type: String },
     phoneNumber: { type: String, required: true, default: "+91 99999 99999" },
     whatsappNumber: { type: String, required: true, default: "+91 99999 99999" },
@@ -45,9 +45,9 @@ const WebsiteSettingsSchema = new Schema<IWebsiteSettings>(
       linkedin: { type: String, default: "" },
     },
     seoMetadata: {
-      title: { type: String, required: true, default: "Home Decorater | Waterproofing, Wooden Flooring, PVC (Polyvinyl Chloride)" },
+      title: { type: String, required: true, default: "Homes | Waterproofing, Wooden Flooring, PVC (Polyvinyl Chloride)" },
       description: { type: String, required: true, default: "Premium home improvement services including waterproofing, wooden flooring, and PVC wall panel cladding." },
-      keywords: { type: String, default: "waterproofing, wooden flooring, pvc, home decorator" },
+      keywords: { type: String, default: "waterproofing, wooden flooring, pvc, homes" },
     },
     faviconUrl: { type: String },
     waterproofingSubcategories: { type: [String], default: [] },

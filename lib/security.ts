@@ -3,6 +3,9 @@
  * Cross-Site Scripting (XSS) and script execution in text inputs.
  */
 export function sanitizeInput<T>(val: T): T {
+  if (val instanceof Date) {
+    return val;
+  }
   if (typeof val === "string") {
     // Strip HTML and script tags completely
     return val.replace(/<[^>]*>/g, "").trim() as unknown as T;

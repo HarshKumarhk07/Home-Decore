@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "Terms & Conditions | Home Decorater",
-  description: "Read the service terms, inspection parameters, and structural warranty conditions of Home Decorater.",
+  title: "Terms & Conditions | Homes",
+  description: "Read the service terms, inspection parameters, and structural warranty conditions of Homes.",
 };
 
 export default function TermsPage() {
@@ -11,7 +11,7 @@ export default function TermsPage() {
           Terms & Conditions
         </h1>
         <p className="text-sm leading-relaxed">
-          Welcome to Home Decorater. By requesting a service quotation or booking a site moisture inspection, you agree to comply with and be bound by the following terms and conditions.
+          Welcome to Homes. By requesting a service quotation or booking a site moisture inspection, you agree to comply with and be bound by the following terms and conditions.
         </p>
 
         <h2 className="font-serif text-xl font-bold text-primary pt-4">1. Scope of Site Inspections</h2>

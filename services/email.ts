@@ -21,7 +21,7 @@ async function sendEmail({
         "content-type": "application/json",
       },
       body: JSON.stringify({
-        sender: { name: "Home Decorater", email: env.MAIL_FROM },
+        sender: { name: "Homes", email: env.MAIL_FROM },
         to,
         subject,
         htmlContent,
@@ -115,7 +115,7 @@ export async function sendLeadEmails(lead: any): Promise<boolean> {
 
       <h2 style="color: #1e40af; text-align: center;">Inquiry Received Successfully!</h2>
       <p>Dear ${lead.customerName},</p>
-      <p>Thank you for requesting a free quote from Home Decorater. We have generated a unique lead log for you:</p>
+      <p>Thank you for requesting a free quote from Homes. We have generated a unique lead log for you:</p>
       
       <div style="background: #eff6ff; padding: 15px; border-radius: 10px; border-left: 4px solid #d4af37; margin: 20px 0; text-align: center;">
         <span style="font-size: 14px; text-transform: uppercase; color: #1e40af; font-weight: bold; display: block;">Your Lead ID</span>
@@ -132,14 +132,14 @@ export async function sendLeadEmails(lead: any): Promise<boolean> {
       <p style="font-size: 14px;">If you have immediate questions, call us at <strong>+91 99999 99999</strong>.</p>
       
       <div style="border-t: 1px solid #f1f5f9; margin-top: 30px; padding-top: 15px; text-align: center; font-size: 11px; color: #94a3b8;">
-        © ${new Date().getFullYear()} Home Decorater. Noida Sector 62 Office.
+        © ${new Date().getFullYear()} Homes. Noida Sector 62 Office.
       </div>
     </div>
   `;
 
   // Send to Admin
   await sendEmail({
-    to: [{ email: adminEmail, name: "Home Decorater Admin" }],
+    to: [{ email: adminEmail, name: "Homes Admin" }],
     subject: `[New Lead Alert] ID: ${lead.leadId} - ${lead.customerName} (${lead.service})`,
     htmlContent: adminHtml,
   });
@@ -147,7 +147,7 @@ export async function sendLeadEmails(lead: any): Promise<boolean> {
   // Send to Customer
   return await sendEmail({
     to: [{ email: lead.email, name: lead.customerName }],
-    subject: `Quote Request Confirmation - Lead ID: ${lead.leadId} | Home Decorater`,
+    subject: `Quote Request Confirmation - Lead ID: ${lead.leadId} | Homes`,
     htmlContent: customerHtml,
   });
 }
@@ -172,7 +172,7 @@ export async function sendContactEmail(inquiry: any): Promise<boolean> {
   `;
 
   return await sendEmail({
-    to: [{ email: adminEmail, name: "Home Decorater Admin" }],
+    to: [{ email: adminEmail, name: "Homes Admin" }],
     subject: `[Contact Form Submission] ${inquiry.subject} - ${inquiry.name}`,
     htmlContent: adminHtml,
   });
@@ -222,7 +222,7 @@ export async function sendInspectionEmail(booking: any): Promise<boolean> {
 
   // Send to Admin
   await sendEmail({
-    to: [{ email: adminEmail, name: "Home Decorater Admin" }],
+    to: [{ email: adminEmail, name: "Homes Admin" }],
     subject: `[Inspection Scheduled] Lead ID: ${booking.leadId} - ${booking.name}`,
     htmlContent: adminHtml,
   });
@@ -230,7 +230,7 @@ export async function sendInspectionEmail(booking: any): Promise<boolean> {
   // Send to Customer
   return await sendEmail({
     to: [{ email: booking.email, name: booking.name }],
-    subject: `Inspection Scheduled Confirmation - Lead ID: ${booking.leadId} | Home Decorater`,
+    subject: `Inspection Scheduled Confirmation - Lead ID: ${booking.leadId} | Homes`,
     htmlContent: customerHtml,
   });
 }

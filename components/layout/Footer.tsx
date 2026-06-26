@@ -12,15 +12,15 @@ export default function Footer() {
           <div className="space-y-4">
             <Link href="/" className="flex items-center group">
               <Image
-                src="/HOME DECORATER LOGO (2).png"
-                alt="Home Decorater Logo"
+                src="/logo.PNG"
+                alt="Homes Logo"
                 width={160}
                 height={45}
                 className="h-11 w-auto object-contain"
               />
             </Link>
             <p className="text-sm text-slate-400 leading-relaxed pt-2">
-              Home Decorater is a premier home improvement company specializing in Waterproofing, Wooden Flooring, and PVC (Polyvinyl Chloride) services. We guarantee premium quality with structural warranties.
+              Homes is a premier home improvement company specializing in Waterproofing, Wooden Flooring, and PVC (Polyvinyl Chloride) services. We guarantee premium quality with structural warranties.
             </p>
             <div className="flex space-x-4 pt-4">
               <a href="#" className="p-2 bg-slate-800 hover:bg-primary rounded-xl text-white hover:text-white transition-colors duration-300">
@@ -115,7 +115,7 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
-          <p>© {new Date().getFullYear()} Home Decorater. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Homes. All rights reserved.</p>
           <p className="mt-2 sm:mt-0">
             Waterproofing, Wooden Flooring & PVC Specialists.
           </p>

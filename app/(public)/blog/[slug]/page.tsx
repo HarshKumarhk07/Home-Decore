@@ -17,13 +17,13 @@ export async function generateMetadata({ params }: Props) {
   try {
     await connectToDatabase();
     const post = await BlogPost.findOne({ slug }).lean();
-    if (!post) return { title: "Article Not Found | Home Decorater" };
+    if (!post) return { title: "Article Not Found | Homes" };
     return {
-      title: `${post.title} | Home Decorater Blog`,
+      title: `${post.title} | Homes Blog`,
       description: post.excerpt,
     };
   } catch (err) {
-    return { title: "Blog Article | Home Decorater" };
+    return { title: "Blog Article | Homes" };
   }
 }
 
@@ -63,12 +63,12 @@ export default async function BlogDetailPage({ params }: Props) {
     "dateModified": post.updatedAt || post.publishedAt,
     "author": {
       "@type": "Organization",
-      "name": post.author || "Home Decorater Team",
+      "name": post.author || "Homes Team",
       "url": baseUrl
     },
     "publisher": {
       "@type": "Organization",
-      "name": "Home Decorater",
+      "name": "Homes",
       "logo": {
         "@type": "ImageObject",
         "url": `${baseUrl}/favicon.ico`

@@ -6,8 +6,8 @@ import "@/lib/env";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Home Decorater | Waterproofing, PVC & Wooden Flooring Specialists",
-  description: "Home Decorater offers premium waterproofing, PVC (Polyvinyl Chloride), and wooden flooring services. High durability, expert craftsmanship, and lifetime warranty options.",
+  title: "Homes | Waterproofing, PVC & Wooden Flooring Specialists",
+  description: "Homes offers premium waterproofing, PVC (Polyvinyl Chloride), and wooden flooring services. High durability, expert craftsmanship, and lifetime warranty options.",
 };
 
 export default function RootLayout({
