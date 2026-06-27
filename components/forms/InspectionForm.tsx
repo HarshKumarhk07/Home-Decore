@@ -125,8 +125,8 @@ export default function InspectionForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {/* Name */}
         <div className="space-y-1">
           <label htmlFor="name" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
@@ -138,7 +138,7 @@ export default function InspectionForm() {
             disabled={isPending}
             placeholder="John Doe"
             {...register("name")}
-            className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+            className={`w-full border rounded-none px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
               errors.name ? "border-red-500 focus:ring-red-500" : "border-slate-200"
             }`}
           />
@@ -156,7 +156,7 @@ export default function InspectionForm() {
             disabled={isPending}
             placeholder="+91 99999 99999"
             {...register("phone")}
-            className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+            className={`w-full border rounded-none px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
               errors.phone ? "border-red-500 focus:ring-red-500" : "border-slate-200"
             }`}
           />
@@ -164,26 +164,7 @@ export default function InspectionForm() {
         </div>
       </div>
 
-      {/* Email */}
-      <div className="space-y-1">
-        <label htmlFor="email" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-          Email Address
-        </label>
-        <input
-          id="email"
-          type="email"
-          disabled={isPending}
-          placeholder="john@example.com"
-          {...register("email")}
-          className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
-            errors.email ? "border-red-500 focus:ring-red-500" : "border-slate-200"
-          }`}
-        />
-        {errors.email && <p className="text-xs text-red-500 font-semibold">{errors.email.message}</p>}
-      </div>
-
-      {/* City & Address row */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {/* City */}
         <div className="space-y-1">
           <label htmlFor="city" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
@@ -195,29 +176,29 @@ export default function InspectionForm() {
             disabled={isPending}
             placeholder="e.g. Mumbai, Delhi..."
             {...register("city")}
-            className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+            className={`w-full border rounded-none px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
               errors.city ? "border-red-500 focus:ring-red-500" : "border-slate-200"
             }`}
           />
           {errors.city && <p className="text-xs text-red-500 font-semibold">{errors.city.message}</p>}
         </div>
 
-        {/* Address */}
+        {/* Email (optional) */}
         <div className="space-y-1">
-          <label htmlFor="address" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-            Site Address
+          <label htmlFor="email" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+            Email <span className="text-slate-400 normal-case font-medium">(optional)</span>
           </label>
-          <textarea
-            id="address"
-            rows={3}
+          <input
+            id="email"
+            type="email"
             disabled={isPending}
-            placeholder="Complete address of the building/site..."
-            {...register("address")}
-            className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
-              errors.address ? "border-red-500 focus:ring-red-500" : "border-slate-200"
+            placeholder="john@example.com"
+            {...register("email")}
+            className={`w-full border rounded-none px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+              errors.email ? "border-red-500 focus:ring-red-500" : "border-slate-200"
             }`}
           />
-          {errors.address && <p className="text-xs text-red-500 font-semibold">{errors.address.message}</p>}
+          {errors.email && <p className="text-xs text-red-500 font-semibold">{errors.email.message}</p>}
         </div>
       </div>
 
@@ -230,7 +211,7 @@ export default function InspectionForm() {
           id="service"
           disabled={isPending}
           {...register("service")}
-          className="w-full border border-slate-200 rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 bg-white transition-all duration-200"
+          className="w-full border border-slate-200 rounded-none px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 bg-white transition-all duration-200"
         >
           {categories.length > 0
             ? categories.map((cat: any) => (
@@ -250,30 +231,7 @@ export default function InspectionForm() {
         {errors.service && <p className="text-xs text-red-500 font-semibold">{errors.service.message}</p>}
       </div>
 
-      {/* Sub-Service / Treatment type selection */}
-      {subCategories.length > 0 && (
-        <div className="space-y-1 animate-fade-in">
-          <label htmlFor="subService" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-            Sub-Category / Treatment Type
-          </label>
-          <select
-            id="subService"
-            disabled={isPending}
-            {...register("subService")}
-            className="w-full border border-slate-200 rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 bg-white transition-all duration-200"
-          >
-            {subCategories.map((sub: string) => (
-              <option key={sub} value={sub}>
-                {sub}
-              </option>
-            ))}
-          </select>
-          {errors.subService && <p className="text-xs text-red-500 font-semibold">{errors.subService.message}</p>}
-        </div>
-      )}
-
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {/* Preferred Date */}
         <div className="space-y-1">
           <label htmlFor="preferredDate" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
@@ -285,7 +243,7 @@ export default function InspectionForm() {
             disabled={isPending}
             min={new Date().toISOString().split("T")[0]}
             {...register("preferredDate")}
-            className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+            className={`w-full border rounded-none px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
               errors.preferredDate ? "border-red-500 focus:ring-red-500" : "border-slate-200"
             }`}
           />
@@ -301,7 +259,7 @@ export default function InspectionForm() {
             id="preferredTime"
             disabled={isPending}
             {...register("preferredTime")}
-            className="w-full border border-slate-200 rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 bg-white transition-all duration-200"
+            className="w-full border border-slate-200 rounded-none px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 bg-white transition-all duration-200"
           >
             {timeSlots.map((slot) => (
               <option key={slot} value={slot}>
@@ -311,21 +269,6 @@ export default function InspectionForm() {
           </select>
           {errors.preferredTime && <p className="text-xs text-red-500 font-semibold">{errors.preferredTime.message}</p>}
         </div>
-      </div>
-
-      {/* Remarks */}
-      <div className="space-y-1">
-        <label htmlFor="remarks" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-          Specific Remarks / Notes (Optional)
-        </label>
-        <textarea
-          id="remarks"
-          rows={2}
-          disabled={isPending}
-          placeholder="E.g., Seepage on drawing room ceiling, cracks on terrace floor..."
-          {...register("remarks")}
-          className="w-full border border-slate-200 rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200"
-        />
       </div>
 
       {/* Submit */}

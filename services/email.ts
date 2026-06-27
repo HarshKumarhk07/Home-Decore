@@ -144,7 +144,10 @@ export async function sendLeadEmails(lead: any): Promise<boolean> {
     htmlContent: adminHtml,
   });
 
-  // Send to Customer
+  // Send to Customer (only if an email was provided)
+  if (!lead.email) {
+    return true;
+  }
   return await sendEmail({
     to: [{ email: lead.email, name: lead.customerName }],
     subject: `Quote Request Confirmation - Lead ID: ${lead.leadId} | Homes`,
@@ -227,7 +230,10 @@ export async function sendInspectionEmail(booking: any): Promise<boolean> {
     htmlContent: adminHtml,
   });
 
-  // Send to Customer
+  // Send to Customer (only if an email was provided)
+  if (!booking.email) {
+    return true;
+  }
   return await sendEmail({
     to: [{ email: booking.email, name: booking.name }],
     subject: `Inspection Scheduled Confirmation - Lead ID: ${booking.leadId} | Homes`,

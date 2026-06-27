@@ -44,7 +44,7 @@ export default async function Footer() {
                 alt="Homesdecorator Logo"
                 width={160}
                 height={45}
-                className="h-11 w-auto object-contain"
+                className="h-16 w-auto object-contain"
               />
             </Link>
             <p className="text-sm text-slate-400 leading-relaxed pt-2">

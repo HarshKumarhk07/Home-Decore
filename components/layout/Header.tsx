@@ -95,13 +95,10 @@ export default function Header() {
               height={160}
               className={cn(
                 "w-auto object-contain transition-all duration-300 group-hover:scale-105",
-                isScrolled ? "h-10 lg:h-12" : "h-12 lg:h-14"
+                isScrolled ? "h-14 lg:h-16" : "h-16 lg:h-20"
               )}
               priority
             />
-            <span className="font-sans font-black text-black tracking-wide text-xs sm:text-sm md:text-base uppercase whitespace-nowrap">
-              Homesdecorator
-            </span>
           </Link>
 
           {/* Desktop Navigation */}

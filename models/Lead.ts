@@ -63,12 +63,11 @@ const LeadSchema = new Schema<ILead>(
     leadId: { type: String, required: true, unique: true },
     customerName: { type: String, required: true },
     phone: { type: String, required: true },
-    email: { type: String, required: true },
+    email: { type: String },
     city: { type: String },
-    address: { type: String, required: true },
+    address: { type: String },
     service: {
       type: String,
-      enum: ["Waterproofing", "Wooden Flooring", "PVC (Polyvinyl Chloride)", "General"],
       required: true,
     },
     propertyType: {

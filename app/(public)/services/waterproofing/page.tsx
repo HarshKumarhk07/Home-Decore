@@ -113,17 +113,6 @@ export default async function WaterproofingPage() {
             </div>
           </div>
 
-          {/* Why it is important Alert */}
-          <div className="bg-amber-50 border-l-4 border-accent p-5 rounded-2xl mb-16 flex items-start space-x-3 shadow-sm animate-fade-in">
-            <AlertCircle className="w-6 h-6 text-accent shrink-0 mt-0.5" />
-            <div>
-              <h4 className="font-bold text-slate-900 text-sm sm:text-base">Why waterproofing should never be delayed:</h4>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mt-1">
-                Micro-cracks in walls allow moisture to reach the steel reinforcement bars. This causes the steel to rust, expand, and crack the surrounding concrete, leading to permanent structural damage and hazardous flaking plaster.
-              </p>
-            </div>
-          </div>
-
           {/* Sub services Grid */}
           <div className="space-y-10">
             <h2 className="font-serif text-2xl sm:text-3xl font-bold text-primary mb-8 border-l-4 border-accent pl-4">
@@ -159,6 +148,17 @@ export default async function WaterproofingPage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+
+          {/* Why it is important Alert */}
+          <div className="bg-amber-50 border-l-4 border-accent p-5 rounded-2xl mt-16 flex items-start space-x-3 shadow-sm animate-fade-in">
+            <AlertCircle className="w-6 h-6 text-accent shrink-0 mt-0.5" />
+            <div>
+              <h4 className="font-bold text-slate-900 text-sm sm:text-base">Why waterproofing should never be delayed:</h4>
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mt-1">
+                Micro-cracks in walls allow moisture to reach the steel reinforcement bars. This causes the steel to rust, expand, and crack the surrounding concrete, leading to permanent structural damage and hazardous flaking plaster.
+              </p>
             </div>
           </div>
 

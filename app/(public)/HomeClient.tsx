@@ -28,17 +28,21 @@ import InspectionForm from "@/components/forms/InspectionForm";
 function Counter({ value, duration = 1.5, suffix = "" }: { value: number; duration?: number; suffix?: string }) {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { margin: "-100px" });
 
   useEffect(() => {
-    if (!isInView) return;
+    // Reset to 0 whenever the element leaves the viewport so it re-animates on next scroll-in
+    if (!isInView) {
+      setCount(0);
+      return;
+    }
     let start = 0;
     const end = value;
     const totalMiliseconds = duration * 1000;
     const incrementTime = 20;
     const steps = totalMiliseconds / incrementTime;
     const stepValue = Math.ceil(end / steps);
-    
+
     const timer = setInterval(() => {
       start += stepValue;
       if (start >= end) {
@@ -52,7 +56,7 @@ function Counter({ value, duration = 1.5, suffix = "" }: { value: number; durati
     return () => clearInterval(timer);
   }, [isInView, value, duration]);
 
-  return <span ref={ref}>{count}{suffix}</span>;
+  return <span ref={ref}>{count.toLocaleString()}{suffix}</span>;
 }
 
 interface HomeClientProps {
@@ -74,7 +78,7 @@ export default function HomeClient({ projects, testimonials, faqs, settings, cat
       const timer = setTimeout(() => {
         setIsPopupOpen(true);
         sessionStorage.setItem("hasSeenPopup", "true");
-      }, 1000);
+      }, 5000);
       return () => clearTimeout(timer);
     }
   }, []);
@@ -199,20 +203,44 @@ export default function HomeClient({ projects, testimonials, faqs, settings, cat
                   hidden: { y: 30, opacity: 0 },
                   visible: { y: 0, opacity: 1, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
                 }}
-                className="font-sans text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] text-white tracking-tight"
+                className="font-sans text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold leading-[1.1] text-white tracking-tight"
               >
-                Protect Every <br />
-                Corner of Your <br />
-                <span className="text-[#D4AF37]">Dream Home.</span>
+                Protect Every Corner of Your <br />
+                <span className="text-[#D4AF37] italic">Dream Home.</span>
               </motion.h1>
 
               {/* Subheading */}
               <motion.p
                 variants={itemVariants}
-                className="text-base sm:text-lg md:text-xl text-slate-350 max-w-2xl leading-relaxed font-light"
+                className="text-xs sm:text-sm md:text-base text-slate-350 max-w-2xl leading-relaxed font-light"
               >
                 Advanced waterproofing, premium flooring, wall painting, and PVC solutions delivered by certified experts using industry-leading materials backed by long-term warranties.
               </motion.p>
+
+              {/* Quick Service Cards — horizontally scrollable */}
+              <motion.div variants={itemVariants}>
+                <div className="flex flex-nowrap gap-3 overflow-x-auto pb-2 -mx-1 px-1 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
+                  {services.slice(0, 4).map((svc, idx) => (
+                    <Link
+                      key={idx}
+                      href={svc.href}
+                      className="snap-start shrink-0 w-32 sm:w-40 rounded-xl overflow-hidden border border-white/15 bg-white/5 backdrop-blur-sm hover:border-[#D4AF37]/40 transition-all duration-300 group"
+                    >
+                      <div className="relative h-20 sm:h-24 w-full overflow-hidden">
+                        <Image
+                          src={svc.bg}
+                          alt={svc.title}
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      </div>
+                      <div className="px-3 py-2">
+                        <span className="text-xs sm:text-sm font-semibold text-white leading-tight line-clamp-2">{svc.title}</span>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </motion.div>
 
               {/* CTAs */}
               <motion.div
@@ -323,14 +351,14 @@ export default function HomeClient({ projects, testimonials, faqs, settings, cat
             </motion.div>
 
             {/* Right Column: Embedded Form Card */}
-            <div className="lg:col-span-5 w-full mt-8 lg:mt-0">
+            <div className="lg:col-span-5 w-full mt-8 lg:-mt-4">
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
-                className="bg-white/90 backdrop-blur-xl border border-slate-200/50 rounded-none p-6 sm:p-8 shadow-[0_20px_50px_rgba(30,64,175,0.18)] text-slate-900 transition-all duration-300 hover:shadow-[0_20px_50px_rgba(30,64,175,0.25)]"
+                className="bg-white/90 backdrop-blur-xl border border-slate-200/50 rounded-none px-6 sm:px-8 pt-4 sm:pt-5 pb-6 sm:pb-8 shadow-[0_20px_50px_rgba(30,64,175,0.18)] text-slate-900 transition-all duration-300 hover:shadow-[0_20px_50px_rgba(30,64,175,0.25)]"
               >
-                <div className="mb-4">
+                <div className="mb-3">
                   <h3 className="font-serif text-xl sm:text-2xl font-bold text-primary mb-1">Book Free Site Inspection</h3>
                   <p className="text-slate-500 text-xs">Get moisture scan & site survey from certified specialists.</p>
                 </div>
@@ -367,9 +395,9 @@ export default function HomeClient({ projects, testimonials, faqs, settings, cat
             {services.map((svc, idx) => (
               <motion.div key={idx} variants={itemVariants} className="h-full">
                 <Card className="group relative overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col h-full bg-white rounded-2xl pt-0 pb-0 gap-0">
-                  <div className="relative h-32 sm:h-48 md:h-56 w-full overflow-hidden">
+                  <div className="relative aspect-square sm:aspect-auto sm:h-48 md:h-56 w-full overflow-hidden">
                     <Image src={svc.bg} alt={svc.title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent"></div>
+                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/60 to-transparent"></div>
                     <h3 className="absolute bottom-2 left-2 sm:bottom-4 sm:left-6 text-white font-serif text-sm sm:text-lg md:text-xl lg:text-2xl font-bold leading-tight">{svc.title}</h3>
                   </div>
                   <CardContent className="p-3 sm:p-5 md:p-6 flex-grow flex flex-col justify-between space-y-3 sm:space-y-4">
@@ -410,19 +438,19 @@ export default function HomeClient({ projects, testimonials, faqs, settings, cat
             className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center"
           >
             <motion.div variants={itemVariants}>
-              <p className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary">15+</p>
+              <p className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary"><Counter value={15} suffix="+" /></p>
               <p className="text-xs sm:text-sm font-medium text-slate-500 uppercase tracking-wider mt-1">Years Experience</p>
             </motion.div>
             <motion.div variants={itemVariants}>
-              <p className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary">1,200+</p>
+              <p className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary"><Counter value={1200} suffix="+" /></p>
               <p className="text-xs sm:text-sm font-medium text-slate-500 uppercase tracking-wider mt-1">Projects Completed</p>
             </motion.div>
             <motion.div variants={itemVariants}>
-              <p className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary">100%</p>
+              <p className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary"><Counter value={100} suffix="%" /></p>
               <p className="text-xs sm:text-sm font-medium text-slate-500 uppercase tracking-wider mt-1">Satisfaction Rate</p>
             </motion.div>
             <motion.div variants={itemVariants}>
-              <p className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary">10-Yr</p>
+              <p className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary"><Counter value={10} suffix="-Yr" /></p>
               <p className="text-xs sm:text-sm font-medium text-slate-500 uppercase tracking-wider mt-1">Stamp-Sealed Warranty</p>
             </motion.div>
           </motion.div>
@@ -446,7 +474,7 @@ export default function HomeClient({ projects, testimonials, faqs, settings, cat
                 Why Homesdecorator?
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-primary leading-tight">
-                Why Homesdecorator is the Standard
+                Why <span className="text-primary">Homes</span><span className="text-[#D4AF37]">decorator</span> is the Standard
               </h2>
               <p className="text-slate-650 text-sm sm:text-base leading-relaxed">
                 We do not believe in short-cuts. We analyze the chemical properties of structural leakage and substrates to perform long-lasting modifications.
@@ -589,10 +617,10 @@ export default function HomeClient({ projects, testimonials, faqs, settings, cat
               viewport={{ once: true, margin: "-100px" }}
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
             >
-              {projects.map((proj) => (
+              {projects.slice(0, 3).map((proj) => (
                 <motion.div key={proj.slug} variants={itemVariants} className="h-full flex flex-col">
                   <Link href={`/projects/${proj.slug}`} className="group flex flex-col h-full bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
-                    <div className="relative h-40 sm:h-60 w-full overflow-hidden">
+                    <div className="relative aspect-square sm:aspect-auto sm:h-60 w-full overflow-hidden">
                       <Image
                         src={proj.images[0]}
                         alt={proj.title}

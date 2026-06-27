@@ -27,8 +27,8 @@ export default async function HomePage() {
     const categoriesRes = await getServiceCategories();
     categories = categoriesRes.success ? categoriesRes.categories : [];
 
-    // Fetch featured projects
-    const dbProjects = await Project.find({ isFeatured: true }).limit(3).lean();
+    // Fetch the 3 most recently added projects from admin
+    const dbProjects = await Project.find().sort({ createdAt: -1 }).limit(3).lean();
     featuredProjects = dbProjects.map((p: any) => ({
       ...p,
       _id: p._id.toString(),
