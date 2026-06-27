@@ -2,8 +2,36 @@ import Link from "next/link";
 import Image from "next/image";
 import { ShieldCheck, Mail, MapPin, Phone, Clock } from "lucide-react";
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin } from "react-icons/fa6";
+import { getServiceCategories } from "@/actions/cmsActions";
 
-export default function Footer() {
+export default async function Footer() {
+  const categoriesRes = await getServiceCategories();
+  const categories = categoriesRes.success ? categoriesRes.categories : [];
+
+  const displayCategories = categories.length > 0 ? categories : [
+    {
+      name: "Waterproofing Solutions",
+      slug: "waterproofing",
+      subcategories: [
+        { name: "Roof" }, { name: "Terrace" }, { name: "Basement" }, { name: "Tanks" }
+      ]
+    },
+    {
+      name: "Wooden Flooring",
+      slug: "wooden-flooring",
+      subcategories: [
+        { name: "Laminate" }, { name: "Vinyl" }, { name: "SPC" }, { name: "Engineered" }
+      ]
+    },
+    {
+      name: "PVC (Polyvinyl Chloride)",
+      slug: "pvc",
+      subcategories: [
+        { name: "SPC Flooring" }, { name: "LVT Planks" }, { name: "ESD Tiles" }, { name: "Cladding" }
+      ]
+    }
+  ];
+
   return (
     <footer className="bg-dark text-slate-400 pt-16 pb-8 border-t border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -44,24 +72,16 @@ export default function Footer() {
               Our Services
             </h3>
             <ul className="space-y-3 text-sm">
-              <li>
-                <Link href="/services/waterproofing" className="hover:text-accent transition-colors duration-200 block">
-                  Waterproofing Solutions
-                </Link>
-                <span className="text-[11px] text-slate-500 block pl-3">Roof, Terrace, Basement, Tanks</span>
-              </li>
-              <li>
-                <Link href="/services/wooden-flooring" className="hover:text-accent transition-colors duration-200 block">
-                  Wooden Flooring
-                </Link>
-                <span className="text-[11px] text-slate-500 block pl-3">Laminate, Vinyl, SPC, Engineered</span>
-              </li>
-              <li>
-                <Link href="/services/pvc" className="hover:text-accent transition-colors duration-200 block">
-                  PVC (Polyvinyl Chloride)
-                </Link>
-                <span className="text-[11px] text-slate-500 block pl-3">SPC Flooring, LVT Planks, ESD Tiles, Cladding</span>
-              </li>
+              {displayCategories.map((cat: any) => (
+                <li key={cat.slug || cat.name}>
+                  <Link href={`/services/${cat.slug}`} className="hover:text-accent transition-colors duration-200 block">
+                    {cat.name}
+                  </Link>
+                  <span className="text-[11px] text-slate-500 block pl-3">
+                    {cat.subcategories.map((sub: any) => sub.name).join(", ")}
+                  </span>
+                </li>
+              ))}
             </ul>
           </div>
 

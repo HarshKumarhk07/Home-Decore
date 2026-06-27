@@ -362,7 +362,7 @@ export default function HomeClient({ projects, testimonials, faqs, settings, cat
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8"
           >
             {services.map((svc, idx) => (
               <motion.div key={idx} variants={itemVariants} className="h-full">
@@ -647,7 +647,7 @@ export default function HomeClient({ projects, testimonials, faqs, settings, cat
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 relative"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 relative"
           >
             {steps.map((step, idx) => (
               <motion.div
