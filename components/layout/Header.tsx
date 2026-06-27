@@ -99,7 +99,7 @@ export default function Header() {
               )}
               priority
             />
-            <span className="font-sans font-extrabold text-black uppercase tracking-tight leading-none text-[10px] sm:text-xs lg:text-sm whitespace-nowrap">
+            <span className="font-sans font-extrabold text-black uppercase tracking-tight leading-none text-sm sm:text-sm lg:text-sm whitespace-nowrap">
               HomesDecorator
             </span>
           </Link>
