@@ -17,11 +17,11 @@ export interface ILead extends Document {
   leadId: string; // HD-YYYY-XXXX format
   customerName: string;
   phone: string;
-  email: string;
+  email?: string;
   city: string;
-  address: string;
-  service: "Waterproofing" | "Wooden Flooring" | "PVC (Polyvinyl Chloride)" | "General";
-  propertyType?: "Residential" | "Commercial" | "Industrial";
+  address?: string;
+  service: string;
+  propertyType?: string;
   area?: number; // in Sq Ft
   budget?: number;
   preferredDate?: Date;
