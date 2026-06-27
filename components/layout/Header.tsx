@@ -99,9 +99,8 @@ export default function Header() {
               )}
               priority
             />
-            <span className="flex items-center font-serif font-bold leading-none tracking-tight text-xs sm:text-sm lg:text-base whitespace-nowrap">
-              <span className="text-primary">Home</span>
-              <span className="text-[#D4AF37] ml-1">Decoration</span>
+            <span className="font-sans font-extrabold text-black uppercase tracking-tight leading-none text-[10px] sm:text-xs lg:text-sm whitespace-nowrap">
+              HomesDecorator
             </span>
           </Link>
 

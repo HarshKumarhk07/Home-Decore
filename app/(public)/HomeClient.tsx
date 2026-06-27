@@ -28,32 +28,31 @@ import InspectionForm from "@/components/forms/InspectionForm";
 function Counter({ value, duration = 1.5, suffix = "" }: { value: number; duration?: number; suffix?: string }) {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
-  const isInView = useInView(ref, { margin: "-100px" });
+  // once:true so the count-up runs reliably the first time it enters view and then stays put
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   useEffect(() => {
-    // Reset to 0 whenever the element leaves the viewport so it re-animates on next scroll-in
-    if (!isInView) {
-      setCount(0);
-      return;
-    }
-    let start = 0;
-    const end = value;
-    const totalMiliseconds = duration * 1000;
-    const incrementTime = 20;
-    const steps = totalMiliseconds / incrementTime;
-    const stepValue = Math.ceil(end / steps);
+    if (!isInView) return;
 
-    const timer = setInterval(() => {
-      start += stepValue;
-      if (start >= end) {
-        setCount(end);
-        clearInterval(timer);
+    let rafId: number;
+    let startTime: number | null = null;
+    const durationMs = duration * 1000;
+
+    const tick = (now: number) => {
+      if (startTime === null) startTime = now;
+      const progress = Math.min((now - startTime) / durationMs, 1);
+      // easeOutCubic for a fast-then-settle feel
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.round(value * eased));
+      if (progress < 1) {
+        rafId = requestAnimationFrame(tick);
       } else {
-        setCount(start);
+        setCount(value);
       }
-    }, incrementTime);
+    };
 
-    return () => clearInterval(timer);
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
   }, [isInView, value, duration]);
 
   return <span ref={ref}>{count.toLocaleString()}{suffix}</span>;
@@ -438,15 +437,15 @@ export default function HomeClient({ projects, testimonials, faqs, settings, cat
             className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center"
           >
             <motion.div variants={itemVariants}>
-              <p className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary"><Counter value={15} suffix="+" /></p>
+              <p className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary"><Counter value={10} suffix="+" /></p>
               <p className="text-xs sm:text-sm font-medium text-slate-500 uppercase tracking-wider mt-1">Years Experience</p>
             </motion.div>
             <motion.div variants={itemVariants}>
-              <p className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary"><Counter value={1200} suffix="+" /></p>
+              <p className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary"><Counter value={2500} suffix="+" /></p>
               <p className="text-xs sm:text-sm font-medium text-slate-500 uppercase tracking-wider mt-1">Projects Completed</p>
             </motion.div>
             <motion.div variants={itemVariants}>
-              <p className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary"><Counter value={100} suffix="%" /></p>
+              <p className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary"><Counter value={98} suffix="%" /></p>
               <p className="text-xs sm:text-sm font-medium text-slate-500 uppercase tracking-wider mt-1">Satisfaction Rate</p>
             </motion.div>
             <motion.div variants={itemVariants}>
@@ -471,10 +470,10 @@ export default function HomeClient({ projects, testimonials, faqs, settings, cat
               className="lg:col-span-5 space-y-6"
             >
               <span className="text-sm font-semibold tracking-wider text-primary uppercase block">
-                Why Homesdecorator?
+                Why HomesDecorator?
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-primary leading-tight">
-                Why <span className="text-primary">Homes</span><span className="text-[#D4AF37]">decorator</span> is the Standard
+                Why <span className="text-primary">Homes</span><span className="text-[#D4AF37]">Decorator</span> is the Standard
               </h2>
               <p className="text-slate-650 text-sm sm:text-base leading-relaxed">
                 We do not believe in short-cuts. We analyze the chemical properties of structural leakage and substrates to perform long-lasting modifications.
