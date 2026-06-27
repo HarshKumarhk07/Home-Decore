@@ -3,7 +3,7 @@ import Project from "@/models/Project";
 import ProjectsClient from "./ProjectsClient";
 import { fallbackProjects } from "@/lib/fallbackData";
 
-export const revalidate = 60; // Revalidate every minute
+export const dynamic = "force-dynamic"; // Always fresh so admin image changes reflect immediately
 
 export const metadata = {
   title: "Our Portfolio of Completed Projects | Homesdecorator",

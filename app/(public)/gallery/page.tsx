@@ -3,7 +3,7 @@ import Gallery from "@/models/Gallery";
 import GalleryClient from "./GalleryClient";
 import { fallbackGallery } from "@/lib/fallbackData";
 
-export const revalidate = 60; // Revalidate every minute
+export const dynamic = "force-dynamic"; // Always fresh so admin image changes reflect immediately
 
 export const metadata = {
   title: "Photo Gallery & Work Samples | Homesdecorator",

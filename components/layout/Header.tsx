@@ -87,7 +87,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
+          <Link href="/" className="flex items-center gap-2 sm:gap-3 group shrink-0">
             <Image
               src="/logo.PNG"
               alt="Homesdecorator Logo"
@@ -99,6 +99,10 @@ export default function Header() {
               )}
               priority
             />
+            <span className="flex items-center font-serif font-bold leading-none tracking-tight text-xs sm:text-sm lg:text-base whitespace-nowrap">
+              <span className="text-primary">Home</span>
+              <span className="text-[#D4AF37] ml-1">Decoration</span>
+            </span>
           </Link>
 
           {/* Desktop Navigation */}

@@ -7,8 +7,8 @@ import HomeClient from "./HomeClient";
 import { fallbackProjects, fallbackTestimonials, fallbackFaqs } from "@/lib/fallbackData";
 import { getServiceCategories } from "@/actions/cmsActions";
 
-// Force dynamic or incremental revalidation (ISR) to pull new lead-updated dashboard items.
-export const revalidate = 60; // Revalidate page every 60 seconds
+// Always render fresh so admin content changes (images, projects, services) reflect immediately.
+export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   let featuredProjects: any[] = [];

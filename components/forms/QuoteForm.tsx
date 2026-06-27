@@ -140,8 +140,8 @@ export default function QuoteForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      {/* Group 1: Name, Phone, Email */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {/* Group 1: Name, Phone */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-1">
           <label htmlFor="customerName" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
             Full Name
@@ -174,23 +174,6 @@ export default function QuoteForm() {
             }`}
           />
           {errors.phone && <p className="text-xs text-red-500 font-semibold">{errors.phone.message}</p>}
-        </div>
-
-        <div className="space-y-1">
-          <label htmlFor="email" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-            Email <span className="text-slate-400 normal-case font-medium">(optional)</span>
-          </label>
-          <input
-            id="email"
-            type="email"
-            disabled={isPending}
-            placeholder="john@example.com"
-            {...register("email")}
-            className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
-              errors.email ? "border-red-500 focus:ring-red-500" : "border-slate-200"
-            }`}
-          />
-          {errors.email && <p className="text-xs text-red-500 font-semibold">{errors.email.message}</p>}
         </div>
       </div>
 
@@ -237,44 +220,6 @@ export default function QuoteForm() {
                 </>
               )
             }
-          </select>
-        </div>
-      </div>
-
-      {/* Group 3: Preferred Date/Time */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="space-y-1">
-          <label htmlFor="preferredDate" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-            Preferred Date
-          </label>
-          <input
-            id="preferredDate"
-            type="date"
-            disabled={isPending}
-            min={new Date().toISOString().split("T")[0]}
-            {...register("preferredDate")}
-            className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
-              errors.preferredDate ? "border-red-500 focus:ring-red-500" : "border-slate-200"
-            }`}
-          />
-          {errors.preferredDate && <p className="text-xs text-red-500 font-semibold">{errors.preferredDate.message}</p>}
-        </div>
-
-        <div className="space-y-1">
-          <label htmlFor="preferredTime" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-            Preferred Time Slot
-          </label>
-          <select
-            id="preferredTime"
-            disabled={isPending}
-            {...register("preferredTime")}
-            className="w-full border border-slate-200 rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 bg-white transition-all duration-200"
-          >
-            {timeSlots.map((slot) => (
-              <option key={slot} value={slot}>
-                {slot}
-              </option>
-            ))}
           </select>
         </div>
       </div>

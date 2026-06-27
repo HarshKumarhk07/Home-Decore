@@ -9,6 +9,9 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
+// Always render fresh so admin image/content changes reflect immediately.
+export const dynamic = "force-dynamic";
+
 // Pre-generate slugs for known categories at build time; new ones are server-rendered on demand
 export async function generateStaticParams() {
   try {

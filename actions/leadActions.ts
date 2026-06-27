@@ -96,15 +96,15 @@ export async function submitInspectionBooking(rawFields: any) {
       city: city || "",
       address,
       service,
-      preferredDate: new Date(preferredDate),
-      preferredTime,
+      preferredDate: preferredDate ? new Date(preferredDate) : undefined,
+      preferredTime: preferredTime || undefined,
       message: subService ? `Treatment: ${subService}. Remarks: ${remarks || "None"}` : (remarks || "Requested Site Inspection"),
       status: "Inspection Scheduled",
       images: [],
       notes: [{ text: `Site inspection requested. ${subService ? `Treatment: ${subService}. ` : ""}Remarks: ${remarks || "None"}`, createdAt: new Date(), createdBy: "System" }],
       timeline: [
         { status: "New", notes: "Lead generated via Inspection Booking", updatedAt: new Date(), updatedBy: "System" },
-        { status: "Inspection Scheduled", notes: `Inspection scheduled for ${preferredDate} at ${preferredTime}`, updatedAt: new Date(), updatedBy: "System" }
+        { status: "Inspection Scheduled", notes: "Inspection request received", updatedAt: new Date(), updatedBy: "System" }
       ],
     });
 
@@ -182,8 +182,8 @@ export async function submitQuoteRequest(formData: FormData) {
       propertyType: data.propertyType,
       area: data.area,
       budget: data.budget,
-      preferredDate: new Date(data.preferredDate),
-      preferredTime: data.preferredTime,
+      preferredDate: data.preferredDate ? new Date(data.preferredDate) : undefined,
+      preferredTime: data.preferredTime || undefined,
       message: data.subService ? `Treatment: ${data.subService}. Remarks: ${data.message || "None"}` : (data.message || ""),
       images: cloudinaryUrls,
       status: "New",

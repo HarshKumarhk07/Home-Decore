@@ -37,6 +37,8 @@ const defaultPvcServices = [
   },
 ];
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "PVC (Polyvinyl Chloride) Solutions | Homesdecorator",
   description: "Premium Polyvinyl Chloride (PVC) flooring and wall cladding installations. Waterproof, termite-proof, and commercial-grade SPC flooring.",

@@ -35,6 +35,8 @@ const defaultFloorTypes = [
   },
 ];
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Premium Wooden Flooring Services | Homesdecorator",
   description: "Laminate, vinyl, SPC, and engineered wood floor installations with European click-lock joints and wear warranties. Book a site visit today.",

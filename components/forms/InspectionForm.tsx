@@ -164,42 +164,22 @@ export default function InspectionForm() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {/* City */}
-        <div className="space-y-1">
-          <label htmlFor="city" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-            City
-          </label>
-          <input
-            id="city"
-            type="text"
-            disabled={isPending}
-            placeholder="e.g. Mumbai, Delhi..."
-            {...register("city")}
-            className={`w-full border rounded-none px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
-              errors.city ? "border-red-500 focus:ring-red-500" : "border-slate-200"
-            }`}
-          />
-          {errors.city && <p className="text-xs text-red-500 font-semibold">{errors.city.message}</p>}
-        </div>
-
-        {/* Email (optional) */}
-        <div className="space-y-1">
-          <label htmlFor="email" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-            Email <span className="text-slate-400 normal-case font-medium">(optional)</span>
-          </label>
-          <input
-            id="email"
-            type="email"
-            disabled={isPending}
-            placeholder="john@example.com"
-            {...register("email")}
-            className={`w-full border rounded-none px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
-              errors.email ? "border-red-500 focus:ring-red-500" : "border-slate-200"
-            }`}
-          />
-          {errors.email && <p className="text-xs text-red-500 font-semibold">{errors.email.message}</p>}
-        </div>
+      {/* City */}
+      <div className="space-y-1">
+        <label htmlFor="city" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+          City
+        </label>
+        <input
+          id="city"
+          type="text"
+          disabled={isPending}
+          placeholder="e.g. Mumbai, Delhi..."
+          {...register("city")}
+          className={`w-full border rounded-none px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+            errors.city ? "border-red-500 focus:ring-red-500" : "border-slate-200"
+          }`}
+        />
+        {errors.city && <p className="text-xs text-red-500 font-semibold">{errors.city.message}</p>}
       </div>
 
       {/* Service selection */}
@@ -229,46 +209,6 @@ export default function InspectionForm() {
           }
         </select>
         {errors.service && <p className="text-xs text-red-500 font-semibold">{errors.service.message}</p>}
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {/* Preferred Date */}
-        <div className="space-y-1">
-          <label htmlFor="preferredDate" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-            Preferred Date
-          </label>
-          <input
-            id="preferredDate"
-            type="date"
-            disabled={isPending}
-            min={new Date().toISOString().split("T")[0]}
-            {...register("preferredDate")}
-            className={`w-full border rounded-none px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
-              errors.preferredDate ? "border-red-500 focus:ring-red-500" : "border-slate-200"
-            }`}
-          />
-          {errors.preferredDate && <p className="text-xs text-red-500 font-semibold">{errors.preferredDate.message}</p>}
-        </div>
-
-        {/* Preferred Time */}
-        <div className="space-y-1">
-          <label htmlFor="preferredTime" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-            Preferred Time Slot
-          </label>
-          <select
-            id="preferredTime"
-            disabled={isPending}
-            {...register("preferredTime")}
-            className="w-full border border-slate-200 rounded-none px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 bg-white transition-all duration-200"
-          >
-            {timeSlots.map((slot) => (
-              <option key={slot} value={slot}>
-                {slot}
-              </option>
-            ))}
-          </select>
-          {errors.preferredTime && <p className="text-xs text-red-500 font-semibold">{errors.preferredTime.message}</p>}
-        </div>
       </div>
 
       {/* Submit */}

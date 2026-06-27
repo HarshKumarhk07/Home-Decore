@@ -16,8 +16,8 @@ export const InspectionSchema = z.object({
   address: z.string().optional(),
   service: z.string().min(1, "Please select a valid service"),
   subService: z.string().optional(),
-  preferredDate: z.string().min(1, "Please select a preferred date"),
-  preferredTime: z.string().min(1, "Please select a preferred time slot"),
+  preferredDate: z.string().optional(),
+  preferredTime: z.string().optional(),
   remarks: z.string().optional(),
 });
 
@@ -32,7 +32,7 @@ export const QuoteSchema = z.object({
   propertyType: z.string().optional(),
   area: z.coerce.number().optional(),
   budget: z.coerce.number().optional(),
-  preferredDate: z.string().min(1, "Please select a preferred date"),
-  preferredTime: z.string().min(1, "Please select a preferred time slot"),
+  preferredDate: z.string().optional(),
+  preferredTime: z.string().optional(),
   message: z.string().optional(),
 });

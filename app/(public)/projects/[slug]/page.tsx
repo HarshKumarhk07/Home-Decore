@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { MapPin, Calendar, ShieldCheck, Wrench, Clock, Maximize2, User, ChevronLeft } from "lucide-react";
 import { fallbackProjects } from "@/lib/fallbackData";
 
-export const revalidate = 60; // Revalidate every minute
+export const dynamic = "force-dynamic"; // Always fresh so admin image changes reflect immediately
 
 interface Props {
   params: Promise<{ slug: string }>;

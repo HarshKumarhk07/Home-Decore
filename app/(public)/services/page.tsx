@@ -4,6 +4,8 @@ import { ArrowRight, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getServiceCategories } from "@/actions/cmsActions";
 
+export const dynamic = "force-dynamic"; // Always fresh so admin image changes reflect immediately
+
 export const metadata = {
   title: "Professional Home Services | Homesdecorator",
   description: "Explore our specialized home improvement services: scientific waterproofing, premium wooden flooring, and PVC cladding/flooring.",

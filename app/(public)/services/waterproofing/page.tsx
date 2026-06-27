@@ -32,6 +32,8 @@ const defaultSubServices = [
   },
 ];
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Scientific Waterproofing Services | Homesdecorator",
   description: "Stop structural leaks with professional waterproofing treatments for roofs, terraces, bathrooms, and basements. Up to 10-year warranty.",
