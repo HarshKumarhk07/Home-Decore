@@ -10,10 +10,10 @@ export const fallbackProjects = [
     duration: "14 Days",
     clientName: "TechSpace IT Solutions",
     description: "Heavy-duty multi-layer membrane terrace waterproofing designed to solve massive structural seepage and dampness, preventing any leakage in executive server rooms.",
-    images: ["/waterproofing.jpg"],
+    images: ["/w.jpg"],
     beforeAfter: {
       before: "https://images.unsplash.com/photo-1595841696660-1d8c03793e46?auto=format&fit=crop&q=80&w=800",
-      after: "/waterproofing.jpg",
+      after: "/w.jpg",
     },
     isFeatured: true,
     completionDate: "2026-05-20T00:00:00.000Z",
