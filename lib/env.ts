@@ -3,7 +3,10 @@ import { z } from "zod";
 const envSchema = z.object({
   MONGODB_URI: z.string().min(1, "MONGODB_URI is required"),
   AUTH_SECRET: z.string().min(8, "AUTH_SECRET must be at least 8 characters"),
-  BREVO_API_KEY: z.string().min(1, "BREVO_API_KEY is required"),
+  SMTP_HOST: z.string().min(1, "SMTP_HOST is required"),
+  SMTP_PORT: z.coerce.number().int().positive().default(587),
+  SMTP_USER: z.string().min(1, "SMTP_USER is required"),
+  SMTP_PASS: z.string().min(1, "SMTP_PASS is required"),
   MAIL_FROM: z.string().email("MAIL_FROM must be a valid email"),
   CLOUDINARY_CLOUD_NAME: z.string().min(1, "CLOUDINARY_CLOUD_NAME is required"),
   CLOUDINARY_API_KEY: z.string().min(1, "CLOUDINARY_API_KEY is required"),
@@ -13,7 +16,10 @@ const envSchema = z.object({
 const processEnv = {
   MONGODB_URI: process.env.MONGODB_URI,
   AUTH_SECRET: process.env.AUTH_SECRET,
-  BREVO_API_KEY: process.env.BREVO_API_KEY,
+  SMTP_HOST: process.env.SMTP_HOST,
+  SMTP_PORT: process.env.SMTP_PORT,
+  SMTP_USER: process.env.SMTP_USER,
+  SMTP_PASS: process.env.SMTP_PASS,
   MAIL_FROM: process.env.MAIL_FROM,
   CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
   CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,

@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(ls .env.example .env.local.example)",
+      "Bash(grep -rn \"BREVO\\\\|MAIL_FROM\" README.md)",
+      "Bash(node -e \"try{require.resolve\\('dotenv'\\);console.log\\('dotenv: yes'\\)}catch{console.log\\('dotenv: no'\\)} try{require.resolve\\('mongoose'\\);console.log\\('mongoose: yes'\\)}catch{console.log\\('mongoose: no'\\)} try{require.resolve\\('bcryptjs'\\);console.log\\('bcryptjs: yes'\\)}catch{console.log\\('bcryptjs: no'\\)}\")",
+      "Bash(node scripts/create-admin.mjs)"
+    ]
+  }
+}

@@ -1,8 +1,19 @@
+import nodemailer from "nodemailer";
 import { env } from "@/lib/env";
 
-const BREVO_API_URL = "https://api.brevo.com/v3/smtp/email";
+// Reusable SMTP transport. `secure` is true for implicit TLS (port 465),
+// false for STARTTLS (e.g. port 587).
+const transporter = nodemailer.createTransport({
+  host: env.SMTP_HOST,
+  port: env.SMTP_PORT,
+  secure: env.SMTP_PORT === 465,
+  auth: {
+    user: env.SMTP_USER,
+    pass: env.SMTP_PASS,
+  },
+});
 
-// Helper function to send email via Brevo API
+// Helper function to send email via SMTP
 async function sendEmail({
   to,
   subject,
@@ -13,30 +24,20 @@ async function sendEmail({
   htmlContent: string;
 }) {
   try {
-    const response = await fetch(BREVO_API_URL, {
-      method: "POST",
-      headers: {
-        accept: "application/json",
-        "api-key": env.BREVO_API_KEY,
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        sender: { name: "Homesdecorator", email: env.MAIL_FROM },
-        to,
-        subject,
-        htmlContent,
-      }),
+    await transporter.sendMail({
+      from: { name: "Homesdecorator", address: env.MAIL_FROM },
+      to: to.map((recipient) =>
+        recipient.name
+          ? { name: recipient.name, address: recipient.email }
+          : recipient.email
+      ),
+      subject,
+      html: htmlContent,
     });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error(`❌ Brevo API returned error status ${response.status}:`, errorText);
-      return false;
-    }
 
     return true;
   } catch (error) {
-    console.error("❌ Failed to send email via Brevo:", error);
+    console.error("❌ Failed to send email via SMTP:", error);
     return false;
   }
 }
