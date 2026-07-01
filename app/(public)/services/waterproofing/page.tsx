@@ -18,7 +18,8 @@ const defaultSubServices = [
   {
     name: "Bathroom Seepage Waterproofing",
     desc: "Fixes dampness and pipe-joint leaks behind tiled bathroom walls. We apply cementitious waterproofing compounds underneath tiled floors, avoiding floor breaking using advanced grouting methods.",
-    image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=600",
+    image:
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=600",
   },
   {
     name: "Basement & Retaining Wall Grouting",
@@ -36,7 +37,8 @@ export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Scientific Waterproofing Services | Homesdecorator",
-  description: "Stop structural leaks with professional waterproofing treatments for roofs, terraces, bathrooms, and basements. Up to 10-year warranty.",
+  description:
+    "Stop structural leaks with professional waterproofing treatments for roofs, terraces, bathrooms, and basements. Up to 10-year warranty.",
 };
 
 export default async function WaterproofingPage() {
@@ -46,39 +48,41 @@ export default async function WaterproofingPage() {
   const catRes = await getServiceCategoryBySlug("waterproofing");
   const category = catRes.success ? catRes.category : null;
 
-  const servicesToRender = category && category.subcategories && category.subcategories.length > 0
-    ? category.subcategories
-    : defaultSubServices;
+  const servicesToRender =
+    category && category.subcategories && category.subcategories.length > 0
+      ? category.subcategories
+      : defaultSubServices;
 
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://homedecorater.in";
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Service",
-    "name": "Scientific Waterproofing Solutions",
-    "description": "Stop structural leaks with professional waterproofing treatments for roofs, terraces, bathrooms, and basements. Up to 10-year warranty.",
-    "provider": {
+    name: "Scientific Waterproofing Solutions",
+    description:
+      "Stop structural leaks with professional waterproofing treatments for roofs, terraces, bathrooms, and basements. Up to 10-year warranty.",
+    provider: {
       "@type": "HomeAndConstructionBusiness",
-      "name": "Homesdecorator",
-      "url": baseUrl
+      name: "Homesdecorator",
+      url: baseUrl,
     },
-    "serviceType": "Waterproofing",
-    "areaServed": {
+    serviceType: "Waterproofing",
+    areaServed: {
       "@type": "AdministrativeArea",
-      "name": "Delhi NCR"
+      name: "Delhi NCR",
     },
-    "hasOfferCatalog": {
+    hasOfferCatalog: {
       "@type": "OfferCatalog",
-      "name": "Waterproofing Services Catalog",
-      "itemListElement": servicesToRender.map((sub: any) => ({
+      name: "Waterproofing Services Catalog",
+      itemListElement: servicesToRender.map((sub: any) => ({
         "@type": "Offer",
-        "itemOffered": {
+        itemOffered: {
           "@type": "Service",
-          "name": sub.name,
-          "description": sub.desc
-        }
-      }))
-    }
+          name: sub.name,
+          description: sub.desc,
+        },
+      })),
+    },
   };
 
   return (
@@ -96,20 +100,31 @@ export default async function WaterproofingPage() {
             </div>
             <div className="relative z-10 max-w-3xl space-y-4">
               <div className="inline-flex items-center space-x-2 bg-accent/20 border border-accent/20 px-3 py-1 rounded-full text-accent font-semibold text-xs uppercase tracking-wider">
-                <ShieldCheck className="w-4 h-4 mr-1 text-accent animate-pulse" /> 10-Year Stamp Warranty
+                <ShieldCheck className="w-4 h-4 mr-1 text-accent animate-pulse" />{" "}
+                10-Year Stamp Warranty
               </div>
               <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight">
                 Scientific Waterproofing Solutions
               </h1>
               <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl">
-                Water seepage degrades reinforcement bars, causing concrete cancer and paint failures. Our engineers scan dampness with moisture scanners and deploy specialized waterproofing chemical systems to seal your home forever.
+                Water seepage degrades reinforcement bars, causing concrete
+                cancer and paint failures. Our engineers scan dampness with
+                moisture scanners and deploy specialized waterproofing chemical
+                systems to seal your home forever.
               </p>
               <div className="flex flex-wrap gap-4 pt-2">
-                <Button asChild className="bg-accent hover:bg-accent-hover text-dark font-bold rounded-xl px-6 py-5 text-sm sm:text-base">
+                <Button
+                  asChild
+                  className="bg-accent hover:bg-accent-hover text-dark font-bold rounded-xl px-6 py-5 text-sm sm:text-base"
+                >
                   <Link href="/inspection">Book Free Moisture Inspection</Link>
                 </Button>
-                <Button asChild variant="outline" className="border-slate-400 text-white hover:bg-white hover:text-dark font-bold rounded-xl px-6 py-5 text-sm sm:text-base">
-                  <Link href="tel:+919999999999">Call: +91 99999 99999</Link>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="border-slate-400 text-white hover:bg-white hover:text-dark font-bold rounded-xl px-6 py-5 text-sm sm:text-base"
+                >
+                  <Link href="tel:+919999999999">Call: +91 82955 24045</Link>
                 </Button>
               </div>
             </div>
@@ -122,7 +137,10 @@ export default async function WaterproofingPage() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               {servicesToRender.map((sub: any, idx: number) => (
-                <div key={idx} className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full hover:-translate-y-1">
+                <div
+                  key={idx}
+                  className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full hover:-translate-y-1"
+                >
                   <div className="relative h-48 w-full">
                     <Image
                       src={sub.image}
@@ -132,7 +150,9 @@ export default async function WaterproofingPage() {
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                    <h3 className="absolute bottom-4 left-6 text-white font-serif text-lg font-bold">{sub.name}</h3>
+                    <h3 className="absolute bottom-4 left-6 text-white font-serif text-lg font-bold">
+                      {sub.name}
+                    </h3>
                   </div>
                   <div className="p-6 flex-grow flex flex-col justify-between space-y-4">
                     <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -143,7 +163,10 @@ export default async function WaterproofingPage() {
                         <CheckCircle className="w-4 h-4 text-accent shrink-0" />
                         <span>Includes site scan & written warranty</span>
                       </div>
-                      <Button asChild className="w-full bg-primary hover:bg-primary-hover text-white font-bold rounded-xl py-2 cursor-pointer text-xs">
+                      <Button
+                        asChild
+                        className="w-full bg-primary hover:bg-primary-hover text-white font-bold rounded-xl py-2 cursor-pointer text-xs"
+                      >
                         <Link href="/inspection">Book Free Inspection</Link>
                       </Button>
                     </div>
@@ -157,9 +180,14 @@ export default async function WaterproofingPage() {
           <div className="bg-amber-50 border-l-4 border-accent p-5 rounded-2xl mt-16 flex items-start space-x-3 shadow-sm animate-fade-in">
             <AlertCircle className="w-6 h-6 text-accent shrink-0 mt-0.5" />
             <div>
-              <h4 className="font-bold text-slate-900 text-sm sm:text-base">Why waterproofing should never be delayed:</h4>
+              <h4 className="font-bold text-slate-900 text-sm sm:text-base">
+                Why waterproofing should never be delayed:
+              </h4>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mt-1">
-                Micro-cracks in walls allow moisture to reach the steel reinforcement bars. This causes the steel to rust, expand, and crack the surrounding concrete, leading to permanent structural damage and hazardous flaking plaster.
+                Micro-cracks in walls allow moisture to reach the steel
+                reinforcement bars. This causes the steel to rust, expand, and
+                crack the surrounding concrete, leading to permanent structural
+                damage and hazardous flaking plaster.
               </p>
             </div>
           </div>
@@ -170,22 +198,25 @@ export default async function WaterproofingPage() {
               Request Your Free Site Audit & Moisture Assessment
             </h2>
             <p className="text-slate-200 text-sm max-w-xl mx-auto leading-relaxed">
-              Our engineers visit your property, scan concrete moisture levels with professional tools, and suggest the right system.
+              Our engineers visit your property, scan concrete moisture levels
+              with professional tools, and suggest the right system.
             </p>
             <div className="pt-2 flex flex-wrap justify-center gap-4">
-              <Button asChild className="bg-accent hover:bg-accent-hover text-dark font-bold rounded-xl px-8 py-6 text-base cursor-pointer">
-                <Link href="/inspection">
-                  Book Free Site Audit
-                </Link>
+              <Button
+                asChild
+                className="bg-accent hover:bg-accent-hover text-dark font-bold rounded-xl px-8 py-6 text-base cursor-pointer"
+              >
+                <Link href="/inspection">Book Free Site Audit</Link>
               </Button>
-              <Button asChild variant="outline" className="border-slate-400 text-white hover:bg-white hover:text-dark font-bold rounded-xl px-8 py-6 text-base cursor-pointer">
-                <Link href="/quote">
-                  Get Free Estimate
-                </Link>
+              <Button
+                asChild
+                variant="outline"
+                className="border-slate-400 text-white hover:bg-white hover:text-dark font-bold rounded-xl px-8 py-6 text-base cursor-pointer"
+              >
+                <Link href="/quote">Get Free Estimate</Link>
               </Button>
             </div>
           </div>
-
         </div>
       </div>
     </>

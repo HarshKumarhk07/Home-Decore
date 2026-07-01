@@ -41,7 +41,8 @@ export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "PVC (Polyvinyl Chloride) Solutions | Homesdecorator",
-  description: "Premium Polyvinyl Chloride (PVC) flooring and wall cladding installations. Waterproof, termite-proof, and commercial-grade SPC flooring.",
+  description:
+    "Premium Polyvinyl Chloride (PVC) flooring and wall cladding installations. Waterproof, termite-proof, and commercial-grade SPC flooring.",
 };
 
 export default async function PvcPage() {
@@ -51,39 +52,41 @@ export default async function PvcPage() {
   const catRes = await getServiceCategoryBySlug("pvc");
   const category = catRes.success ? catRes.category : null;
 
-  const servicesToRender = category && category.subcategories && category.subcategories.length > 0
-    ? category.subcategories
-    : defaultPvcServices;
+  const servicesToRender =
+    category && category.subcategories && category.subcategories.length > 0
+      ? category.subcategories
+      : defaultPvcServices;
 
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://homedecorater.in";
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Service",
-    "name": "PVC (Polyvinyl Chloride) Solutions",
-    "description": "Premium Polyvinyl Chloride (PVC) flooring and wall cladding installations. Waterproof, termite-proof, and commercial-grade SPC flooring.",
-    "provider": {
+    name: "PVC (Polyvinyl Chloride) Solutions",
+    description:
+      "Premium Polyvinyl Chloride (PVC) flooring and wall cladding installations. Waterproof, termite-proof, and commercial-grade SPC flooring.",
+    provider: {
       "@type": "HomeAndConstructionBusiness",
-      "name": "Homesdecorator",
-      "url": baseUrl
+      name: "Homesdecorator",
+      url: baseUrl,
     },
-    "serviceType": "PVC Flooring and Cladding",
-    "areaServed": {
+    serviceType: "PVC Flooring and Cladding",
+    areaServed: {
       "@type": "AdministrativeArea",
-      "name": "Delhi NCR"
+      name: "Delhi NCR",
     },
-    "hasOfferCatalog": {
+    hasOfferCatalog: {
       "@type": "OfferCatalog",
-      "name": "PVC Services Catalog",
-      "itemListElement": servicesToRender.map((svc: any) => ({
+      name: "PVC Services Catalog",
+      itemListElement: servicesToRender.map((svc: any) => ({
         "@type": "Offer",
-        "itemOffered": {
+        itemOffered: {
           "@type": "Service",
-          "name": svc.name,
-          "description": svc.desc
-        }
-      }))
-    }
+          name: svc.name,
+          description: svc.desc,
+        },
+      })),
+    },
   };
 
   return (
@@ -98,20 +101,32 @@ export default async function PvcPage() {
           <div className="bg-gradient-to-r from-primary to-slate-900 text-white rounded-3xl p-8 sm:p-12 mb-16 relative overflow-hidden shadow-xl animate-fade-in">
             <div className="relative z-10 max-w-3xl space-y-4">
               <div className="inline-flex items-center space-x-2 bg-accent/20 border border-accent/20 px-3 py-1 rounded-full text-accent font-semibold text-xs uppercase tracking-wider">
-                <Sparkles className="w-4 h-4 text-accent animate-pulse" /> 100% Waterproof & Termite-Proof
+                <Sparkles className="w-4 h-4 text-accent animate-pulse" /> 100%
+                Waterproof & Termite-Proof
               </div>
               <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight">
                 PVC (Polyvinyl Chloride) Solutions
               </h1>
               <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl">
-                Upgrade your spaces with our durable, water-resistant Polyvinyl Chloride (PVC) floorings and wall panel cladding solutions. Engineered for high performance, hygiene, and low maintenance.
+                Upgrade your spaces with our durable, water-resistant Polyvinyl
+                Chloride (PVC) floorings and wall panel cladding solutions.
+                Engineered for high performance, hygiene, and low maintenance.
               </p>
               <div className="flex flex-wrap gap-4 pt-2">
-                <Button asChild className="bg-accent hover:bg-accent-hover text-dark font-bold rounded-xl px-6 py-5 text-sm sm:text-base">
+                <Button
+                  asChild
+                  className="bg-accent hover:bg-accent-hover text-dark font-bold rounded-xl px-6 py-5 text-sm sm:text-base"
+                >
                   <Link href="/quote">Book Free Site Visit</Link>
                 </Button>
-                <Button asChild variant="outline" className="border-slate-400 text-white hover:bg-white hover:text-dark font-bold rounded-xl px-6 py-5 text-sm sm:text-base">
-                  <Link href="tel:+919999999999">Call Now: +91 99999 99999</Link>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="border-slate-400 text-white hover:bg-white hover:text-dark font-bold rounded-xl px-6 py-5 text-sm sm:text-base"
+                >
+                  <Link href="tel:+919999999999">
+                    Call Now: +91 82955 24045
+                  </Link>
                 </Button>
               </div>
             </div>
@@ -122,22 +137,34 @@ export default async function PvcPage() {
             <div className="bg-white p-6 rounded-2xl border border-slate-100 flex items-center space-x-3 shadow-sm">
               <Layers className="w-6 h-6 text-accent shrink-0" />
               <div>
-                <h4 className="font-bold text-slate-900 text-sm">Resilient & Waterproof</h4>
-                <p className="text-xs text-slate-500">Ideal for wet areas & high footfall</p>
+                <h4 className="font-bold text-slate-900 text-sm">
+                  Resilient & Waterproof
+                </h4>
+                <p className="text-xs text-slate-500">
+                  Ideal for wet areas & high footfall
+                </p>
               </div>
             </div>
             <div className="bg-white p-6 rounded-2xl border border-slate-100 flex items-center space-x-3 shadow-sm">
               <ShieldCheck className="w-6 h-6 text-accent shrink-0" />
               <div>
-                <h4 className="font-bold text-slate-900 text-sm">10-Year Wear Warranty</h4>
-                <p className="text-xs text-slate-500">Covers structural warping or cracking</p>
+                <h4 className="font-bold text-slate-900 text-sm">
+                  10-Year Wear Warranty
+                </h4>
+                <p className="text-xs text-slate-500">
+                  Covers structural warping or cracking
+                </p>
               </div>
             </div>
             <div className="bg-white p-6 rounded-2xl border border-slate-100 flex items-center space-x-3 shadow-sm">
               <Award className="w-6 h-6 text-accent shrink-0" />
               <div>
-                <h4 className="font-bold text-slate-900 text-sm">Flame & Termite Resistant</h4>
-                <p className="text-xs text-slate-500">Self-extinguishing polymer standard</p>
+                <h4 className="font-bold text-slate-900 text-sm">
+                  Flame & Termite Resistant
+                </h4>
+                <p className="text-xs text-slate-500">
+                  Self-extinguishing polymer standard
+                </p>
               </div>
             </div>
           </div>
@@ -149,7 +176,10 @@ export default async function PvcPage() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               {servicesToRender.map((svc: any, idx: number) => (
-                <div key={idx} className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full hover:-translate-y-1">
+                <div
+                  key={idx}
+                  className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full hover:-translate-y-1"
+                >
                   <div className="relative h-48 w-full">
                     <Image
                       src={svc.image}
@@ -159,7 +189,9 @@ export default async function PvcPage() {
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                    <h3 className="absolute bottom-4 left-6 text-white font-serif text-lg font-bold">{svc.name}</h3>
+                    <h3 className="absolute bottom-4 left-6 text-white font-serif text-lg font-bold">
+                      {svc.name}
+                    </h3>
                   </div>
                   <div className="p-6 flex-grow flex flex-col justify-between space-y-4">
                     <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -167,9 +199,15 @@ export default async function PvcPage() {
                     </p>
                     <div className="space-y-3">
                       <div className="text-xs font-bold text-slate-500 border-t border-slate-100 pt-4">
-                        Specification: <span className="text-primary font-bold">{svc.specification}</span>
+                        Specification:{" "}
+                        <span className="text-primary font-bold">
+                          {svc.specification}
+                        </span>
                       </div>
-                      <Button asChild className="w-full bg-primary hover:bg-primary-hover text-white font-bold rounded-xl py-2 cursor-pointer text-xs">
+                      <Button
+                        asChild
+                        className="w-full bg-primary hover:bg-primary-hover text-white font-bold rounded-xl py-2 cursor-pointer text-xs"
+                      >
                         <Link href="/quote">Request PVC Estimate</Link>
                       </Button>
                     </div>
@@ -185,22 +223,25 @@ export default async function PvcPage() {
               Request Your Free PVC & SPC Site Quote
             </h2>
             <p className="text-slate-200 text-sm max-w-xl mx-auto leading-relaxed">
-              Contact us for expert PVC wall paneling and anti-static ESD flooring installations. Free quote.
+              Contact us for expert PVC wall paneling and anti-static ESD
+              flooring installations. Free quote.
             </p>
             <div className="pt-2 flex flex-wrap justify-center gap-4">
-              <Button asChild className="bg-accent hover:bg-accent-hover text-dark font-bold rounded-xl px-8 py-6 text-base cursor-pointer">
-                <Link href="/inspection">
-                  Book Free Site Audit
-                </Link>
+              <Button
+                asChild
+                className="bg-accent hover:bg-accent-hover text-dark font-bold rounded-xl px-8 py-6 text-base cursor-pointer"
+              >
+                <Link href="/inspection">Book Free Site Audit</Link>
               </Button>
-              <Button asChild variant="outline" className="border-slate-400 text-white hover:bg-white hover:text-dark font-bold rounded-xl px-8 py-6 text-base cursor-pointer">
-                <Link href="/quote">
-                  Get Free Estimate
-                </Link>
+              <Button
+                asChild
+                variant="outline"
+                className="border-slate-400 text-white hover:bg-white hover:text-dark font-bold rounded-xl px-8 py-6 text-base cursor-pointer"
+              >
+                <Link href="/quote">Get Free Estimate</Link>
               </Button>
             </div>
           </div>
-
         </div>
       </div>
     </>

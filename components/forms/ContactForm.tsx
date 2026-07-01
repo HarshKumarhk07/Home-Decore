@@ -52,7 +52,10 @@ export default function ContactForm() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Name */}
         <div className="space-y-1">
-          <label htmlFor="name" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+          <label
+            htmlFor="name"
+            className="text-xs font-bold text-slate-700 uppercase tracking-wider"
+          >
             Full Name
           </label>
           <input
@@ -62,34 +65,52 @@ export default function ContactForm() {
             placeholder="John Doe"
             {...register("name")}
             className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
-              errors.name ? "border-red-500 focus:ring-red-500" : "border-slate-200"
+              errors.name
+                ? "border-red-500 focus:ring-red-500"
+                : "border-slate-200"
             }`}
           />
-          {errors.name && <p className="text-xs text-red-500 font-semibold">{errors.name.message}</p>}
+          {errors.name && (
+            <p className="text-xs text-red-500 font-semibold">
+              {errors.name.message}
+            </p>
+          )}
         </div>
 
         {/* Phone */}
         <div className="space-y-1">
-          <label htmlFor="phone" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+          <label
+            htmlFor="phone"
+            className="text-xs font-bold text-slate-700 uppercase tracking-wider"
+          >
             Phone Number
           </label>
           <input
             id="phone"
             type="tel"
             disabled={isPending}
-            placeholder="+91 99999 99999"
+            placeholder="+91 82955 24045"
             {...register("phone")}
             className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
-              errors.phone ? "border-red-500 focus:ring-red-500" : "border-slate-200"
+              errors.phone
+                ? "border-red-500 focus:ring-red-500"
+                : "border-slate-200"
             }`}
           />
-          {errors.phone && <p className="text-xs text-red-500 font-semibold">{errors.phone.message}</p>}
+          {errors.phone && (
+            <p className="text-xs text-red-500 font-semibold">
+              {errors.phone.message}
+            </p>
+          )}
         </div>
       </div>
 
       {/* Email */}
       <div className="space-y-1">
-        <label htmlFor="email" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+        <label
+          htmlFor="email"
+          className="text-xs font-bold text-slate-700 uppercase tracking-wider"
+        >
           Email Address
         </label>
         <input
@@ -99,15 +120,24 @@ export default function ContactForm() {
           placeholder="john@example.com"
           {...register("email")}
           className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
-            errors.email ? "border-red-500 focus:ring-red-500" : "border-slate-200"
+            errors.email
+              ? "border-red-500 focus:ring-red-500"
+              : "border-slate-200"
           }`}
         />
-        {errors.email && <p className="text-xs text-red-500 font-semibold">{errors.email.message}</p>}
+        {errors.email && (
+          <p className="text-xs text-red-500 font-semibold">
+            {errors.email.message}
+          </p>
+        )}
       </div>
 
       {/* Subject */}
       <div className="space-y-1">
-        <label htmlFor="subject" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+        <label
+          htmlFor="subject"
+          className="text-xs font-bold text-slate-700 uppercase tracking-wider"
+        >
           Subject
         </label>
         <input
@@ -117,15 +147,24 @@ export default function ContactForm() {
           placeholder="Service Inquiry"
           {...register("subject")}
           className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
-            errors.subject ? "border-red-500 focus:ring-red-500" : "border-slate-200"
+            errors.subject
+              ? "border-red-500 focus:ring-red-500"
+              : "border-slate-200"
           }`}
         />
-        {errors.subject && <p className="text-xs text-red-500 font-semibold">{errors.subject.message}</p>}
+        {errors.subject && (
+          <p className="text-xs text-red-500 font-semibold">
+            {errors.subject.message}
+          </p>
+        )}
       </div>
 
       {/* Message */}
       <div className="space-y-1">
-        <label htmlFor="message" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+        <label
+          htmlFor="message"
+          className="text-xs font-bold text-slate-700 uppercase tracking-wider"
+        >
           Message
         </label>
         <textarea
@@ -135,10 +174,16 @@ export default function ContactForm() {
           placeholder="Tell us about your requirements..."
           {...register("message")}
           className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
-            errors.message ? "border-red-500 focus:ring-red-500" : "border-slate-200"
+            errors.message
+              ? "border-red-500 focus:ring-red-500"
+              : "border-slate-200"
           }`}
         />
-        {errors.message && <p className="text-xs text-red-500 font-semibold">{errors.message.message}</p>}
+        {errors.message && (
+          <p className="text-xs text-red-500 font-semibold">
+            {errors.message.message}
+          </p>
+        )}
       </div>
 
       {/* Submit Button */}

@@ -1,6 +1,7 @@
 export const metadata = {
   title: "Privacy Policy | Homesdecorator",
-  description: "Learn how Homesdecorator collects, manages, and protects customer inquiry details and uploaded site images.",
+  description:
+    "Learn how Homesdecorator collects, manages, and protects customer inquiry details and uploaded site images.",
 };
 
 export default function PrivacyPolicyPage() {
@@ -11,12 +12,18 @@ export default function PrivacyPolicyPage() {
           Privacy Policy
         </h1>
         <p className="text-sm leading-relaxed">
-          At Homesdecorator, we prioritize the privacy and security of our visitors and clients. This privacy policy document outlines the types of personal information that is collected, recorded, and processed when you submit an inquiry form on our website.
+          At Homesdecorator, we prioritize the privacy and security of our
+          visitors and clients. This privacy policy document outlines the types
+          of personal information that is collected, recorded, and processed
+          when you submit an inquiry form on our website.
         </p>
 
-        <h2 className="font-serif text-xl font-bold text-primary pt-4">1. Information We Collect</h2>
+        <h2 className="font-serif text-xl font-bold text-primary pt-4">
+          1. Information We Collect
+        </h2>
         <p className="text-sm leading-relaxed">
-          When you use our forms (Get Free Quote, Book Site Inspection, Contact Form), we may collect details including:
+          When you use our forms (Get Free Quote, Book Site Inspection, Contact
+          Form), we may collect details including:
         </p>
         <ul className="list-style-disc list-inside space-y-2 pl-4 text-sm">
           <li>Full Name and Contact Details (phone number, email address).</li>
@@ -24,24 +31,38 @@ export default function PrivacyPolicyPage() {
           <li>Property dimensions, photos, and project descriptions.</li>
         </ul>
 
-        <h2 className="font-serif text-xl font-bold text-primary pt-4">2. How We Use Your Data</h2>
+        <h2 className="font-serif text-xl font-bold text-primary pt-4">
+          2. How We Use Your Data
+        </h2>
         <p className="text-sm leading-relaxed">
           We use your data solely for business execution purposes:
         </p>
         <ul className="list-style-disc list-inside space-y-2 pl-4 text-sm">
-          <li>To schedule inspections and generate customized service estimates.</li>
+          <li>
+            To schedule inspections and generate customized service estimates.
+          </li>
           <li>To contact you regarding appointments.</li>
           <li>To compile internal lead tracking logs.</li>
         </ul>
 
-        <h2 className="font-serif text-xl font-bold text-primary pt-4">3. Data Security & Storage</h2>
+        <h2 className="font-serif text-xl font-bold text-primary pt-4">
+          3. Data Security & Storage
+        </h2>
         <p className="text-sm leading-relaxed">
-          Your inquiry details are stored securely inside our MongoDB cloud database. Site images are uploaded to Cloudinary, a secure content delivery network. We deploy transport-layer security (HTTPS) to secure all data transmissions. We do not sell or lease customer information to third-party marketing companies.
+          Your inquiry details are stored securely inside our MongoDB cloud
+          database. Site images are uploaded to Cloudinary, a secure content
+          delivery network. We deploy transport-layer security (HTTPS) to secure
+          all data transmissions. We do not sell or lease customer information
+          to third-party marketing companies.
         </p>
 
-        <h2 className="font-serif text-xl font-bold text-primary pt-4">4. Your Rights</h2>
+        <h2 className="font-serif text-xl font-bold text-primary pt-4">
+          4. Your Rights
+        </h2>
         <p className="text-sm leading-relaxed">
-          You have the right to request the deletion or correction of your personal data from our database logs by contacting us at <strong>info@homedecorater.in</strong>.
+          You have the right to request the deletion or correction of your
+          personal data from our database logs by contacting us at{" "}
+          <strong>homesdecorator45@gmail.com</strong>.
         </p>
       </div>
     </div>

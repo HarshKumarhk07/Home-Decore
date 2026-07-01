@@ -32,8 +32,10 @@ export function generateQuotationPDF(lead: any) {
   doc.setFontSize(9);
   doc.setTextColor(textColor[0], textColor[1], textColor[2]);
   doc.text("Sector 62, Noida, UP, India", 210 - margin, y, { align: "right" });
-  doc.text("Phone: +91 99999 99999", 210 - margin, y + 5, { align: "right" });
-  doc.text("Email: billing@homedecorater.in", 210 - margin, y + 10, { align: "right" });
+  doc.text("Phone: +91 82955 24045", 210 - margin, y + 5, { align: "right" });
+  doc.text("Email: billing@homedecorater.in", 210 - margin, y + 10, {
+    align: "right",
+  });
 
   y += 20;
 
@@ -54,8 +56,15 @@ export function generateQuotationPDF(lead: any) {
   doc.setFont("Helvetica", "normal");
   doc.setFontSize(10);
   doc.setTextColor(textColor[0], textColor[1], textColor[2]);
-  doc.text(`Quote Date: ${new Date().toLocaleDateString("en-IN")}`, 210 - margin, y, { align: "right" });
-  doc.text(`Lead Reference: ${lead.leadId}`, 210 - margin, y + 5, { align: "right" });
+  doc.text(
+    `Quote Date: ${new Date().toLocaleDateString("en-IN")}`,
+    210 - margin,
+    y,
+    { align: "right" },
+  );
+  doc.text(`Lead Reference: ${lead.leadId}`, 210 - margin, y + 5, {
+    align: "right",
+  });
 
   y += 15;
 
@@ -63,7 +72,7 @@ export function generateQuotationPDF(lead: any) {
   doc.setFont("Helvetica", "bold");
   doc.setFontSize(11);
   doc.text("Quotation Prepared For:", margin, y);
-  
+
   doc.setFont("Helvetica", "normal");
   doc.setFontSize(10);
   doc.text(`Customer Name : ${lead.customerName}`, margin, y + 6);
@@ -73,7 +82,11 @@ export function generateQuotationPDF(lead: any) {
 
   // Scope parameters
   doc.text(`Property Type : ${lead.propertyType || "Residential"}`, 120, y + 6);
-  doc.text(`Covered Area  : ${lead.area ? `${lead.area} Sq Ft` : "N/A"}`, 120, y + 12);
+  doc.text(
+    `Covered Area  : ${lead.area ? `${lead.area} Sq Ft` : "N/A"}`,
+    120,
+    y + 12,
+  );
   doc.text(`Service Class : ${lead.service}`, 120, y + 18);
 
   y += 38;
@@ -95,8 +108,8 @@ export function generateQuotationPDF(lead: any) {
 
   // Table Headers
   doc.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-  doc.rect(margin, y, 210 - (margin * 2), 8, "F");
-  
+  doc.rect(margin, y, 210 - margin * 2, 8, "F");
+
   doc.setFont("Helvetica", "bold");
   doc.setFontSize(9);
   doc.setTextColor(255, 255, 255);
@@ -132,14 +145,14 @@ export function generateQuotationPDF(lead: any) {
     // Row background stripes
     if (index % 2 === 1) {
       doc.setFillColor(248, 250, 252);
-      doc.rect(margin, y, 210 - (margin * 2), 10, "F");
+      doc.rect(margin, y, 210 - margin * 2, 10, "F");
     }
-    
+
     // Draw cells
     doc.text((index + 1).toString(), margin + 5, y + 6.5);
     doc.text(row.desc, margin + 18, y + 6.5);
     doc.text(row.cost, 210 - margin - 5, y + 6.5, { align: "right" });
-    
+
     y += 10;
   });
 
@@ -152,10 +165,14 @@ export function generateQuotationPDF(lead: any) {
   // Summary figures (Right aligned)
   doc.setFontSize(9);
   doc.text("Sub Total:", 150, y, { align: "right" });
-  doc.text(`INR ${subTotal.toLocaleString("en-IN")}`, 210 - margin - 5, y, { align: "right" });
+  doc.text(`INR ${subTotal.toLocaleString("en-IN")}`, 210 - margin - 5, y, {
+    align: "right",
+  });
 
   doc.text("GST (18%):", 150, y + 5, { align: "right" });
-  doc.text(`INR ${gstTax.toLocaleString("en-IN")}`, 210 - margin - 5, y + 5, { align: "right" });
+  doc.text(`INR ${gstTax.toLocaleString("en-IN")}`, 210 - margin - 5, y + 5, {
+    align: "right",
+  });
 
   // Grand Total banner
   y += 10;
@@ -164,7 +181,9 @@ export function generateQuotationPDF(lead: any) {
   doc.setFont("Helvetica", "bold");
   doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
   doc.text("Grand Total:", 150, y, { align: "right" });
-  doc.text(`INR ${grandTotal.toLocaleString("en-IN")}`, 210 - margin - 5, y, { align: "right" });
+  doc.text(`INR ${grandTotal.toLocaleString("en-IN")}`, 210 - margin - 5, y, {
+    align: "right",
+  });
 
   y += 15;
 
@@ -177,9 +196,21 @@ export function generateQuotationPDF(lead: any) {
   doc.setFont("Helvetica", "normal");
   doc.setFontSize(8);
   doc.setTextColor(120);
-  doc.text("- Waterproofing includes up to 10 Years stamped structural adhesion warranty.", margin, y + 5);
-  doc.text("- Quote is based on site area dimensions provided; final billing complies with actual sq ft measures.", margin, y + 9);
-  doc.text("- Quotation is valid for 30 days from date of issuance. Taxes are charged at standard government slabs.", margin, y + 13);
+  doc.text(
+    "- Waterproofing includes up to 10 Years stamped structural adhesion warranty.",
+    margin,
+    y + 5,
+  );
+  doc.text(
+    "- Quote is based on site area dimensions provided; final billing complies with actual sq ft measures.",
+    margin,
+    y + 9,
+  );
+  doc.text(
+    "- Quotation is valid for 30 days from date of issuance. Taxes are charged at standard government slabs.",
+    margin,
+    y + 13,
+  );
 
   y += 30;
 
@@ -209,8 +240,12 @@ export function generateQuotationPDF(lead: any) {
   doc.line(150, y + 15, 210 - margin, y + 15);
   doc.setFont("Helvetica", "normal");
   doc.setFontSize(8);
-  doc.text("Quality Engineering Dept", 210 - margin, y + 19, { align: "right" });
+  doc.text("Quality Engineering Dept", 210 - margin, y + 19, {
+    align: "right",
+  });
 
   // Save the document
-  doc.save(`Quotation_${lead.leadId}_${lead.customerName.replace(/\s+/g, "_")}.pdf`);
+  doc.save(
+    `Quotation_${lead.leadId}_${lead.customerName.replace(/\s+/g, "_")}.pdf`,
+  );
 }

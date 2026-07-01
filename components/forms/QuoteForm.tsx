@@ -20,7 +20,7 @@ const timeSlots = [
 ];
 
 const defaultSubServices: Record<string, string[]> = {
-  "Waterproofing": [
+  Waterproofing: [
     "Roof & Slab Waterproofing",
     "Terrace Waterproofing",
     "Bathroom Seepage Waterproofing",
@@ -126,7 +126,7 @@ export default function QuoteForm() {
               <span className="font-bold">Quote Submitted!</span>
               <span className="text-xs">Lead ID: {result.leadId}</span>
             </div>,
-            { duration: 6000 }
+            { duration: 6000 },
           );
           reset();
         } else {
@@ -143,7 +143,10 @@ export default function QuoteForm() {
       {/* Group 1: Name, Phone */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-1">
-          <label htmlFor="customerName" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+          <label
+            htmlFor="customerName"
+            className="text-xs font-bold text-slate-700 uppercase tracking-wider"
+          >
             Full Name
           </label>
           <input
@@ -153,34 +156,52 @@ export default function QuoteForm() {
             placeholder="John Doe"
             {...register("customerName")}
             className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
-              errors.customerName ? "border-red-500 focus:ring-red-500" : "border-slate-200"
+              errors.customerName
+                ? "border-red-500 focus:ring-red-500"
+                : "border-slate-200"
             }`}
           />
-          {errors.customerName && <p className="text-xs text-red-500 font-semibold">{errors.customerName.message}</p>}
+          {errors.customerName && (
+            <p className="text-xs text-red-500 font-semibold">
+              {errors.customerName.message}
+            </p>
+          )}
         </div>
 
         <div className="space-y-1">
-          <label htmlFor="phone" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+          <label
+            htmlFor="phone"
+            className="text-xs font-bold text-slate-700 uppercase tracking-wider"
+          >
             Phone Number
           </label>
           <input
             id="phone"
             type="tel"
             disabled={isPending}
-            placeholder="+91 99999 99999"
+            placeholder="+91 82955 24045"
             {...register("phone")}
             className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
-              errors.phone ? "border-red-500 focus:ring-red-500" : "border-slate-200"
+              errors.phone
+                ? "border-red-500 focus:ring-red-500"
+                : "border-slate-200"
             }`}
           />
-          {errors.phone && <p className="text-xs text-red-500 font-semibold">{errors.phone.message}</p>}
+          {errors.phone && (
+            <p className="text-xs text-red-500 font-semibold">
+              {errors.phone.message}
+            </p>
+          )}
         </div>
       </div>
 
       {/* Group 2: City, Required Service */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-1">
-          <label htmlFor="city" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+          <label
+            htmlFor="city"
+            className="text-xs font-bold text-slate-700 uppercase tracking-wider"
+          >
             City
           </label>
           <input
@@ -190,14 +211,23 @@ export default function QuoteForm() {
             placeholder="Noida / Delhi / Gurugram"
             {...register("city")}
             className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
-              errors.city ? "border-red-500 focus:ring-red-500" : "border-slate-200"
+              errors.city
+                ? "border-red-500 focus:ring-red-500"
+                : "border-slate-200"
             }`}
           />
-          {errors.city && <p className="text-xs text-red-500 font-semibold">{errors.city.message}</p>}
+          {errors.city && (
+            <p className="text-xs text-red-500 font-semibold">
+              {errors.city.message}
+            </p>
+          )}
         </div>
 
         <div className="space-y-1">
-          <label htmlFor="service" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+          <label
+            htmlFor="service"
+            className="text-xs font-bold text-slate-700 uppercase tracking-wider"
+          >
             Required Service
           </label>
           <select
@@ -206,20 +236,21 @@ export default function QuoteForm() {
             {...register("service")}
             className="w-full border border-slate-200 rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 bg-white transition-all duration-200"
           >
-            {categories.length > 0
-              ? categories.map((cat: any) => (
-                  <option key={cat._id || cat.name} value={cat.name}>
-                    {cat.name}
-                  </option>
-                ))
-              : (
-                <>
-                  <option value="Waterproofing">Waterproofing Solutions</option>
-                  <option value="Wooden Flooring">Wooden Flooring</option>
-                  <option value="PVC (Polyvinyl Chloride)">PVC (Polyvinyl Chloride)</option>
-                </>
-              )
-            }
+            {categories.length > 0 ? (
+              categories.map((cat: any) => (
+                <option key={cat._id || cat.name} value={cat.name}>
+                  {cat.name}
+                </option>
+              ))
+            ) : (
+              <>
+                <option value="Waterproofing">Waterproofing Solutions</option>
+                <option value="Wooden Flooring">Wooden Flooring</option>
+                <option value="PVC (Polyvinyl Chloride)">
+                  PVC (Polyvinyl Chloride)
+                </option>
+              </>
+            )}
           </select>
         </div>
       </div>
@@ -232,11 +263,13 @@ export default function QuoteForm() {
       >
         {isPending ? (
           <>
-            <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Submitting Request...
+            <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Submitting
+            Request...
           </>
         ) : (
           <>
-            <FileCheck2 className="w-4 h-4 mr-2 text-accent" /> Submit Quote Request
+            <FileCheck2 className="w-4 h-4 mr-2 text-accent" /> Submit Quote
+            Request
           </>
         )}
       </Button>

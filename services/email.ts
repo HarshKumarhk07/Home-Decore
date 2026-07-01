@@ -29,7 +29,7 @@ async function sendEmail({
       to: to.map((recipient) =>
         recipient.name
           ? { name: recipient.name, address: recipient.email }
-          : recipient.email
+          : recipient.email,
       ),
       subject,
       html: htmlContent,
@@ -95,12 +95,16 @@ export async function sendLeadEmails(lead: any): Promise<boolean> {
         </tr>
       </table>
       
-      ${lead.images.length > 0 ? `
+      ${
+        lead.images.length > 0
+          ? `
         <h3 style="margin-top: 20px; color: #1e40af;">Uploaded Site Images</h3>
         <div style="display: flex; gap: 10px; margin-top: 10px;">
           ${lead.images.map((img: string) => `<img src="${img}" style="width: 150px; height: 100px; object-cover: cover; border-radius: 8px; border: 1px solid #e2e8f0;" />`).join("")}
         </div>
-      ` : ""}
+      `
+          : ""
+      }
       
       <p style="margin-top: 30px; font-size: 12px; color: #64748b;">This inquiry has been logged in your Admin CRM Panel. Login to update status, add timeline notes, or assign inspectors.</p>
     </div>
@@ -130,7 +134,7 @@ export async function sendLeadEmails(lead: any): Promise<boolean> {
         <li style="margin-bottom: 8px;">Post inspection, we will deliver your written square-foot quotation and warranty projection terms.</li>
       </ol>
       
-      <p style="font-size: 14px;">If you have immediate questions, call us at <strong>+91 99999 99999</strong>.</p>
+      <p style="font-size: 14px;">If you have immediate questions, call us at <strong>+91 82955 24045</strong>.</p>
       
       <div style="border-t: 1px solid #f1f5f9; margin-top: 30px; padding-top: 15px; text-align: center; font-size: 11px; color: #94a3b8;">
         © ${new Date().getFullYear()} Homesdecorator. Noida Sector 62 Office.

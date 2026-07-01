@@ -25,32 +25,36 @@ export async function getSettings() {
       // Create default settings if empty
       settings = await WebsiteSettings.create({
         companyName: "Homesdecorator",
-        phoneNumber: "+91 99999 99999",
+        phoneNumber: "+91 82955 24045",
         whatsappNumber: "919999999999",
-        email: "info@homedecorater.in",
+        email: "homesdecorator45@gmail.com",
         address: "Plot 42, Sector 62, Noida, UP, India",
         businessHours: "Mon - Sat: 9:00 AM - 6:30 PM",
         socialLinks: { facebook: "", instagram: "", twitter: "", linkedin: "" },
-        seoMetadata: { title: "Homesdecorator", description: "Waterproofing and Flooring", keywords: "waterproofing" },
+        seoMetadata: {
+          title: "Homesdecorator",
+          description: "Waterproofing and Flooring",
+          keywords: "waterproofing",
+        },
         waterproofingSubcategories: [
           "Roof & Slab Waterproofing",
           "Terrace Waterproofing",
           "Bathroom Seepage Waterproofing",
           "Basement & Retaining Wall Grouting",
-          "Underground & Overhead Water Tanks"
+          "Underground & Overhead Water Tanks",
         ],
         flooringSubcategories: [
           "SPC Click-Lock Flooring",
           "Premium Laminate Flooring",
           "Engineered Wood Flooring",
-          "Luxury Vinyl Flooring (LVP)"
+          "Luxury Vinyl Flooring (LVP)",
         ],
         pvcSubcategories: [
           "SPC Click-Lock Flooring",
           "Luxury Vinyl Planks (LVP) / Tiles (LVT)",
           "Roll & Sheet PVC Flooring",
           "Anti-Static (ESD) PVC Flooring",
-          "PVC Wall Panels & Cladding"
+          "PVC Wall Panels & Cladding",
         ],
       });
     }
@@ -65,7 +69,10 @@ export async function getSettings() {
     };
   } catch (error: any) {
     console.error("Error fetching website settings:", error);
-    return { success: false, message: error.message || "Failed to load settings." };
+    return {
+      success: false,
+      message: error.message || "Failed to load settings.",
+    };
   }
 }
 
@@ -84,18 +91,24 @@ export async function updateWebsiteSettings(data: any) {
     } else {
       Object.assign(settings, sanitizedData);
     }
-    
+
     await settings.save();
-    
+
     revalidatePath("/admin/settings");
     revalidatePath("/");
     revalidatePath("/about");
     revalidatePath("/contact");
-    
-    return { success: true, message: "Website configurations saved successfully!" };
+
+    return {
+      success: true,
+      message: "Website configurations saved successfully!",
+    };
   } catch (error: any) {
     console.error("Error saving website settings:", error);
-    return { success: false, message: error.message || "Failed to save settings." };
+    return {
+      success: false,
+      message: error.message || "Failed to save settings.",
+    };
   }
 }
 
@@ -106,7 +119,10 @@ export async function updateWebsiteSettings(data: any) {
 export async function saveProject(data: any, existingSlug?: string) {
   try {
     const session = await auth();
-    if (!session || (session.user.role !== "super_admin" && session.user.role !== "manager")) {
+    if (
+      !session ||
+      (session.user.role !== "super_admin" && session.user.role !== "manager")
+    ) {
       throw new Error("Access Denied.");
     }
 
@@ -114,7 +130,10 @@ export async function saveProject(data: any, existingSlug?: string) {
     await connectToDatabase();
 
     // Generate URL friendly slug from title
-    const slug = sanitizedData.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+    const slug = sanitizedData.title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
     const projectData = { ...sanitizedData, slug };
 
     if (existingSlug) {
@@ -131,14 +150,20 @@ export async function saveProject(data: any, existingSlug?: string) {
     return { success: true, message: "Project saved successfully!" };
   } catch (error: any) {
     console.error("Error saving project:", error);
-    return { success: false, message: error.message || "Failed to save project." };
+    return {
+      success: false,
+      message: error.message || "Failed to save project.",
+    };
   }
 }
 
 export async function removeProject(slug: string) {
   try {
     const session = await auth();
-    if (!session || (session.user.role !== "super_admin" && session.user.role !== "manager")) {
+    if (
+      !session ||
+      (session.user.role !== "super_admin" && session.user.role !== "manager")
+    ) {
       throw new Error("Access Denied.");
     }
 
@@ -152,7 +177,10 @@ export async function removeProject(slug: string) {
     return { success: true, message: "Project deleted successfully!" };
   } catch (error: any) {
     console.error("Error removing project:", error);
-    return { success: false, message: error.message || "Failed to delete project." };
+    return {
+      success: false,
+      message: error.message || "Failed to delete project.",
+    };
   }
 }
 
@@ -160,10 +188,17 @@ export async function removeProject(slug: string) {
 // GALLERY CRUD (Super Admin & Manager)
 // --------------------------------------------------------
 
-export async function addGalleryPhoto(data: { title: string; category: string; imageUrl: string }) {
+export async function addGalleryPhoto(data: {
+  title: string;
+  category: string;
+  imageUrl: string;
+}) {
   try {
     const session = await auth();
-    if (!session || (session.user.role !== "super_admin" && session.user.role !== "manager")) {
+    if (
+      !session ||
+      (session.user.role !== "super_admin" && session.user.role !== "manager")
+    ) {
       throw new Error("Access Denied.");
     }
 
@@ -185,7 +220,10 @@ export async function addGalleryPhoto(data: { title: string; category: string; i
 export async function removeGalleryPhoto(id: string) {
   try {
     const session = await auth();
-    if (!session || (session.user.role !== "super_admin" && session.user.role !== "manager")) {
+    if (
+      !session ||
+      (session.user.role !== "super_admin" && session.user.role !== "manager")
+    ) {
       throw new Error("Access Denied.");
     }
 
@@ -199,7 +237,10 @@ export async function removeGalleryPhoto(id: string) {
     return { success: true, message: "Photo deleted from gallery!" };
   } catch (error: any) {
     console.error("Error removing gallery photo:", error);
-    return { success: false, message: error.message || "Failed to delete photo." };
+    return {
+      success: false,
+      message: error.message || "Failed to delete photo.",
+    };
   }
 }
 
@@ -207,10 +248,17 @@ export async function removeGalleryPhoto(id: string) {
 // FAQs CRUD (Super Admin & Manager)
 // --------------------------------------------------------
 
-export async function addFaq(data: { question: string; answer: string; category: string }) {
+export async function addFaq(data: {
+  question: string;
+  answer: string;
+  category: string;
+}) {
   try {
     const session = await auth();
-    if (!session || (session.user.role !== "super_admin" && session.user.role !== "manager")) {
+    if (
+      !session ||
+      (session.user.role !== "super_admin" && session.user.role !== "manager")
+    ) {
       throw new Error("Access Denied.");
     }
 
@@ -225,14 +273,20 @@ export async function addFaq(data: { question: string; answer: string; category:
     return { success: true, message: "FAQ created successfully!" };
   } catch (error: any) {
     console.error("Error creating FAQ:", error);
-    return { success: false, message: error.message || "Failed to create FAQ." };
+    return {
+      success: false,
+      message: error.message || "Failed to create FAQ.",
+    };
   }
 }
 
 export async function removeFaq(id: string) {
   try {
     const session = await auth();
-    if (!session || (session.user.role !== "super_admin" && session.user.role !== "manager")) {
+    if (
+      !session ||
+      (session.user.role !== "super_admin" && session.user.role !== "manager")
+    ) {
       throw new Error("Access Denied.");
     }
 
@@ -246,7 +300,10 @@ export async function removeFaq(id: string) {
     return { success: true, message: "FAQ deleted successfully!" };
   } catch (error: any) {
     console.error("Error removing FAQ:", error);
-    return { success: false, message: error.message || "Failed to delete FAQ." };
+    return {
+      success: false,
+      message: error.message || "Failed to delete FAQ.",
+    };
   }
 }
 
@@ -257,15 +314,25 @@ export async function removeFaq(id: string) {
 export async function saveBlogPost(data: any, existingSlug?: string) {
   try {
     const session = await auth();
-    if (!session || (session.user.role !== "super_admin" && session.user.role !== "manager")) {
+    if (
+      !session ||
+      (session.user.role !== "super_admin" && session.user.role !== "manager")
+    ) {
       throw new Error("Access Denied.");
     }
 
     const sanitizedData = sanitizeInput(data);
     await connectToDatabase();
 
-    const slug = sanitizedData.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-    const postData = { ...sanitizedData, slug, author: session.user.name || "Homesdecorator Team" };
+    const slug = sanitizedData.title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+    const postData = {
+      ...sanitizedData,
+      slug,
+      author: session.user.name || "Homesdecorator Team",
+    };
 
     if (existingSlug) {
       await BlogPost.findOneAndUpdate({ slug: existingSlug }, postData);
@@ -281,14 +348,20 @@ export async function saveBlogPost(data: any, existingSlug?: string) {
     return { success: true, message: "Blog article saved!" };
   } catch (error: any) {
     console.error("Error saving blog article:", error);
-    return { success: false, message: error.message || "Failed to save article." };
+    return {
+      success: false,
+      message: error.message || "Failed to save article.",
+    };
   }
 }
 
 export async function removeBlogPost(slug: string) {
   try {
     const session = await auth();
-    if (!session || (session.user.role !== "super_admin" && session.user.role !== "manager")) {
+    if (
+      !session ||
+      (session.user.role !== "super_admin" && session.user.role !== "manager")
+    ) {
       throw new Error("Access Denied.");
     }
 
@@ -302,7 +375,10 @@ export async function removeBlogPost(slug: string) {
     return { success: true, message: "Blog article deleted!" };
   } catch (error: any) {
     console.error("Error removing blog article:", error);
-    return { success: false, message: error.message || "Failed to delete article." };
+    return {
+      success: false,
+      message: error.message || "Failed to delete article.",
+    };
   }
 }
 
@@ -331,53 +407,55 @@ const defaultCategoriesSeed = [
     name: "Waterproofing",
     slug: "waterproofing",
     image: "/waterproofing.jpg",
-    description: "Complete structural protection against dampness, wall seepage, bathroom leaks, and terrace flooding. We use advanced polyurethane, chemical grouting, and waterproofing membranes.",
+    description:
+      "Complete structural protection against dampness, wall seepage, bathroom leaks, and terrace flooding. We use advanced polyurethane, chemical grouting, and waterproofing membranes.",
     features: [
       "Roof & Terrace Waterproofing",
       "Basement Pressure Grouting",
       "Bathroom Seepage Treatment",
       "Underground Water Tank Sealant",
-      "External Wall Dampness Coating"
+      "External Wall Dampness Coating",
     ],
     subcategories: [
       {
         name: "Roof & Slab Waterproofing",
         desc: "Provides structural sealing of slab surfaces. We scrape away old coatings, grout structural joints, and install elastic elastomeric overlays that expand and contract with temperature changes.",
-        image: "/roof and slab waterproofing.jpg"
+        image: "/roof and slab waterproofing.jpg",
       },
       {
         name: "Terrace Waterproofing",
         desc: "Exposed terraces suffer severe thermal expansion and rain beating. We apply heavy-duty multi-layer liquid polyurethane membranes with embedded fiberglass mesh to absorb structural stresses.",
-        image: "/Terrace Waterproofing.jpg"
+        image: "/Terrace Waterproofing.jpg",
       },
       {
         name: "Bathroom Seepage Waterproofing",
         desc: "Fixes dampness and pipe-joint leaks behind tiled bathroom walls. We apply cementitious waterproofing compounds underneath tiled floors, avoiding floor breaking using advanced grouting methods.",
-        image: "/waterproofing.jpg"
+        image: "/waterproofing.jpg",
       },
       {
         name: "Basement & Retaining Wall Grouting",
         desc: "Stops positive and negative side groundwater penetration. We inject low-viscosity PU resins and chemical grouts under high pressure to fill internal voids, voids, and micro-cracks in walls.",
-        image: "/Basement & Retaining Wall Grouting.jpg"
+        image: "/Basement & Retaining Wall Grouting.jpg",
       },
       {
         name: "Underground & Overhead Water Tanks",
         desc: "Seals water tanks from the inside using non-toxic food-grade epoxy coatings. Prevents contamination, structural corrosion, and outward leakage.",
-        image: "/Underground & Overhead Water Tanks.jpg"
-      }
-    ]
+        image: "/Underground & Overhead Water Tanks.jpg",
+      },
+    ],
   },
   {
     name: "Wooden Flooring",
     slug: "wooden-flooring",
     image: "/wooden flooring.jpg",
-    description: "Premium wood installations using European click-lock technologies. Highly stable, scratch-resistant, and elegant floor options tailored to residential homes and retail interiors.",
+    description:
+      "Premium wood installations using European click-lock technologies. Highly stable, scratch-resistant, and elegant floor options tailored to residential homes and retail interiors.",
     features: [
       "Heavy-duty SPC Flooring",
       "Premium Laminate Wood Flooring",
       "Luxury Vinyl Planks (LVP)",
       "Veneered Engineered Wood Flooring",
-      "Premium Underlayment & Skirting"
+      "Premium Underlayment & Skirting",
     ],
     subcategories: [
       {
@@ -385,87 +463,88 @@ const defaultCategoriesSeed = [
         desc: "Stone Plastic Composite (SPC) flooring is 100% waterproof, fire-resistant, and highly dent-resistant. Its click-lock installation system requires no glue, making it ideal for high-humidity areas like kitchens, washrooms, and commercial spaces.",
         thickness: "5mm to 6.5mm",
         warranty: "15 Years wear warranty",
-        image: "/SPC Click-Lock Flooring.jpg"
+        image: "/SPC Click-Lock Flooring.jpg",
       },
       {
         name: "Premium Laminate Flooring",
         desc: "Made of high-density fiberboard (HDF) with a wear protection layer. Provides the authentic look and feel of real hardwood planks at a fraction of the cost. Scratch-resistant, making it perfect for bedrooms and living rooms.",
         thickness: "8mm to 12mm",
         warranty: "10 Years residential warranty",
-        image: "/wooden flooring.jpg"
+        image: "/wooden flooring.jpg",
       },
       {
         name: "Engineered Wood Flooring",
         desc: "Combines real hardwood veneer as the top layer with multiple plywood core layers beneath. It can be sanded and polished over time, offering unmatched organic timber aesthetics and high structural value to premium homes.",
         thickness: "14mm to 15mm",
         warranty: "25 Years structural warranty",
-        image: "/Engineered Wood Flooring.jpeg"
+        image: "/Engineered Wood Flooring.jpeg",
       },
       {
         name: "Luxury Vinyl Flooring (LVP)",
         desc: "Flexible, budget-friendly vinyl flooring that mimics wood grains and textures. LVP provides soft underfoot cushioning, sound dampening properties, and excellent durability for retail outlets and office layouts.",
         thickness: "2mm to 3mm",
         warranty: "7 Years wear warranty",
-        image: "/wooden flooring.jpg"
-      }
-    ]
+        image: "/wooden flooring.jpg",
+      },
+    ],
   },
   {
     name: "PVC (Polyvinyl Chloride)",
     slug: "pvc",
     image: "/PVC (Polyvinyl Chloride).jpg",
-    description: "Premium Polyvinyl Chloride (PVC) installations including stone plastic composite (SPC) flooring and interlocking wall cladding. Highly resistant, water-resistant, and zero maintenance.",
+    description:
+      "Premium Polyvinyl Chloride (PVC) installations including stone plastic composite (SPC) flooring and interlocking wall cladding. Highly resistant, water-resistant, and zero maintenance.",
     features: [
       "SPC Click-Lock Flooring",
       "Luxury Vinyl Planks (LVP)",
       "Roll & Sheet PVC Flooring",
       "Anti-Static ESD Flooring",
-      "PVC Wall Panels & Cladding"
+      "PVC Wall Panels & Cladding",
     ],
     subcategories: [
       {
         name: "SPC Click-Lock Flooring",
         desc: "Stone Plastic Composite (SPC) flooring is 100% waterproof, fire-resistant, and click-lock installed. Perfect for bathrooms, kitchens, and offices.",
         specification: "5mm to 6.5mm Stone-Polymer Base",
-        image: "/SPC Click-Lock Flooring.jpg"
+        image: "/SPC Click-Lock Flooring.jpg",
       },
       {
         name: "Luxury Vinyl Planks (LVP) / Tiles (LVT)",
         desc: "Resilient, quiet, scratchproof flooring mimicking natural wood or stone textures, with soft underfoot feel.",
         specification: "3mm to 4.5mm Dryback/Click Vinyl",
-        image: "/PVC (Polyvinyl Chloride).jpg"
+        image: "/PVC (Polyvinyl Chloride).jpg",
       },
       {
         name: "Roll & Sheet PVC Flooring",
         desc: "Seamless sheet flooring ideal for hospitals, schools, and laboratories requiring high hygiene, anti-microbial coatings, and joint welding.",
         specification: "2.0mm Commercial Anti-Bacterial",
-        image: "/Roll & Sheet PVC Flooring.jpg"
+        image: "/Roll & Sheet PVC Flooring.jpg",
       },
       {
         name: "Anti-Static (ESD) PVC Flooring",
         desc: "Specialized conductive flooring designed to prevent electrostatic discharge in server rooms, laboratories, and electronics factories.",
         specification: "2mm ESD Tile/Sheet with Copper Grid",
-        image: "/Anti-Static (ESD) PVC Flooring.jpg"
+        image: "/Anti-Static (ESD) PVC Flooring.jpg",
       },
       {
         name: "PVC Wall Panels & Cladding",
         desc: "Water-resistant, termite-proof decorative panels for moisture-prone interior walls and ceilings.",
         specification: "Interlocking Hollow-Core/Solid PVC Sheets",
-        image: "/PVC Wall Panels & Cladding.jpg"
-      }
-    ]
-  }
+        image: "/PVC Wall Panels & Cladding.jpg",
+      },
+    ],
+  },
 ];
 
 export async function getServiceCategories() {
   try {
     await connectToDatabase();
     let categories = await ServiceCategory.find().lean();
-    
+
     if (!categories || categories.length === 0) {
       console.log("No categories found in database, seeding defaults...");
       const seeded = await ServiceCategory.insertMany(defaultCategoriesSeed);
-      categories = seeded.map(c => c.toObject());
+      categories = seeded.map((c) => c.toObject());
     }
 
     return {
@@ -474,7 +553,10 @@ export async function getServiceCategories() {
     };
   } catch (error: any) {
     console.error("Error in getServiceCategories:", error);
-    return { success: false, message: error.message || "Failed to load categories" };
+    return {
+      success: false,
+      message: error.message || "Failed to load categories",
+    };
   }
 }
 
@@ -488,7 +570,10 @@ export async function getServiceCategoryBySlug(slug: string) {
         await getServiceCategories();
         const recheck = await ServiceCategory.findOne({ slug }).lean();
         if (recheck) {
-          return { success: true, category: JSON.parse(JSON.stringify(recheck)) };
+          return {
+            success: true,
+            category: JSON.parse(JSON.stringify(recheck)),
+          };
         }
       }
       return { success: false, message: "Category not found" };
@@ -496,7 +581,10 @@ export async function getServiceCategoryBySlug(slug: string) {
     return { success: true, category: JSON.parse(JSON.stringify(category)) };
   } catch (error: any) {
     console.error("Error in getServiceCategoryBySlug:", error);
-    return { success: false, message: error.message || "Failed to get category" };
+    return {
+      success: false,
+      message: error.message || "Failed to get category",
+    };
   }
 }
 
@@ -512,20 +600,32 @@ export async function saveServiceCategory(data: any) {
 
     const categoryData = {
       name: sanitizedData.name,
-      slug: sanitizedData.slug || sanitizedData.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""),
+      slug:
+        sanitizedData.slug ||
+        sanitizedData.name
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/(^-|-$)/g, ""),
       image: sanitizedData.image,
       description: sanitizedData.description,
-      features: Array.isArray(sanitizedData.features) 
-        ? sanitizedData.features 
-        : typeof sanitizedData.features === "string" 
-          ? sanitizedData.features.split(",").map((f: string) => f.trim()).filter(Boolean)
+      features: Array.isArray(sanitizedData.features)
+        ? sanitizedData.features
+        : typeof sanitizedData.features === "string"
+          ? sanitizedData.features
+              .split(",")
+              .map((f: string) => f.trim())
+              .filter(Boolean)
           : [],
       subcategories: sanitizedData.subcategories || [],
     };
 
     let result;
     if (sanitizedData._id) {
-      result = await ServiceCategory.findByIdAndUpdate(sanitizedData._id, categoryData, { new: true });
+      result = await ServiceCategory.findByIdAndUpdate(
+        sanitizedData._id,
+        categoryData,
+        { new: true },
+      );
     } else {
       result = await ServiceCategory.create(categoryData);
     }
@@ -538,10 +638,17 @@ export async function saveServiceCategory(data: any) {
     // Revalidate the dynamic catch-all so any slug variant updates too
     revalidatePath("/services/[slug]", "page");
 
-    return { success: true, message: "Category saved successfully!", category: JSON.parse(JSON.stringify(result)) };
+    return {
+      success: true,
+      message: "Category saved successfully!",
+      category: JSON.parse(JSON.stringify(result)),
+    };
   } catch (error: any) {
     console.error("Error saving service category:", error);
-    return { success: false, message: error.message || "Failed to save category" };
+    return {
+      success: false,
+      message: error.message || "Failed to save category",
+    };
   }
 }
 
@@ -569,7 +676,10 @@ export async function deleteServiceCategory(id: string) {
     return { success: true, message: "Category deleted successfully!" };
   } catch (error: any) {
     console.error("Error deleting service category:", error);
-    return { success: false, message: error.message || "Failed to delete category" };
+    return {
+      success: false,
+      message: error.message || "Failed to delete category",
+    };
   }
 }
 
@@ -580,11 +690,19 @@ export async function deleteServiceCategory(id: string) {
 export async function getTestimonials() {
   try {
     await connectToDatabase();
-    const testimonials = await Testimonial.find().sort({ createdAt: -1 }).lean();
-    return { success: true, testimonials: JSON.parse(JSON.stringify(testimonials)) };
+    const testimonials = await Testimonial.find()
+      .sort({ createdAt: -1 })
+      .lean();
+    return {
+      success: true,
+      testimonials: JSON.parse(JSON.stringify(testimonials)),
+    };
   } catch (error: any) {
     console.error("Error fetching testimonials:", error);
-    return { success: false, message: error.message || "Failed to fetch testimonials" };
+    return {
+      success: false,
+      message: error.message || "Failed to fetch testimonials",
+    };
   }
 }
 
@@ -609,7 +727,7 @@ export async function saveTestimonial(data: any) {
           avatar: data.avatar,
           isApproved: data.isApproved !== undefined ? data.isApproved : true,
         },
-        { new: true }
+        { new: true },
       );
     } else {
       result = await Testimonial.create({
@@ -625,10 +743,17 @@ export async function saveTestimonial(data: any) {
     revalidatePath("/testimonials");
     revalidatePath("/");
 
-    return { success: true, message: "Testimonial saved successfully!", testimonial: JSON.parse(JSON.stringify(result)) };
+    return {
+      success: true,
+      message: "Testimonial saved successfully!",
+      testimonial: JSON.parse(JSON.stringify(result)),
+    };
   } catch (error: any) {
     console.error("Error saving testimonial:", error);
-    return { success: false, message: error.message || "Failed to save testimonial" };
+    return {
+      success: false,
+      message: error.message || "Failed to save testimonial",
+    };
   }
 }
 
@@ -648,6 +773,9 @@ export async function removeTestimonial(id: string) {
     return { success: true, message: "Testimonial removed successfully!" };
   } catch (error: any) {
     console.error("Error removing testimonial:", error);
-    return { success: false, message: error.message || "Failed to remove testimonial" };
+    return {
+      success: false,
+      message: error.message || "Failed to remove testimonial",
+    };
   }
 }

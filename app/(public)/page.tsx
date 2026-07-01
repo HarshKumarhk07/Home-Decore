@@ -4,7 +4,11 @@ import Testimonial from "@/models/Testimonial";
 import FAQ from "@/models/FAQ";
 import WebsiteSettings from "@/models/WebsiteSettings";
 import HomeClient from "./HomeClient";
-import { fallbackProjects, fallbackTestimonials, fallbackFaqs } from "@/lib/fallbackData";
+import {
+  fallbackProjects,
+  fallbackTestimonials,
+  fallbackFaqs,
+} from "@/lib/fallbackData";
 import { getServiceCategories } from "@/actions/cmsActions";
 
 // Always render fresh so admin content changes (images, projects, services) reflect immediately.
@@ -28,7 +32,10 @@ export default async function HomePage() {
     categories = categoriesRes.success ? categoriesRes.categories : [];
 
     // Fetch the 3 most recently added projects from admin
-    const dbProjects = await Project.find().sort({ createdAt: -1 }).limit(3).lean();
+    const dbProjects = await Project.find()
+      .sort({ createdAt: -1 })
+      .limit(3)
+      .lean();
     featuredProjects = dbProjects.map((p: any) => ({
       ...p,
       _id: p._id.toString(),
@@ -38,7 +45,9 @@ export default async function HomePage() {
     }));
 
     // Fetch approved testimonials
-    const dbTestimonials = await Testimonial.find({ isApproved: true }).limit(3).lean();
+    const dbTestimonials = await Testimonial.find({ isApproved: true })
+      .limit(3)
+      .lean();
     testimonials = dbTestimonials.map((t: any) => ({
       ...t,
       _id: t._id.toString(),
@@ -55,7 +64,10 @@ export default async function HomePage() {
       updatedAt: f.updatedAt?.toISOString() || null,
     }));
   } catch (error) {
-    console.error("⚠️ Failed to fetch homepage data from database, using fallbacks:", error);
+    console.error(
+      "⚠️ Failed to fetch homepage data from database, using fallbacks:",
+      error,
+    );
   }
 
   // Fallback items in case database is empty or not yet seeded
@@ -71,40 +83,41 @@ export default async function HomePage() {
   }
 
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://homedecorater.in";
-  
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "HomeAndConstructionBusiness",
-    "name": settings?.companyName || "Homesdecorator",
-    "image": settings?.logoUrl || `${baseUrl}/favicon.ico`,
+    name: settings?.companyName || "Homesdecorator",
+    image: settings?.logoUrl || `${baseUrl}/favicon.ico`,
     "@id": `${baseUrl}/#organization`,
-    "url": baseUrl,
-    "telephone": settings?.phoneNumber || "+91 99999 99999",
-    "email": settings?.email || "info@homedecorater.in",
-    "address": {
+    url: baseUrl,
+    telephone: settings?.phoneNumber || "+91 82955 24045",
+    email: settings?.email || "homesdecorator45@gmail.com",
+    address: {
       "@type": "PostalAddress",
-      "streetAddress": settings?.address || "Plot 42, Sector 62, Noida, UP, India",
-      "addressLocality": "Noida",
-      "addressRegion": "Uttar Pradesh",
-      "addressCountry": "IN"
+      streetAddress:
+        settings?.address || "Plot 42, Sector 62, Noida, UP, India",
+      addressLocality: "Noida",
+      addressRegion: "Uttar Pradesh",
+      addressCountry: "IN",
     },
-    "priceRange": "$$",
-    "openingHoursSpecification": {
+    priceRange: "$$",
+    openingHoursSpecification: {
       "@type": "OpeningHoursSpecification",
-      "dayOfWeek": [
+      dayOfWeek: [
         "Monday",
         "Tuesday",
         "Wednesday",
         "Thursday",
         "Friday",
-        "Saturday"
+        "Saturday",
       ],
-      "opens": "09:00",
-      "closes": "18:30"
+      opens: "09:00",
+      closes: "18:30",
     },
-    "sameAs": settings?.socialLinks
+    sameAs: settings?.socialLinks
       ? Object.values(settings.socialLinks).filter(Boolean)
-      : []
+      : [],
   };
 
   const settingsPlain = settings ? JSON.parse(JSON.stringify(settings)) : null;

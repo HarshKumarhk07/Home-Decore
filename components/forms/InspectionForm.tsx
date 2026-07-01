@@ -20,7 +20,7 @@ const timeSlots = [
 ];
 
 const defaultSubServices: Record<string, string[]> = {
-  "Waterproofing": [
+  Waterproofing: [
     "Roof & Slab Waterproofing",
     "Terrace Waterproofing",
     "Bathroom Seepage Waterproofing",
@@ -113,7 +113,10 @@ export default function InspectionForm() {
       try {
         const result = await submitInspectionBooking(data);
         if (result.success) {
-          toast.success(result.message || "Inspection scheduled successfully! Our team will contact you very soon. Thank you for choosing us.");
+          toast.success(
+            result.message ||
+              "Inspection scheduled successfully! Our team will contact you very soon. Thank you for choosing us.",
+          );
           reset();
         } else {
           toast.error(result.message || "Failed to book inspection.");
@@ -129,7 +132,10 @@ export default function InspectionForm() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {/* Name */}
         <div className="space-y-1">
-          <label htmlFor="name" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+          <label
+            htmlFor="name"
+            className="text-xs font-bold text-slate-700 uppercase tracking-wider"
+          >
             Full Name
           </label>
           <input
@@ -139,34 +145,52 @@ export default function InspectionForm() {
             placeholder="John Doe"
             {...register("name")}
             className={`w-full border rounded-none px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
-              errors.name ? "border-red-500 focus:ring-red-500" : "border-slate-200"
+              errors.name
+                ? "border-red-500 focus:ring-red-500"
+                : "border-slate-200"
             }`}
           />
-          {errors.name && <p className="text-xs text-red-500 font-semibold">{errors.name.message}</p>}
+          {errors.name && (
+            <p className="text-xs text-red-500 font-semibold">
+              {errors.name.message}
+            </p>
+          )}
         </div>
 
         {/* Phone */}
         <div className="space-y-1">
-          <label htmlFor="phone" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+          <label
+            htmlFor="phone"
+            className="text-xs font-bold text-slate-700 uppercase tracking-wider"
+          >
             Phone Number
           </label>
           <input
             id="phone"
             type="tel"
             disabled={isPending}
-            placeholder="+91 99999 99999"
+            placeholder="+91 82955 24045"
             {...register("phone")}
             className={`w-full border rounded-none px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
-              errors.phone ? "border-red-500 focus:ring-red-500" : "border-slate-200"
+              errors.phone
+                ? "border-red-500 focus:ring-red-500"
+                : "border-slate-200"
             }`}
           />
-          {errors.phone && <p className="text-xs text-red-500 font-semibold">{errors.phone.message}</p>}
+          {errors.phone && (
+            <p className="text-xs text-red-500 font-semibold">
+              {errors.phone.message}
+            </p>
+          )}
         </div>
       </div>
 
       {/* City */}
       <div className="space-y-1">
-        <label htmlFor="city" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+        <label
+          htmlFor="city"
+          className="text-xs font-bold text-slate-700 uppercase tracking-wider"
+        >
           City
         </label>
         <input
@@ -176,15 +200,24 @@ export default function InspectionForm() {
           placeholder="e.g. Mumbai, Delhi..."
           {...register("city")}
           className={`w-full border rounded-none px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
-            errors.city ? "border-red-500 focus:ring-red-500" : "border-slate-200"
+            errors.city
+              ? "border-red-500 focus:ring-red-500"
+              : "border-slate-200"
           }`}
         />
-        {errors.city && <p className="text-xs text-red-500 font-semibold">{errors.city.message}</p>}
+        {errors.city && (
+          <p className="text-xs text-red-500 font-semibold">
+            {errors.city.message}
+          </p>
+        )}
       </div>
 
       {/* Service selection */}
       <div className="space-y-1">
-        <label htmlFor="service" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+        <label
+          htmlFor="service"
+          className="text-xs font-bold text-slate-700 uppercase tracking-wider"
+        >
           Required Service
         </label>
         <select
@@ -193,29 +226,34 @@ export default function InspectionForm() {
           {...register("service")}
           className="w-full border border-slate-200 rounded-none px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 bg-white transition-all duration-200"
         >
-          {categories.length > 0
-            ? categories.map((cat: any) => (
-                <option key={cat._id || cat.name} value={cat.name}>
-                  {cat.name}
-                </option>
-              ))
-            : (
-              <>
-                <option value="Waterproofing">Waterproofing Solutions</option>
-                <option value="Wooden Flooring">Wooden Flooring</option>
-                <option value="PVC (Polyvinyl Chloride)">PVC (Polyvinyl Chloride)</option>
-              </>
-            )
-          }
+          {categories.length > 0 ? (
+            categories.map((cat: any) => (
+              <option key={cat._id || cat.name} value={cat.name}>
+                {cat.name}
+              </option>
+            ))
+          ) : (
+            <>
+              <option value="Waterproofing">Waterproofing Solutions</option>
+              <option value="Wooden Flooring">Wooden Flooring</option>
+              <option value="PVC (Polyvinyl Chloride)">
+                PVC (Polyvinyl Chloride)
+              </option>
+            </>
+          )}
         </select>
-        {errors.service && <p className="text-xs text-red-500 font-semibold">{errors.service.message}</p>}
+        {errors.service && (
+          <p className="text-xs text-red-500 font-semibold">
+            {errors.service.message}
+          </p>
+        )}
       </div>
 
       {/* Submit */}
       <Button
-          type="submit"
-          disabled={isPending}
-          className="w-full bg-gradient-to-r from-primary to-blue-700 hover:from-blue-700 hover:to-primary text-white rounded-none py-3 font-bold text-sm shadow-[0_4px_14px_rgba(30,64,175,0.25)] hover:shadow-[0_4px_20px_rgba(30,64,175,0.35)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 cursor-pointer"
+        type="submit"
+        disabled={isPending}
+        className="w-full bg-gradient-to-r from-primary to-blue-700 hover:from-blue-700 hover:to-primary text-white rounded-none py-3 font-bold text-sm shadow-[0_4px_14px_rgba(30,64,175,0.25)] hover:shadow-[0_4px_20px_rgba(30,64,175,0.35)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 cursor-pointer"
       >
         {isPending ? (
           <>
