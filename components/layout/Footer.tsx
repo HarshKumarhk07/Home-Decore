@@ -197,9 +197,7 @@ export default async function Footer() {
             <ul className="space-y-4 text-sm">
               <li className="flex items-start space-x-3">
                 <MapPin className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-                <span>
-                  Jhumpa Road, Near SBI Bank Behal, district Bhiwani 127028
-                </span>
+                <span>Near Bus Stand Behal Bhiwani HR 127028</span>
               </li>
               <li className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-accent shrink-0" />
