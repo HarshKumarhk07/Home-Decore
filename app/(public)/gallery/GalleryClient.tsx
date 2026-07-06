@@ -1,24 +1,47 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Grid, Layers, Paintbrush, Hammer, ZoomIn } from "lucide-react";
+import { Grid, Layers, Paintbrush, Hammer, ZoomIn, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { removeGalleryPhoto } from "@/actions/cmsActions";
+import { toast } from "sonner";
 
 interface GalleryClientProps {
   initialItems: any[];
+  isAdmin?: boolean;
 }
 
-export default function GalleryClient({ initialItems }: GalleryClientProps) {
+export default function GalleryClient({ initialItems, isAdmin = false }: GalleryClientProps) {
   const [filter, setFilter] = useState<string>("all");
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [items, setItems] = useState(initialItems);
+  const [isPending, startTransition] = useTransition();
+
+  const handleDeleteImage = (id: string, title: string) => {
+    if (!confirm(`Delete "${title}" from gallery?`)) return;
+
+    startTransition(async () => {
+      try {
+        const res = await removeGalleryPhoto(id);
+        if (res.success) {
+          toast.success("Photo deleted successfully!");
+          setItems((prev) => prev.filter((item) => item._id !== id));
+        } else {
+          toast.error(res.message || "Failed to delete photo");
+        }
+      } catch (error) {
+        toast.error("An error occurred while deleting");
+      }
+    });
+  };
 
   const filteredItems =
     filter === "all"
-      ? initialItems
-      : initialItems.filter((item) => item.category === filter);
+      ? items
+      : items.filter((item) => item.category === filter);
 
   const tabs = [
     { id: "all", label: "All Photos", icon: <Grid className="w-4 h-4" /> },
@@ -73,21 +96,39 @@ export default function GalleryClient({ initialItems }: GalleryClientProps) {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3 }}
-                className="group relative bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm aspect-4/3 cursor-pointer"
-                onClick={() => setSelectedImage(item.imageUrl)}
+                className="group relative bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm aspect-4/3"
               >
                 {/* Image */}
                 <Image
                   src={item.imageUrl}
                   alt={item.title}
                   fill
-                  className="object-cover group-hover:scale-103 transition-transform duration-500"
+                  className="object-cover group-hover:scale-103 transition-transform duration-500 cursor-pointer"
                   sizes="(max-width: 768px) 100vw, 400px"
+                  onClick={() => setSelectedImage(item.imageUrl)}
                 />
 
                 {/* Overlay details */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                  <div className="space-y-1 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6">
+                  {/* Admin Delete Button */}
+                  {isAdmin && item._id && (
+                    <div className="flex justify-end">
+                      <Button
+                        onClick={() => handleDeleteImage(item._id, item.title)}
+                        disabled={isPending}
+                        size="icon"
+                        className="bg-red-500/90 hover:bg-red-650 text-white rounded-lg h-8 w-8 cursor-pointer"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  )}
+
+                  {/* Bottom Details */}
+                  <div
+                    className="space-y-1 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300 cursor-pointer"
+                    onClick={() => setSelectedImage(item.imageUrl)}
+                  >
                     <span className="text-[10px] bg-accent text-dark px-2 py-0.5 rounded-md font-bold uppercase tracking-wider">
                       {item.category.replace("-", " ")}
                     </span>

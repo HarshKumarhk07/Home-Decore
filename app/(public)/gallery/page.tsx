@@ -1,4 +1,5 @@
 import { connectToDatabase } from "@/lib/mongodb";
+import { auth } from "@/lib/auth";
 import Gallery from "@/models/Gallery";
 import GalleryClient from "./GalleryClient";
 import { fallbackGallery } from "@/lib/fallbackData";
@@ -12,11 +13,20 @@ export const metadata = {
 
 export default async function GalleryPage() {
   let items: any[] = [];
+  let isAdmin = false;
+
+  // Check if user is admin
+  try {
+    const session = await auth();
+    isAdmin = session?.user?.role === "super_admin" || session?.user?.role === "manager";
+  } catch (err) {
+    console.error("Error checking auth:", err);
+  }
 
   try {
     await connectToDatabase();
     let dbItems = await Gallery.find({}).sort({ createdAt: -1 }).lean();
-    
+
     // Seed default items into the database if empty
     if (dbItems.length === 0) {
       const itemsToInsert = fallbackGallery.map((item) => ({
@@ -47,5 +57,5 @@ export default async function GalleryPage() {
     items = fallbackGallery;
   }
 
-  return <GalleryClient initialItems={items} />;
+  return <GalleryClient initialItems={items} isAdmin={isAdmin} />;
 }

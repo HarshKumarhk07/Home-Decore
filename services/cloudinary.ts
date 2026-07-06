@@ -16,30 +16,56 @@ cloudinary.config({
  * @returns The secure URL of the uploaded image
  */
 export async function uploadToCloudinary(file: File): Promise<string> {
-  // Convert browser-provided file buffer to Node.js Buffer
-  const arrayBuffer = await file.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
+  try {
+    console.log("🔄 Starting Cloudinary upload...", {
+      fileName: file.name,
+      fileSize: file.size,
+      fileType: file.type,
+    });
 
-  return new Promise((resolve, reject) => {
-    const uploadStream = cloudinary.uploader.upload_stream(
-      {
-        folder: "home-decorater-leads",
-        resource_type: "auto",
-        allowed_formats: ["jpg", "jpeg", "png", "webp"],
-      },
-      (error, result) => {
-        if (error) {
-          console.error("❌ Cloudinary upload failure:", error);
-          reject(new Error(error.message || "Failed to upload image to Cloudinary."));
-        } else if (result) {
-          resolve(result.secure_url);
-        } else {
-          reject(new Error("Cloudinary did not return an upload result."));
+    // Convert browser-provided file buffer to Node.js Buffer
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
+    return new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          folder: "home-decorater-leads",
+          resource_type: "auto",
+          allowed_formats: ["jpg", "jpeg", "png", "webp"],
+        },
+        (error, result) => {
+          if (error) {
+            console.error("❌ Cloudinary upload failure:", {
+              errorMsg: error.message,
+              errorCode: error.http_code,
+              errorDetails: error,
+            });
+            reject(new Error(error.message || "Failed to upload image to Cloudinary."));
+          } else if (result) {
+            console.log("✅ Cloudinary upload success:", {
+              publicId: result.public_id,
+              secureUrl: result.secure_url,
+            });
+            resolve(result.secure_url);
+          } else {
+            console.error("❌ No result from Cloudinary");
+            reject(new Error("Cloudinary did not return an upload result."));
+          }
         }
-      }
-    );
+      );
 
-    // Write the buffer to the write stream and close it
-    uploadStream.end(buffer);
-  });
+      // Handle stream errors
+      uploadStream.on("error", (err) => {
+        console.error("❌ Stream error:", err);
+        reject(new Error("Upload stream error: " + err.message));
+      });
+
+      // Write the buffer to the write stream and close it
+      uploadStream.end(buffer);
+    });
+  } catch (err: any) {
+    console.error("❌ Error in uploadToCloudinary:", err);
+    throw err;
+  }
 }

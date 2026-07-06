@@ -12,6 +12,8 @@ import Testimonial from "@/models/Testimonial";
 import { auth } from "@/lib/auth";
 import { uploadToCloudinary } from "@/services/cloudinary";
 import { sanitizeInput } from "@/lib/security";
+import { v2 as cloudinary } from "cloudinary";
+import { env } from "@/lib/env";
 
 // --------------------------------------------------------
 // WEBSITE SETTINGS (Super Admin Only)
@@ -228,7 +230,43 @@ export async function removeGalleryPhoto(id: string) {
     }
 
     await connectToDatabase();
+    const photo = await Gallery.findById(id);
+
+    if (!photo) {
+      throw new Error("Photo not found");
+    }
+
+    // Delete from Cloudinary if image exists
+    if (photo.imageUrl) {
+      try {
+        // Configure cloudinary credentials
+        cloudinary.config({
+          cloud_name: env.CLOUDINARY_CLOUD_NAME,
+          api_key: env.CLOUDINARY_API_KEY,
+          api_secret: env.CLOUDINARY_API_SECRET,
+          secure: true,
+        });
+
+        // Extract public ID from Cloudinary URL
+        // Format: https://res.cloudinary.com/[cloud_name]/image/upload/home-decorater-leads/[public_id]
+        const urlParts = photo.imageUrl.split("/");
+        const publicIdWithExtension = urlParts[urlParts.length - 1];
+        const publicId = publicIdWithExtension.split(".")[0];
+
+        if (publicId) {
+          console.log("🗑️ Deleting from Cloudinary:", `home-decorater-leads/${publicId}`);
+          const result = await cloudinary.uploader.destroy(`home-decorater-leads/${publicId}`);
+          console.log("✅ Cloudinary deletion result:", result);
+        }
+      } catch (cloudErr) {
+        console.warn("⚠️ Failed to delete from Cloudinary (non-blocking):", cloudErr);
+        // Don't fail the entire operation if Cloudinary deletion fails
+      }
+    }
+
+    // Delete from database
     await Gallery.findByIdAndDelete(id);
+    console.log("✅ Photo deleted from database");
 
     revalidatePath("/admin/gallery");
     revalidatePath("/gallery");
@@ -236,7 +274,7 @@ export async function removeGalleryPhoto(id: string) {
 
     return { success: true, message: "Photo deleted from gallery!" };
   } catch (error: any) {
-    console.error("Error removing gallery photo:", error);
+    console.error("❌ Error removing gallery photo:", error);
     return {
       success: false,
       message: error.message || "Failed to delete photo.",
@@ -388,12 +426,17 @@ export async function uploadImageAction(formData: FormData) {
     if (!session) throw new Error("Unauthorized");
 
     const file = formData.get("file") as File;
-    if (!file) throw new Error("No file provided");
+    if (!file) {
+      console.error("❌ No file in formData");
+      throw new Error("No file provided");
+    }
 
+    console.log("📤 Uploading file to Cloudinary:", file.name, file.size);
     const url = await uploadToCloudinary(file);
+    console.log("✅ Upload successful:", url);
     return { success: true, url };
   } catch (err: any) {
-    console.error("Error in uploadImageAction:", err);
+    console.error("❌ Error in uploadImageAction:", err);
     return { success: false, message: err.message || "Failed to upload image" };
   }
 }
