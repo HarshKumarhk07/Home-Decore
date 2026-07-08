@@ -67,22 +67,30 @@ export default async function BlogPage() {
 
         {/* Blog Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-          {posts.map((post) => (
-            <article key={post.slug} className="bg-white border border-slate-150/70 rounded-3xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-full group">
-              <Link href={`/blog/${post.slug}`} className="flex flex-col h-full">
-                {/* Image */}
-                <div className="relative h-64 sm:h-72 w-full overflow-hidden shrink-0">
-                  <Image
-                    src={post.coverImage}
-                    alt={post.title}
-                    fill
-                    className="object-cover group-hover:scale-102 transition-transform duration-500"
-                    sizes="(max-width: 768px) 100vw, 600px"
-                  />
-                  <div className="absolute top-4 left-4 bg-accent/90 backdrop-blur-sm text-dark px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider shadow">
-                    {post.category}
+          {posts.map((post) => {
+            const coverUrl = typeof post.coverImage === "string"
+              ? post.coverImage
+              : (post.coverImage?.url || "");
+            const coverAlt = typeof post.coverImage === "string"
+              ? post.title
+              : (post.coverImage?.altText || post.title);
+
+            return (
+              <article key={post.slug} className="bg-white border border-slate-150/70 rounded-3xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-full group">
+                <Link href={`/blog/${post.slug}`} className="flex flex-col h-full">
+                  {/* Image */}
+                  <div className="relative h-64 sm:h-72 w-full overflow-hidden shrink-0">
+                    <Image
+                      src={coverUrl}
+                      alt={coverAlt}
+                      fill
+                      className="object-cover group-hover:scale-102 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, 600px"
+                    />
+                    <div className="absolute top-4 left-4 bg-accent/90 backdrop-blur-sm text-dark px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider shadow">
+                      {post.category}
+                    </div>
                   </div>
-                </div>
 
                 {/* Content */}
                 <div className="p-6 sm:p-8 flex-grow flex flex-col justify-between space-y-4">
@@ -118,8 +126,9 @@ export default async function BlogPage() {
                 </div>
               </Link>
             </article>
-          ))}
-        </div>
+          );
+        })}
+      </div>
       </div>
     </div>
   );

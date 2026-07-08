@@ -156,9 +156,9 @@ export default function Header() {
               />
             </Link>
 
-            {/* Services Dropdown */}
             <div className="relative group">
               <button
+                suppressHydrationWarning
                 className={cn(
                   "relative py-1.5 flex items-center space-x-1 text-sm font-semibold transition-colors duration-200 hover:text-primary group/nav",
                   pathname.startsWith("/services")
@@ -261,9 +261,9 @@ export default function Header() {
             </Button>
           </div>
 
-          {/* Mobile menu button */}
           <div className="lg:hidden flex items-center">
             <button
+              suppressHydrationWarning
               onClick={() => setIsOpen(!isOpen)}
               className="p-2 rounded-xl text-gray-700 hover:bg-gray-100 focus:outline-none transition-colors"
             >
@@ -307,9 +307,9 @@ export default function Header() {
             About Us
           </Link>
 
-          {/* Mobile Services Collapse */}
           <div className="space-y-1">
             <button
+              suppressHydrationWarning
               onClick={() => setActiveDropdown(!activeDropdown)}
               className="flex items-center justify-between w-full px-3 py-2 rounded-xl text-base font-medium text-gray-700 hover:bg-gray-50"
             >

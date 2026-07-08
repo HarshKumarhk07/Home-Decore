@@ -18,9 +18,43 @@ export async function generateMetadata({ params }: Props) {
     await connectToDatabase();
     const post = await BlogPost.findOne({ slug }).lean();
     if (!post) return { title: "Article Not Found | Homesdecorator" };
+
+    const title = post.seoMeta?.metaTitle || post.title;
+    const description = post.seoMeta?.metaDescription || post.excerpt;
+    const keywords = post.seoMeta?.metaKeywords?.join(", ") || "";
+
+    const coverImageUrl = typeof post.coverImage === "string" 
+      ? post.coverImage 
+      : (post.coverImage?.url || "");
+    const coverImageAlt = typeof post.coverImage === "string" 
+      ? "" 
+      : (post.coverImage?.altText || "");
+
+    const domain = process.env.NEXT_PUBLIC_APP_URL || "https://homedecorater.in";
+    const cleanDomain = domain.replace(/\/$/, "");
+
     return {
-      title: `${post.title} | Homesdecorator Blog`,
-      description: post.excerpt,
+      title,
+      description,
+      keywords,
+      alternates: {
+        canonical: `${cleanDomain}/blog/${post.slug}`,
+      },
+      openGraph: {
+        title,
+        description,
+        url: `${cleanDomain}/blog/${post.slug}`,
+        type: "article",
+        images: coverImageUrl 
+          ? [{ url: coverImageUrl, alt: coverImageAlt }] 
+          : [],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title,
+        description,
+        images: coverImageUrl ? [coverImageUrl] : [],
+      },
     };
   } catch (err) {
     return { title: "Blog Article | Homesdecorator" };
@@ -52,26 +86,34 @@ export default async function BlogDetailPage({ params }: Props) {
   }
 
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://homedecorater.in";
+  const cleanBaseUrl = baseUrl.replace(/\/$/, "");
+
+  const coverUrl = typeof post.coverImage === "string" 
+    ? post.coverImage 
+    : (post.coverImage?.url || "");
+  const coverAlt = typeof post.coverImage === "string"
+    ? post.title
+    : (post.coverImage?.altText || post.title);
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     "headline": post.title,
     "description": post.excerpt,
-    "image": post.coverImage,
+    "image": coverUrl,
     "datePublished": post.publishedAt,
     "dateModified": post.updatedAt || post.publishedAt,
     "author": {
       "@type": "Organization",
       "name": post.author || "Homesdecorator Team",
-      "url": baseUrl
+      "url": cleanBaseUrl
     },
     "publisher": {
       "@type": "Organization",
       "name": "Homesdecorator",
       "logo": {
         "@type": "ImageObject",
-        "url": `${baseUrl}/favicon.ico`
+        "url": `${cleanBaseUrl}/favicon.ico`
       }
     }
   };
@@ -122,8 +164,8 @@ export default async function BlogDetailPage({ params }: Props) {
             {/* Main Image */}
             <div className="relative h-64 sm:h-96 w-full rounded-2xl overflow-hidden shadow-sm">
               <Image
-                src={post.coverImage}
-                alt={post.title}
+                src={coverUrl}
+                alt={coverAlt}
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 800px"

@@ -6,10 +6,18 @@ import "./globals.css";
 import "@/lib/env";
 import { cn } from "@/lib/utils";
 
-export const metadata: Metadata = {
-  title: "Homesdecorator | Waterproofing, PVC & Wooden Flooring Specialists",
-  description: "Homesdecorator offers premium waterproofing, PVC (Polyvinyl Chloride), and wooden flooring services. High durability, expert craftsmanship, and lifetime warranty options.",
-};
+import { getSettings } from "@/actions/cmsActions";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const result = await getSettings();
+  const settings = result.success ? result.settings : null;
+
+  return {
+    title: settings?.seoMetadata?.title || "Homesdecorator | Waterproofing, PVC & Wooden Flooring Specialists",
+    description: settings?.seoMetadata?.description || "Homesdecorator offers premium waterproofing, PVC (Polyvinyl Chloride), and wooden flooring services. High durability, expert craftsmanship, and lifetime warranty options.",
+    keywords: settings?.seoMetadata?.keywords || undefined,
+  };
+}
 
 export default function RootLayout({
   children,

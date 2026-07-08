@@ -9,6 +9,7 @@ import FAQ from "@/models/FAQ";
 import BlogPost from "@/models/BlogPost";
 import ServiceCategory from "@/models/ServiceCategory";
 import Testimonial from "@/models/Testimonial";
+import ServiceLocationPage from "@/models/ServiceLocationPage";
 import { auth } from "@/lib/auth";
 import { uploadToCloudinary } from "@/services/cloudinary";
 import { sanitizeInput } from "@/lib/security";
@@ -362,28 +363,103 @@ export async function saveBlogPost(data: any, existingSlug?: string) {
     const sanitizedData = sanitizeInput(data);
     await connectToDatabase();
 
-    const slug = sanitizedData.title
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)/g, "");
+    // 1. Validation
+    if (!sanitizedData.title || !sanitizedData.title.trim()) {
+      return { success: false, message: "Title is required" };
+    }
+    if (!sanitizedData.content || !sanitizedData.content.trim()) {
+      return { success: false, message: "Content is required" };
+    }
+
+    const title = sanitizedData.title.trim();
+    const targetSlug = sanitizedData.slug
+      ? sanitizedData.slug.toLowerCase().trim().replace(/[^a-z0-9\-]+/g, "-").replace(/(^-|-$)/g, "")
+      : title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
+    if (!targetSlug) {
+      return { success: false, message: "Slug is required" };
+    }
+
+    // Server-side max length checks
+    if (sanitizedData.excerpt && sanitizedData.excerpt.length > 160) {
+      return { success: false, message: "Excerpt cannot exceed 160 characters" };
+    }
+    if (sanitizedData.seoMeta?.metaTitle && sanitizedData.seoMeta.metaTitle.length > 60) {
+      return { success: false, message: "Meta Title cannot exceed 60 characters" };
+    }
+    if (sanitizedData.seoMeta?.metaDescription && sanitizedData.seoMeta.metaDescription.length > 160) {
+      return { success: false, message: "Meta Description cannot exceed 160 characters" };
+    }
+
+    // 2. Check for duplicate slug
+    const duplicate = await BlogPost.findOne({ slug: targetSlug });
+    if (duplicate) {
+      if (!existingSlug || duplicate.slug !== existingSlug) {
+        return { success: false, status: 409, message: "Slug already exists" };
+      }
+    }
+
+    // 3. SEO Fallbacks
+    const metaTitle = (sanitizedData.seoMeta?.metaTitle || "").trim() || title;
+    const metaDescription = (sanitizedData.seoMeta?.metaDescription || "").trim() || (sanitizedData.excerpt || "").trim();
+    const metaKeywords = Array.isArray(sanitizedData.seoMeta?.metaKeywords)
+      ? sanitizedData.seoMeta.metaKeywords
+      : (typeof sanitizedData.seoMeta?.metaKeywords === "string"
+          ? (sanitizedData.seoMeta.metaKeywords as string).split(",").map(k => k.trim()).filter(Boolean)
+          : []);
+
+    // 4. Assemble payload
     const postData = {
-      ...sanitizedData,
-      slug,
+      title,
+      slug: targetSlug,
+      excerpt: sanitizedData.excerpt,
+      category: sanitizedData.category || "General",
+      status: sanitizedData.status || "Draft",
+      tags: Array.isArray(sanitizedData.tags)
+        ? sanitizedData.tags
+        : (typeof sanitizedData.tags === "string"
+            ? (sanitizedData.tags as string).split(",").map(t => t.trim()).filter(Boolean)
+            : []),
+      coverImage: sanitizedData.coverImage,
+      content: sanitizedData.content,
+      seoMeta: {
+        metaTitle,
+        metaDescription,
+        metaKeywords,
+      },
       author: session.user.name || "Homesdecorator Team",
     };
 
+    let savedPost;
     if (existingSlug) {
-      await BlogPost.findOneAndUpdate({ slug: existingSlug }, postData);
+      savedPost = await BlogPost.findOneAndUpdate(
+        { slug: existingSlug },
+        { ...postData, updatedAt: new Date() },
+        { new: true, runValidators: true }
+      );
     } else {
-      await BlogPost.create(postData);
+      savedPost = await BlogPost.create(postData);
     }
+
+    if (!savedPost) {
+      throw new Error("Failed to save the post to the database.");
+    }
+
+    const postObj = JSON.parse(JSON.stringify(savedPost));
 
     revalidatePath("/admin/blog");
     revalidatePath("/blog");
-    revalidatePath(`/blog/${slug}`);
+    revalidatePath(`/blog/${targetSlug}`);
+    if (existingSlug && existingSlug !== targetSlug) {
+      revalidatePath(`/blog/${existingSlug}`);
+    }
     revalidatePath("/");
 
-    return { success: true, message: "Blog article saved!" };
+    return {
+      success: true,
+      message: "Blog article saved successfully!",
+      post: postObj,
+    };
   } catch (error: any) {
     console.error("Error saving blog article:", error);
     return {
@@ -822,3 +898,123 @@ export async function removeTestimonial(id: string) {
     };
   }
 }
+
+// --------------------------------------------------------
+// SERVICE LOCATION PAGES CRUD (Super Admin & Manager)
+// --------------------------------------------------------
+
+export async function getServiceLocationPages() {
+  try {
+    await connectToDatabase();
+    const pages = await ServiceLocationPage.find({}).sort({ service: 1, location: 1 }).lean();
+    return {
+      success: true,
+      pages: JSON.parse(JSON.stringify(pages)),
+    };
+  } catch (error: any) {
+    console.error("Error fetching service location pages:", error);
+    return {
+      success: false,
+      message: error.message || "Failed to fetch pages.",
+      pages: [],
+    };
+  }
+}
+
+export async function saveServiceLocationPage(data: any, existingId?: string) {
+  try {
+    const session = await auth();
+    if (
+      !session ||
+      (session.user.role !== "super_admin" && session.user.role !== "manager")
+    ) {
+      throw new Error("Access Denied.");
+    }
+
+    // Server-side validation for character lengths
+    if (data.seoMeta?.metaTitle && data.seoMeta.metaTitle.length > 60) {
+      return { success: false, message: "Meta title cannot exceed 60 characters." };
+    }
+    if (data.seoMeta?.metaDescription && data.seoMeta.metaDescription.length > 160) {
+      return { success: false, message: "Meta description cannot exceed 160 characters." };
+    }
+
+    const sanitizedData = sanitizeInput(data);
+    await connectToDatabase();
+
+    // Generate slugs
+    const serviceSlug = sanitizedData.service
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+
+    const locationSlug = sanitizedData.location
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+
+    const payload = {
+      ...sanitizedData,
+      serviceSlug,
+      locationSlug,
+    };
+
+    let result;
+    if (existingId) {
+      result = await ServiceLocationPage.findByIdAndUpdate(existingId, payload, { new: true });
+    } else {
+      result = await ServiceLocationPage.create(payload);
+    }
+
+    revalidatePath(`/services/${serviceSlug}/${locationSlug}`);
+    revalidatePath("/");
+
+    return {
+      success: true,
+      message: "Service location page saved successfully!",
+      page: JSON.parse(JSON.stringify(result)),
+    };
+  } catch (error: any) {
+    console.error("Error saving service location page:", error);
+    // Catch MongoDB duplicate key error (code 11000)
+    if (error.code === 11000) {
+      return {
+        success: false,
+        message: "A page for this service + location combination already exists.",
+      };
+    }
+    return {
+      success: false,
+      message: error.message || "Failed to save page.",
+    };
+  }
+}
+
+export async function removeServiceLocationPage(id: string) {
+  try {
+    const session = await auth();
+    if (!session || session.user.role !== "super_admin") {
+      throw new Error("Access Denied: Super Admin only.");
+    }
+
+    await connectToDatabase();
+    const page = await ServiceLocationPage.findById(id);
+    if (!page) {
+      throw new Error("Page not found.");
+    }
+
+    await ServiceLocationPage.findByIdAndDelete(id);
+
+    revalidatePath(`/services/${page.serviceSlug}/${page.locationSlug}`);
+    revalidatePath("/");
+
+    return { success: true, message: "Service location page removed successfully!" };
+  } catch (error: any) {
+    console.error("Error removing service location page:", error);
+    return {
+      success: false,
+      message: error.message || "Failed to remove page.",
+    };
+  }
+}
+

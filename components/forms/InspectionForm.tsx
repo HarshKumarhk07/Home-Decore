@@ -139,6 +139,7 @@ export default function InspectionForm() {
             Full Name
           </label>
           <input
+            suppressHydrationWarning
             id="name"
             type="text"
             disabled={isPending}
@@ -166,6 +167,7 @@ export default function InspectionForm() {
             Phone Number
           </label>
           <input
+            suppressHydrationWarning
             id="phone"
             type="tel"
             disabled={isPending}
@@ -194,6 +196,7 @@ export default function InspectionForm() {
           City
         </label>
         <input
+          suppressHydrationWarning
           id="city"
           type="text"
           disabled={isPending}
@@ -221,6 +224,7 @@ export default function InspectionForm() {
           Required Service
         </label>
         <select
+          suppressHydrationWarning
           id="service"
           disabled={isPending}
           {...register("service")}

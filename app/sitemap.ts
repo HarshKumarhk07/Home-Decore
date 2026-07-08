@@ -2,6 +2,7 @@ import { MetadataRoute } from "next";
 import { connectToDatabase } from "@/lib/mongodb";
 import Project from "@/models/Project";
 import BlogPost from "@/models/BlogPost";
+import ServiceLocationPage from "@/models/ServiceLocationPage";
 
 export const dynamic = "force-dynamic";
 
@@ -60,5 +61,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error("Failed to fetch sitemap items:", err);
   }
 
-  return [...staticRoutes, ...projectRoutes, ...blogRoutes];
+  let servicePageRoutes: any[] = [];
+  try {
+    await connectToDatabase();
+    const servicePages = await ServiceLocationPage.find({ status: "Published" })
+      .select("serviceSlug locationSlug updatedAt")
+      .lean();
+      
+    servicePageRoutes = servicePages.map((sp: any) => ({
+      url: `${baseUrl}/services/${sp.serviceSlug}/${sp.locationSlug}`,
+      lastModified: sp.updatedAt || new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    }));
+  } catch (err) {
+    console.error("Failed to fetch service page sitemap items:", err);
+  }
+
+  return [...staticRoutes, ...projectRoutes, ...blogRoutes, ...servicePageRoutes];
 }

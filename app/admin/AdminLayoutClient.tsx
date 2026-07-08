@@ -19,6 +19,7 @@ import {
   User,
   FileText,
   Wrench,
+  Globe,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
@@ -94,6 +95,11 @@ export default function AdminLayoutClient({ session, children }: AdminLayoutClie
       name: "Services",
       href: "/admin/services",
       icon: <Wrench className="w-5 h-5" />,
+    },
+    {
+      name: "Service Pages",
+      href: "/admin/service-pages",
+      icon: <Globe className="w-5 h-5" />,
     },
     {
       name: "Projects",

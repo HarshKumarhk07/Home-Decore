@@ -3,6 +3,8 @@ import Image from "next/image";
 import { ShieldCheck, Flame, Droplet, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getSettings, getServiceCategoryBySlug } from "@/actions/cmsActions";
+import { connectToDatabase } from "@/lib/mongodb";
+import ServiceLocationPage from "@/models/ServiceLocationPage";
 
 const defaultFloorTypes = [
   {
@@ -48,6 +50,23 @@ export default async function WoodenFlooringPage() {
 
   const catRes = await getServiceCategoryBySlug("wooden-flooring");
   const category = catRes.success ? catRes.category : null;
+
+  let servedAreas: any[] = [];
+  try {
+    await connectToDatabase();
+    const dbPages = await ServiceLocationPage.find({
+      status: "Published",
+      serviceSlug: "wooden-flooring-installation",
+    })
+      .select("service location serviceSlug locationSlug")
+      .lean();
+    servedAreas = dbPages.map((p: any) => ({
+      ...p,
+      _id: p._id.toString(),
+    }));
+  } catch (err) {
+    console.error("Failed to query served areas:", err);
+  }
 
   const floorTypesToRender = category && category.subcategories && category.subcategories.length > 0
     ? category.subcategories
@@ -182,6 +201,29 @@ export default async function WoodenFlooringPage() {
               ))}
             </div>
           </div>
+
+          {/* Areas We Serve Section */}
+          {servedAreas && servedAreas.length > 0 && (
+            <div className="mt-16 bg-white border border-slate-100 rounded-3xl p-6 sm:p-8 shadow-sm">
+              <h3 className="font-serif text-lg sm:text-xl font-bold text-primary mb-4">
+                Areas We Serve
+              </h3>
+              <p className="text-slate-650 text-xs sm:text-sm mb-6 leading-relaxed">
+                We offer professional wooden flooring installation services across major cities in Haryana and Delhi NCR. Explore our location-specific services:
+              </p>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {servedAreas.map((area: any) => (
+                  <Link
+                    key={area._id}
+                    href={`/services/${area.serviceSlug}/${area.locationSlug}`}
+                    className="text-xs sm:text-sm text-slate-600 hover:text-accent font-semibold transition-colors bg-slate-50 hover:bg-accent/5 px-4 py-2.5 rounded-xl border border-slate-100 flex items-center justify-center text-center"
+                  >
+                    {area.service} in {area.location}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Bottom CTA Section */}
           <div className="bg-primary text-white rounded-3xl p-8 sm:p-12 text-center max-w-4xl mx-auto shadow-md space-y-6 mt-16">

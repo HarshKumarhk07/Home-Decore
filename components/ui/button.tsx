@@ -58,6 +58,7 @@ function Button({
   const Comp = asChild ? Slot : ButtonPrimitive
   return (
     <Comp
+      suppressHydrationWarning
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
       {...(props as any)}

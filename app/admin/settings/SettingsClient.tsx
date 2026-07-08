@@ -95,6 +95,7 @@ export default function SettingsClient({ initialSettings }: SettingsClientProps)
               <input
                 type="text"
                 disabled={isPending}
+                suppressHydrationWarning
                 {...register("companyName")}
                 className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
               />
@@ -105,6 +106,7 @@ export default function SettingsClient({ initialSettings }: SettingsClientProps)
               <input
                 type="email"
                 disabled={isPending}
+                suppressHydrationWarning
                 {...register("email")}
                 className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
               />
@@ -117,6 +119,7 @@ export default function SettingsClient({ initialSettings }: SettingsClientProps)
               <input
                 type="text"
                 disabled={isPending}
+                suppressHydrationWarning
                 {...register("phoneNumber")}
                 className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
               />
@@ -127,6 +130,7 @@ export default function SettingsClient({ initialSettings }: SettingsClientProps)
               <input
                 type="text"
                 disabled={isPending}
+                suppressHydrationWarning
                 {...register("whatsappNumber")}
                 className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
               />
@@ -138,6 +142,7 @@ export default function SettingsClient({ initialSettings }: SettingsClientProps)
             <textarea
               rows={3}
               disabled={isPending}
+              suppressHydrationWarning
               {...register("address")}
               className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
             />
@@ -156,6 +161,7 @@ export default function SettingsClient({ initialSettings }: SettingsClientProps)
             <input
               type="text"
               disabled={isPending}
+              suppressHydrationWarning
               {...register("businessHours")}
               placeholder="Mon - Sat: 9:00 AM - 6:30 PM"
               className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
@@ -167,6 +173,7 @@ export default function SettingsClient({ initialSettings }: SettingsClientProps)
             <textarea
               rows={4}
               disabled={isPending}
+              suppressHydrationWarning
               {...register("googleMapsEmbed")}
               placeholder="https://www.google.com/maps/embed?..."
               className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
@@ -187,6 +194,7 @@ export default function SettingsClient({ initialSettings }: SettingsClientProps)
               <input
                 type="text"
                 disabled={isPending}
+                suppressHydrationWarning
                 {...register("socialLinks.facebook")}
                 className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
               />
@@ -197,6 +205,7 @@ export default function SettingsClient({ initialSettings }: SettingsClientProps)
               <input
                 type="text"
                 disabled={isPending}
+                suppressHydrationWarning
                 {...register("socialLinks.instagram")}
                 className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
               />
@@ -209,6 +218,7 @@ export default function SettingsClient({ initialSettings }: SettingsClientProps)
               <input
                 type="text"
                 disabled={isPending}
+                suppressHydrationWarning
                 {...register("socialLinks.twitter")}
                 className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
               />
@@ -219,6 +229,7 @@ export default function SettingsClient({ initialSettings }: SettingsClientProps)
               <input
                 type="text"
                 disabled={isPending}
+                suppressHydrationWarning
                 {...register("socialLinks.linkedin")}
                 className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
               />
@@ -238,6 +249,7 @@ export default function SettingsClient({ initialSettings }: SettingsClientProps)
             <input
               type="text"
               disabled={isPending}
+              suppressHydrationWarning
               {...register("seoMetadata.title")}
               className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
             />
@@ -248,6 +260,7 @@ export default function SettingsClient({ initialSettings }: SettingsClientProps)
             <textarea
               rows={3}
               disabled={isPending}
+              suppressHydrationWarning
               {...register("seoMetadata.description")}
               className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
             />
@@ -258,6 +271,7 @@ export default function SettingsClient({ initialSettings }: SettingsClientProps)
             <input
               type="text"
               disabled={isPending}
+              suppressHydrationWarning
               {...register("seoMetadata.keywords")}
               placeholder="waterproofing, wooden flooring, pvc"
               className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"

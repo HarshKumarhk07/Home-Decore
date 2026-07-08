@@ -73,6 +73,7 @@ export default function FaqClient({ initialFaqs }: FaqClientProps) {
                 className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm transition-all duration-350"
               >
                 <button
+                  suppressHydrationWarning
                   onClick={() => setActiveFaq(isSelected ? null : idx)}
                   className="flex items-center justify-between w-full p-5 text-left font-serif font-bold text-primary hover:bg-slate-50 transition-colors text-sm sm:text-base"
                 >

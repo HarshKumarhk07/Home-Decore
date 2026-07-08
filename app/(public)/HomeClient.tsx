@@ -988,6 +988,7 @@ export default function HomeClient({
                     className="border border-slate-100 rounded-xl overflow-hidden shadow-sm transition-all duration-300"
                   >
                     <button
+                      suppressHydrationWarning
                       onClick={() => setActiveFaq(isSelected ? null : idx)}
                       className="flex items-center justify-between w-full p-5 text-left font-serif font-bold text-primary hover:bg-slate-50 transition-colors"
                     >
