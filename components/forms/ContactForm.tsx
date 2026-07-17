@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition } from "react";
+import { useTransition, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -12,8 +12,24 @@ import { Button } from "@/components/ui/button";
 
 type ContactFormValues = z.infer<typeof ContactSchema>;
 
+const defaultServices = ["Waterproofing", "Wooden Flooring", "PVC (Polyvinyl Chloride)"];
+
 export default function ContactForm() {
   const [isPending, startTransition] = useTransition();
+  const [services, setServices] = useState<string[]>(defaultServices);
+
+  useEffect(() => {
+    async function loadServices() {
+      try {
+        const { getServiceCategories } = await import("@/actions/cmsActions");
+        const res = await getServiceCategories();
+        if (res.success && res.categories && res.categories.length > 0) {
+          setServices(res.categories.map((c: any) => c.name));
+        }
+      } catch {}
+    }
+    loadServices();
+  }, []);
 
   const {
     register,
@@ -26,7 +42,8 @@ export default function ContactForm() {
       name: "",
       phone: "",
       email: "",
-      subject: "",
+      city: "",
+      service: "Waterproofing",
       message: "",
     },
   });
@@ -38,6 +55,11 @@ export default function ContactForm() {
         if (result.success) {
           toast.success(result.message || "Message sent successfully!");
           reset();
+
+          const waText = encodeURIComponent(
+            `Hello Homesdecorator,\n\nName: ${data.name}\nPhone: ${data.phone}\nEmail: ${data.email}\nCity: ${data.city}\nService Required: ${data.service}\n\nMessage: ${data.message}`
+          );
+          window.open(`https://wa.me/918295524045?text=${waText}`, "_blank");
         } else {
           toast.error(result.message || "Something went wrong.");
         }
@@ -105,56 +127,82 @@ export default function ContactForm() {
         </div>
       </div>
 
-      {/* Email */}
-      <div className="space-y-1">
-        <label
-          htmlFor="email"
-          className="text-xs font-bold text-slate-700 uppercase tracking-wider"
-        >
-          Email Address
-        </label>
-        <input
-          id="email"
-          type="email"
-          disabled={isPending}
-          placeholder="example@example.com"
-          {...register("email")}
-          className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
-            errors.email
-              ? "border-red-500 focus:ring-red-500"
-              : "border-slate-200"
-          }`}
-        />
-        {errors.email && (
-          <p className="text-xs text-red-500 font-semibold">
-            {errors.email.message}
-          </p>
-        )}
+      {/* Email, City */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="space-y-1">
+          <label
+            htmlFor="email"
+            className="text-xs font-bold text-slate-700 uppercase tracking-wider"
+          >
+            Email Address
+          </label>
+          <input
+            id="email"
+            type="email"
+            disabled={isPending}
+            placeholder="example@example.com"
+            {...register("email")}
+            className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+              errors.email
+                ? "border-red-500 focus:ring-red-500"
+                : "border-slate-200"
+            }`}
+          />
+          {errors.email && (
+            <p className="text-xs text-red-500 font-semibold">
+              {errors.email.message}
+            </p>
+          )}
+        </div>
+
+        <div className="space-y-1">
+          <label
+            htmlFor="city"
+            className="text-xs font-bold text-slate-700 uppercase tracking-wider"
+          >
+            City
+          </label>
+          <input
+            id="city"
+            type="text"
+            disabled={isPending}
+            placeholder="Noida / Delhi / Gurugram"
+            {...register("city")}
+            className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+              errors.city
+                ? "border-red-500 focus:ring-red-500"
+                : "border-slate-200"
+            }`}
+          />
+          {errors.city && (
+            <p className="text-xs text-red-500 font-semibold">
+              {errors.city.message}
+            </p>
+          )}
+        </div>
       </div>
 
-      {/* Subject */}
+      {/* Required Service */}
       <div className="space-y-1">
         <label
-          htmlFor="subject"
+          htmlFor="service"
           className="text-xs font-bold text-slate-700 uppercase tracking-wider"
         >
-          Subject
+          Required Service
         </label>
-        <input
-          id="subject"
-          type="text"
+        <select
+          id="service"
           disabled={isPending}
-          placeholder="Service Inquiry"
-          {...register("subject")}
-          className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
-            errors.subject
-              ? "border-red-500 focus:ring-red-500"
-              : "border-slate-200"
-          }`}
-        />
-        {errors.subject && (
+          {...register("service")}
+          className="w-full border border-slate-200 rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 bg-white transition-all duration-200"
+        >
+          {services.map((s) => (
+            <option key={s} value={s}>{s}</option>
+          ))}
+        </select>
+        {errors.service && (
           <p className="text-xs text-red-500 font-semibold">
-            {errors.subject.message}
+            {errors.service.message}
           </p>
         )}
       </div>

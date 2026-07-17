@@ -39,7 +39,7 @@ export async function submitContactInquiry(rawFields: any) {
       return { success: false, message: "Invalid form input." };
     }
 
-    const { name, phone, email, subject, message } = parsed.data;
+    const { name, phone, email, city, service, message } = parsed.data;
 
     await connectToDatabase();
     const leadId = await generateLeadId();
@@ -49,17 +49,18 @@ export async function submitContactInquiry(rawFields: any) {
       customerName: name,
       phone,
       email,
+      city,
       address: "Contact Form Submission",
-      service: "General",
-      message: `[Subject: ${subject}] ${message}`,
+      service,
+      message,
       status: "New",
       images: [],
-      notes: [{ text: `Lead created via Contact Form. Subject: ${subject}`, createdAt: new Date(), createdBy: "System" }],
+      notes: [{ text: `Lead created via Contact Form. Service: ${service}`, createdAt: new Date(), createdBy: "System" }],
       timeline: [{ status: "New", notes: "Lead generated via Contact Form", updatedAt: new Date(), updatedBy: "System" }],
     });
 
     // Send emails
-    await sendContactEmail({ name, phone, email, subject, message, leadId });
+    await sendContactEmail({ name, phone, email, city, service, message, leadId });
 
     revalidatePath("/admin/leads");
     return { success: true, message: "Message sent successfully!", leadId };

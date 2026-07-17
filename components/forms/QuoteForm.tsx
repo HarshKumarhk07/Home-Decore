@@ -195,8 +195,34 @@ export default function QuoteForm() {
         </div>
       </div>
 
-      {/* Group 2: City, Required Service */}
+      {/* Group 2: Email, City */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="space-y-1">
+          <label
+            htmlFor="email"
+            className="text-xs font-bold text-slate-700 uppercase tracking-wider"
+          >
+            Email Address
+          </label>
+          <input
+            id="email"
+            type="email"
+            disabled={isPending}
+            placeholder="example@example.com"
+            {...register("email")}
+            className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+              errors.email
+                ? "border-red-500 focus:ring-red-500"
+                : "border-slate-200"
+            }`}
+          />
+          {errors.email && (
+            <p className="text-xs text-red-500 font-semibold">
+              {errors.email.message}
+            </p>
+          )}
+        </div>
+
         <div className="space-y-1">
           <label
             htmlFor="city"
@@ -222,37 +248,65 @@ export default function QuoteForm() {
             </p>
           )}
         </div>
+      </div>
 
-        <div className="space-y-1">
-          <label
-            htmlFor="service"
-            className="text-xs font-bold text-slate-700 uppercase tracking-wider"
-          >
-            Required Service
-          </label>
-          <select
-            id="service"
-            disabled={isPending}
-            {...register("service")}
-            className="w-full border border-slate-200 rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 bg-white transition-all duration-200"
-          >
-            {categories.length > 0 ? (
-              categories.map((cat: any) => (
-                <option key={cat._id || cat.name} value={cat.name}>
-                  {cat.name}
-                </option>
-              ))
-            ) : (
-              <>
-                <option value="Waterproofing">Waterproofing Solutions</option>
-                <option value="Wooden Flooring">Wooden Flooring</option>
-                <option value="PVC (Polyvinyl Chloride)">
-                  PVC (Polyvinyl Chloride)
-                </option>
-              </>
-            )}
-          </select>
-        </div>
+      {/* Group 3: Required Service */}
+      <div className="space-y-1">
+        <label
+          htmlFor="service"
+          className="text-xs font-bold text-slate-700 uppercase tracking-wider"
+        >
+          Required Service
+        </label>
+        <select
+          id="service"
+          disabled={isPending}
+          {...register("service")}
+          className="w-full border border-slate-200 rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 bg-white transition-all duration-200"
+        >
+          {categories.length > 0 ? (
+            categories.map((cat: any) => (
+              <option key={cat._id || cat.name} value={cat.name}>
+                {cat.name}
+              </option>
+            ))
+          ) : (
+            <>
+              <option value="Waterproofing">Waterproofing Solutions</option>
+              <option value="Wooden Flooring">Wooden Flooring</option>
+              <option value="PVC (Polyvinyl Chloride)">
+                PVC (Polyvinyl Chloride)
+              </option>
+            </>
+          )}
+        </select>
+      </div>
+
+      {/* Message */}
+      <div className="space-y-1">
+        <label
+          htmlFor="message"
+          className="text-xs font-bold text-slate-700 uppercase tracking-wider"
+        >
+          Message
+        </label>
+        <textarea
+          id="message"
+          rows={4}
+          disabled={isPending}
+          placeholder="Tell us about your requirements..."
+          {...register("message")}
+          className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
+            errors.message
+              ? "border-red-500 focus:ring-red-500"
+              : "border-slate-200"
+          }`}
+        />
+        {errors.message && (
+          <p className="text-xs text-red-500 font-semibold">
+            {errors.message.message}
+          </p>
+        )}
       </div>
 
       {/* Submit Button */}

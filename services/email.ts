@@ -167,11 +167,12 @@ export async function sendContactEmail(inquiry: any): Promise<boolean> {
   const adminHtml = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; color: #1e293b; line-height: 1.6;">
       <h2 style="color: #1e40af; border-bottom: 2px solid #d4af37; padding-bottom: 10px;">Contact Inquiry Alert</h2>
-      <p>A new general message has been received from the website contact page (Lead ID: ${inquiry.leadId}).</p>
+      <p>A new message has been received from the website contact page (Lead ID: ${inquiry.leadId}).</p>
       <p><strong>Sender Name:</strong> ${inquiry.name}</p>
       <p><strong>Phone:</strong> ${inquiry.phone}</p>
       <p><strong>Email:</strong> ${inquiry.email}</p>
-      <p><strong>Subject:</strong> ${inquiry.subject}</p>
+      <p><strong>City:</strong> ${inquiry.city}</p>
+      <p><strong>Required Service:</strong> ${inquiry.service}</p>
       <p><strong>Message:</strong></p>
       <blockquote style="background: #f8fafc; border-left: 4px solid #1e40af; padding: 12px; margin: 10px 0; font-style: italic;">
         ${inquiry.message}
@@ -181,7 +182,7 @@ export async function sendContactEmail(inquiry: any): Promise<boolean> {
 
   return await sendEmail({
     to: [{ email: adminEmail, name: "Homesdecorator Admin" }],
-    subject: `[Contact Form Submission] ${inquiry.subject} - ${inquiry.name}`,
+    subject: `[Contact Form] ${inquiry.service} - ${inquiry.name} (${inquiry.city})`,
     htmlContent: adminHtml,
   });
 }

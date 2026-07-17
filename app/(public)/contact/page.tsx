@@ -62,10 +62,10 @@ export default function ContactPage() {
                 <Mail className="w-5 h-5 text-accent shrink-0" />
                 <div>
                   <p className="text-xs text-slate-400">Email Address</p>
-                  <p className="font-semibold text-slate-800 mt-0.5">
+                  <p className="font-semibold mt-0.5">
                     <a
                       href="mailto:homesdecorator45@gmail.com"
-                      className="hover:text-primary transition-colors"
+                      className="text-primary underline underline-offset-2 hover:text-accent transition-colors"
                     >
                       homesdecorator45@gmail.com
                     </a>

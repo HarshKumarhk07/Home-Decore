@@ -4,7 +4,8 @@ export const ContactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   phone: z.string().regex(/^[0-9+\s-]{10,15}$/, "Please enter a valid phone number"),
   email: z.string().email("Please enter a valid email address"),
-  subject: z.string().min(3, "Subject must be at least 3 characters"),
+  city: z.string().min(2, "Please enter your city"),
+  service: z.string().min(1, "Please select a service"),
   message: z.string().min(10, "Message must be at least 10 characters"),
 });
 
@@ -24,7 +25,7 @@ export const InspectionSchema = z.object({
 export const QuoteSchema = z.object({
   customerName: z.string().min(2, "Name must be at least 2 characters"),
   phone: z.string().regex(/^[0-9+\s-]{10,15}$/, "Please enter a valid phone number"),
-  email: z.union([z.string().email("Please enter a valid email address"), z.literal("")]).optional(),
+  email: z.string().email("Please enter a valid email address"),
   city: z.string().min(2, "Please enter your city"),
   address: z.string().optional(),
   service: z.string().min(1, "Please select a service"),
