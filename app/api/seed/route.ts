@@ -309,35 +309,6 @@ export async function GET() {
 
     // 5. Seed Testimonials
     await Testimonial.deleteMany({});
-    await Testimonial.create([
-      {
-        clientName: "Arun Verma",
-        serviceReceived: "Waterproofing",
-        rating: 5,
-        feedbackText:
-          "Our basement was flooded every monsoon. Homesdecorator did pressure injection grouting and it is bone dry now. Truly professional crew!",
-        avatar: "/Arun Verma.jpg",
-        isApproved: true,
-      },
-      {
-        clientName: "Shreya Ghoshal",
-        serviceReceived: "Wooden Flooring",
-        rating: 5,
-        feedbackText:
-          "The herringbone SPC flooring they installed looks absolutely gorgeous. Extremely neat work, completed in just 3 days! High recommendation.",
-        avatar: "/Shreya Ghoshal.jpg",
-        isApproved: true,
-      },
-      {
-        clientName: "Karan Johar",
-        serviceReceived: "PVC (Polyvinyl Chloride)",
-        rating: 4,
-        feedbackText:
-          "Superb execution of PVC wall paneling and SPC flooring. The dustless execution and neat finishes were outstanding.",
-        avatar: "/Karan Johar.jpg",
-        isApproved: true,
-      },
-    ]);
 
     // 6. Seed FAQs
     await FAQ.deleteMany({});

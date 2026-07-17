@@ -4,8 +4,6 @@ import { connectToDatabase } from "@/lib/mongodb";
 import Testimonial from "@/models/Testimonial";
 import { Star, Quote, ShieldCheck, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { fallbackTestimonials } from "@/lib/fallbackData";
-
 export const revalidate = 60; // Revalidate every minute
 
 export const metadata = {
@@ -28,9 +26,6 @@ export default async function TestimonialsPage() {
   } catch (err) {
     console.error("Failed to query testimonials for page:", err);
   }
-
-  // Combine database testimonials with fallback/demo testimonials
-  list = [...list, ...fallbackTestimonials];
 
   return (
     <div className="bg-slate-50 min-h-screen py-16">

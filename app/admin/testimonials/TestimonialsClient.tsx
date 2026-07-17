@@ -308,7 +308,7 @@ export default function TestimonialsClient() {
               </div>
             ) : testimonials.length === 0 ? (
               <div className="text-center py-12 text-slate-500 italic">
-                No testimonials found. Click 'Add Testimonial' to create one.
+                No testimonials found. Click &apos;Add Testimonial&apos; to create one.
               </div>
             ) : (
               <div className="grid grid-cols-1 gap-4">
@@ -360,7 +360,7 @@ export default function TestimonialsClient() {
                             : "bg-amber-950/20 hover:bg-amber-950 text-amber-500 border-amber-950/40"
                         }`}
                       >
-                        <Check className="w-3.5 h-3.5" /> 
+                        <Check className="w-3.5 h-3.5" />
                         <span>{t.isApproved ? "Approved" : "Pending"}</span>
                       </Button>
                       <div className="flex gap-2 w-full">

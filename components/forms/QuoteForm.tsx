@@ -153,7 +153,7 @@ export default function QuoteForm() {
             id="customerName"
             type="text"
             disabled={isPending}
-            placeholder="John Doe"
+            placeholder="Enter Your Name"
             {...register("customerName")}
             className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
               errors.customerName
@@ -179,7 +179,7 @@ export default function QuoteForm() {
             id="phone"
             type="tel"
             disabled={isPending}
-            placeholder="+91 82955 24045"
+            placeholder="Enter Your Phone Number"
             {...register("phone")}
             className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
               errors.phone

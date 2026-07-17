@@ -62,7 +62,7 @@ export default function ContactForm() {
             id="name"
             type="text"
             disabled={isPending}
-            placeholder="John Doe"
+            placeholder="Enter Your Name"
             {...register("name")}
             className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
               errors.name
@@ -89,7 +89,7 @@ export default function ContactForm() {
             id="phone"
             type="tel"
             disabled={isPending}
-            placeholder="+91 82955 24045"
+            placeholder="Enter Your Phone Number"
             {...register("phone")}
             className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
               errors.phone
@@ -117,7 +117,7 @@ export default function ContactForm() {
           id="email"
           type="email"
           disabled={isPending}
-          placeholder="john@example.com"
+          placeholder="example@example.com"
           {...register("email")}
           className={`w-full border rounded-none px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
             errors.email

@@ -58,30 +58,6 @@ export const fallbackProjects = [
   }
 ];
 
-export const fallbackTestimonials = [
-  {
-    clientName: "Arun Verma",
-    serviceReceived: "Waterproofing",
-    rating: 5,
-    feedbackText: "Our basement was flooded every monsoon. Homesdecorator did pressure injection grouting and it is bone dry now. Truly professional crew!",
-    avatar: "/Arun Verma.jpg",
-  },
-  {
-    clientName: "Shreya Ghoshal",
-    serviceReceived: "Wooden Flooring",
-    rating: 5,
-    feedbackText: "The herringbone SPC flooring they installed looks absolutely gorgeous. Extremely neat work, completed in just 3 days! High recommendation.",
-    avatar: "/Shreya Ghoshal.jpg",
-  },
-  {
-    clientName: "Karan Johar",
-    serviceReceived: "PVC (Polyvinyl Chloride)",
-    rating: 5,
-    feedbackText: "Superb execution of PVC wall paneling and SPC flooring. The dustless execution and neat finishes were outstanding.",
-    avatar: "/Karan Johar.jpg",
-  }
-];
-
 export const fallbackFaqs = [
   { question: "How long does your waterproofing treatment last?", answer: "We offer professional warranties ranging from 5 to 10 years depending on the service level selected, which covers cracking, seepage, and peeling of waterproofing membranes.", category: "waterproofing" },
   { question: "What is the difference between SPC and Laminate flooring?", answer: "SPC (Stone Plastic Composite) is 100% waterproof and highly stable, making it ideal for kitchens and areas with high moisture. Laminate is made of high-density wood fibers, giving a more authentic wood feel but is sensitive to excessive water.", category: "wooden-flooring" },

@@ -6,7 +6,6 @@ import WebsiteSettings from "@/models/WebsiteSettings";
 import HomeClient from "./HomeClient";
 import {
   fallbackProjects,
-  fallbackTestimonials,
   fallbackFaqs,
 } from "@/lib/fallbackData";
 import { getServiceCategories } from "@/actions/cmsActions";
@@ -74,9 +73,6 @@ export default async function HomePage() {
   if (featuredProjects.length === 0) {
     featuredProjects = fallbackProjects;
   }
-
-  // Combine database testimonials with fallback/demo testimonials
-  testimonials = [...testimonials, ...fallbackTestimonials];
 
   if (faqs.length === 0) {
     faqs = fallbackFaqs;
