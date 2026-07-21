@@ -42,7 +42,7 @@ export default async function HomePage() {
 
     // Fetch approved testimonials
     const dbTestimonials = await Testimonial.find({ isApproved: true })
-      .limit(3)
+      .sort({ createdAt: -1 })
       .lean();
     testimonials = dbTestimonials.map((t: any) => ({
       ...t,

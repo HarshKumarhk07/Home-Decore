@@ -901,16 +901,16 @@ export default function HomeClient({
           </div>
 
           <div className="relative overflow-hidden w-full py-8">
-            {/* Left & Right gradient overlays for smooth fade edges */}
-            <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-slate-900 via-slate-900/40 to-transparent z-10 pointer-events-none"></div>
-            <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-slate-900 via-slate-900/40 to-transparent z-10 pointer-events-none"></div>
+            {/* Left & Right gradient overlays */}
+            <div className="absolute left-0 top-0 bottom-0 w-40 md:w-64 bg-gradient-to-r from-slate-900 to-transparent z-10 pointer-events-none"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-40 md:w-64 bg-gradient-to-l from-slate-900 to-transparent z-10 pointer-events-none"></div>
 
-            <div className="flex space-x-6 w-max animate-marquee-ltr hover:[animation-play-state:paused] py-2">
+            <div className="flex gap-6 w-max animate-marquee-ltr hover:[animation-play-state:paused] py-2">
               {[...testimonials, ...testimonials, ...testimonials].map(
                 (t, idx) => (
                   <div
                     key={idx}
-                    className="w-[320px] sm:w-[400px] shrink-0 dark-glassmorphism p-8 rounded-2xl flex flex-col justify-between h-[280px] space-y-6"
+                    className="w-[380px] shrink-0 dark-glassmorphism p-8 rounded-2xl flex flex-col justify-between min-h-[300px]"
                   >
                     <div className="space-y-4">
                       <div className="flex space-x-1 text-accent">
@@ -920,11 +920,11 @@ export default function HomeClient({
                           </span>
                         ))}
                       </div>
-                      <p className="text-sm sm:text-base text-slate-300 italic leading-relaxed">
+                      <p className="text-sm text-slate-300 italic leading-relaxed line-clamp-5">
                         &ldquo;{t.feedbackText}&rdquo;
                       </p>
                     </div>
-                    <div className="flex items-center space-x-4 border-t border-slate-800/80 pt-4">
+                    <div className="flex items-center space-x-4 border-t border-slate-800/80 pt-4 mt-6">
                       {t.avatar && (
                         <div className="relative w-12 h-12 rounded-full overflow-hidden shrink-0 border border-accent/25">
                           <Image
@@ -936,7 +936,7 @@ export default function HomeClient({
                         </div>
                       )}
                       <div>
-                        <h4 className="font-serif font-bold text-white text-sm sm:text-base">
+                        <h4 className="font-serif font-bold text-white text-sm">
                           {t.clientName}
                         </h4>
                         <p className="text-[11px] text-accent uppercase tracking-wider font-semibold">

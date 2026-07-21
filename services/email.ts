@@ -167,7 +167,7 @@ export async function sendContactEmail(inquiry: any): Promise<boolean> {
   const adminHtml = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; color: #1e293b; line-height: 1.6;">
       <h2 style="color: #1e40af; border-bottom: 2px solid #d4af37; padding-bottom: 10px;">Contact Inquiry Alert</h2>
-      <p>A new message has been received from the website contact page (Lead ID: ${inquiry.leadId}).</p>
+      <p>A new message has been received from the website contact page (Lead ID: <strong>${inquiry.leadId}</strong>).</p>
       <p><strong>Sender Name:</strong> ${inquiry.name}</p>
       <p><strong>Phone:</strong> ${inquiry.phone}</p>
       <p><strong>Email:</strong> ${inquiry.email}</p>
@@ -177,13 +177,57 @@ export async function sendContactEmail(inquiry: any): Promise<boolean> {
       <blockquote style="background: #f8fafc; border-left: 4px solid #1e40af; padding: 12px; margin: 10px 0; font-style: italic;">
         ${inquiry.message}
       </blockquote>
+      <p style="font-size: 12px; color: #64748b; margin-top: 20px;">This inquiry has been logged in your Admin CRM Panel.</p>
     </div>
   `;
 
-  return await sendEmail({
+  const customerHtml = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; color: #1e293b; line-height: 1.6; border: 1px solid #f1f5f9; padding: 30px; border-radius: 16px; margin: auto;">
+      <div style="text-align: center; margin-bottom: 24px;">
+        <span style="font-family: Georgia, serif; font-size: 26px; font-weight: bold; color: #1e40af;">Homes <span style="color: #d4af37;">Decorator</span></span>
+        <p style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: #64748b; margin-top: 4px;">Waterproofing & Flooring Specialists</p>
+      </div>
+
+      <h2 style="color: #1e40af; text-align: center; margin-bottom: 8px;">Query Received Successfully!</h2>
+      <p style="text-align: center; color: #64748b; font-size: 14px; margin-top: 0;">We will get back to you within 24 business hours.</p>
+
+      <p style="margin-top: 24px;">Dear <strong>${inquiry.name}</strong>,</p>
+      <p>Thank you for contacting Homesdecorator. Your query has been successfully submitted and our team has been notified. Here is a summary:</p>
+
+      <div style="background: #eff6ff; padding: 16px 20px; border-radius: 10px; border-left: 4px solid #d4af37; margin: 20px 0;">
+        <p style="margin: 6px 0; font-size: 13px;"><strong>Reference ID:</strong> ${inquiry.leadId}</p>
+        <p style="margin: 6px 0; font-size: 13px;"><strong>Service Enquired:</strong> ${inquiry.service}</p>
+        <p style="margin: 6px 0; font-size: 13px;"><strong>City:</strong> ${inquiry.city}</p>
+        <p style="margin: 6px 0; font-size: 13px;"><strong>Your Message:</strong> ${inquiry.message}</p>
+      </div>
+
+      <p style="font-size: 14px;"><strong>What happens next?</strong></p>
+      <ol style="padding-left: 20px; font-size: 14px; color: #334155;">
+        <li style="margin-bottom: 8px;">Our team will review your query and requirements.</li>
+        <li style="margin-bottom: 8px;">A representative will call you at <strong>${inquiry.phone}</strong> to discuss further details.</li>
+        <li style="margin-bottom: 8px;">We will provide the best solution and a transparent quotation for your project.</li>
+      </ol>
+
+      <p style="font-size: 14px; margin-top: 20px;">For urgent assistance, call us directly at <strong>+91 8295524045</strong>.</p>
+
+      <div style="border-top: 1px solid #f1f5f9; margin-top: 30px; padding-top: 16px; text-align: center; font-size: 11px; color: #94a3b8;">
+        © ${new Date().getFullYear()} Homesdecorator &nbsp;|&nbsp; Noida Sector 62, UP, India
+      </div>
+    </div>
+  `;
+
+  // Notify admin
+  await sendEmail({
     to: [{ email: adminEmail, name: "Homesdecorator Admin" }],
     subject: `[Contact Form] ${inquiry.service} - ${inquiry.name} (${inquiry.city})`,
     htmlContent: adminHtml,
+  });
+
+  // Confirm receipt to customer
+  return await sendEmail({
+    to: [{ email: inquiry.email, name: inquiry.name }],
+    subject: `Your query has been received | Homesdecorator`,
+    htmlContent: customerHtml,
   });
 }
 

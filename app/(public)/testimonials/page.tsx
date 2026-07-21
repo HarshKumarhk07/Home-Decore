@@ -4,7 +4,7 @@ import { connectToDatabase } from "@/lib/mongodb";
 import Testimonial from "@/models/Testimonial";
 import { Star, Quote, ShieldCheck, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-export const revalidate = 60; // Revalidate every minute
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Customer Reviews & Case Studies | Homesdecorator",
