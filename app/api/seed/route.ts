@@ -45,7 +45,7 @@ export async function GET() {
       companyName: "Homesdecorator",
       logoUrl: "",
       phoneNumber: "+91 82955 24045",
-      whatsappNumber: "919999999999",
+      whatsappNumber: "9182955 24045",
       email: "homesdecorator45@gmail.com",
       address: "Plot 42, Sector 62, Noida, UP, India - 201301",
       businessHours: "Mon - Sat: 9:00 AM - 6:30 PM",

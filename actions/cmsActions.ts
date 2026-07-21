@@ -29,7 +29,7 @@ export async function getSettings() {
       settings = await WebsiteSettings.create({
         companyName: "Homesdecorator",
         phoneNumber: "+91 82955 24045",
-        whatsappNumber: "919999999999",
+        whatsappNumber: "9182955 24045",
         email: "homesdecorator45@gmail.com",
         address: "Plot 42, Sector 62, Noida, UP, India",
         businessHours: "Mon - Sat: 9:00 AM - 6:30 PM",
@@ -255,12 +255,20 @@ export async function removeGalleryPhoto(id: string) {
         const publicId = publicIdWithExtension.split(".")[0];
 
         if (publicId) {
-          console.log("🗑️ Deleting from Cloudinary:", `home-decorater-leads/${publicId}`);
-          const result = await cloudinary.uploader.destroy(`home-decorater-leads/${publicId}`);
+          console.log(
+            "🗑️ Deleting from Cloudinary:",
+            `home-decorater-leads/${publicId}`,
+          );
+          const result = await cloudinary.uploader.destroy(
+            `home-decorater-leads/${publicId}`,
+          );
           console.log("✅ Cloudinary deletion result:", result);
         }
       } catch (cloudErr) {
-        console.warn("⚠️ Failed to delete from Cloudinary (non-blocking):", cloudErr);
+        console.warn(
+          "⚠️ Failed to delete from Cloudinary (non-blocking):",
+          cloudErr,
+        );
         // Don't fail the entire operation if Cloudinary deletion fails
       }
     }
@@ -373,8 +381,15 @@ export async function saveBlogPost(data: any, existingSlug?: string) {
 
     const title = sanitizedData.title.trim();
     const targetSlug = sanitizedData.slug
-      ? sanitizedData.slug.toLowerCase().trim().replace(/[^a-z0-9\-]+/g, "-").replace(/(^-|-$)/g, "")
-      : title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+      ? sanitizedData.slug
+          .toLowerCase()
+          .trim()
+          .replace(/[^a-z0-9\-]+/g, "-")
+          .replace(/(^-|-$)/g, "")
+      : title
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/(^-|-$)/g, "");
 
     if (!targetSlug) {
       return { success: false, message: "Slug is required" };
@@ -382,13 +397,28 @@ export async function saveBlogPost(data: any, existingSlug?: string) {
 
     // Server-side max length checks
     if (sanitizedData.excerpt && sanitizedData.excerpt.length > 160) {
-      return { success: false, message: "Excerpt cannot exceed 160 characters" };
+      return {
+        success: false,
+        message: "Excerpt cannot exceed 160 characters",
+      };
     }
-    if (sanitizedData.seoMeta?.metaTitle && sanitizedData.seoMeta.metaTitle.length > 60) {
-      return { success: false, message: "Meta Title cannot exceed 60 characters" };
+    if (
+      sanitizedData.seoMeta?.metaTitle &&
+      sanitizedData.seoMeta.metaTitle.length > 60
+    ) {
+      return {
+        success: false,
+        message: "Meta Title cannot exceed 60 characters",
+      };
     }
-    if (sanitizedData.seoMeta?.metaDescription && sanitizedData.seoMeta.metaDescription.length > 160) {
-      return { success: false, message: "Meta Description cannot exceed 160 characters" };
+    if (
+      sanitizedData.seoMeta?.metaDescription &&
+      sanitizedData.seoMeta.metaDescription.length > 160
+    ) {
+      return {
+        success: false,
+        message: "Meta Description cannot exceed 160 characters",
+      };
     }
 
     // 2. Check for duplicate slug
@@ -401,12 +431,17 @@ export async function saveBlogPost(data: any, existingSlug?: string) {
 
     // 3. SEO Fallbacks
     const metaTitle = (sanitizedData.seoMeta?.metaTitle || "").trim() || title;
-    const metaDescription = (sanitizedData.seoMeta?.metaDescription || "").trim() || (sanitizedData.excerpt || "").trim();
+    const metaDescription =
+      (sanitizedData.seoMeta?.metaDescription || "").trim() ||
+      (sanitizedData.excerpt || "").trim();
     const metaKeywords = Array.isArray(sanitizedData.seoMeta?.metaKeywords)
       ? sanitizedData.seoMeta.metaKeywords
-      : (typeof sanitizedData.seoMeta?.metaKeywords === "string"
-          ? (sanitizedData.seoMeta.metaKeywords as string).split(",").map(k => k.trim()).filter(Boolean)
-          : []);
+      : typeof sanitizedData.seoMeta?.metaKeywords === "string"
+        ? (sanitizedData.seoMeta.metaKeywords as string)
+            .split(",")
+            .map((k) => k.trim())
+            .filter(Boolean)
+        : [];
 
     // 4. Assemble payload
     const postData = {
@@ -417,9 +452,12 @@ export async function saveBlogPost(data: any, existingSlug?: string) {
       status: sanitizedData.status || "Draft",
       tags: Array.isArray(sanitizedData.tags)
         ? sanitizedData.tags
-        : (typeof sanitizedData.tags === "string"
-            ? (sanitizedData.tags as string).split(",").map(t => t.trim()).filter(Boolean)
-            : []),
+        : typeof sanitizedData.tags === "string"
+          ? (sanitizedData.tags as string)
+              .split(",")
+              .map((t) => t.trim())
+              .filter(Boolean)
+          : [],
       coverImage: sanitizedData.coverImage,
       content: sanitizedData.content,
       seoMeta: {
@@ -435,7 +473,7 @@ export async function saveBlogPost(data: any, existingSlug?: string) {
       savedPost = await BlogPost.findOneAndUpdate(
         { slug: existingSlug },
         { ...postData, updatedAt: new Date() },
-        { new: true, runValidators: true }
+        { new: true, runValidators: true },
       );
     } else {
       savedPost = await BlogPost.create(postData);
@@ -906,7 +944,9 @@ export async function removeTestimonial(id: string) {
 export async function getServiceLocationPages() {
   try {
     await connectToDatabase();
-    const pages = await ServiceLocationPage.find({}).sort({ service: 1, location: 1 }).lean();
+    const pages = await ServiceLocationPage.find({})
+      .sort({ service: 1, location: 1 })
+      .lean();
     return {
       success: true,
       pages: JSON.parse(JSON.stringify(pages)),
@@ -933,10 +973,19 @@ export async function saveServiceLocationPage(data: any, existingId?: string) {
 
     // Server-side validation for character lengths
     if (data.seoMeta?.metaTitle && data.seoMeta.metaTitle.length > 60) {
-      return { success: false, message: "Meta title cannot exceed 60 characters." };
+      return {
+        success: false,
+        message: "Meta title cannot exceed 60 characters.",
+      };
     }
-    if (data.seoMeta?.metaDescription && data.seoMeta.metaDescription.length > 160) {
-      return { success: false, message: "Meta description cannot exceed 160 characters." };
+    if (
+      data.seoMeta?.metaDescription &&
+      data.seoMeta.metaDescription.length > 160
+    ) {
+      return {
+        success: false,
+        message: "Meta description cannot exceed 160 characters.",
+      };
     }
 
     const sanitizedData = sanitizeInput(data);
@@ -961,7 +1010,11 @@ export async function saveServiceLocationPage(data: any, existingId?: string) {
 
     let result;
     if (existingId) {
-      result = await ServiceLocationPage.findByIdAndUpdate(existingId, payload, { new: true });
+      result = await ServiceLocationPage.findByIdAndUpdate(
+        existingId,
+        payload,
+        { new: true },
+      );
     } else {
       result = await ServiceLocationPage.create(payload);
     }
@@ -980,7 +1033,8 @@ export async function saveServiceLocationPage(data: any, existingId?: string) {
     if (error.code === 11000) {
       return {
         success: false,
-        message: "A page for this service + location combination already exists.",
+        message:
+          "A page for this service + location combination already exists.",
       };
     }
     return {
@@ -1008,7 +1062,10 @@ export async function removeServiceLocationPage(id: string) {
     revalidatePath(`/services/${page.serviceSlug}/${page.locationSlug}`);
     revalidatePath("/");
 
-    return { success: true, message: "Service location page removed successfully!" };
+    return {
+      success: true,
+      message: "Service location page removed successfully!",
+    };
   } catch (error: any) {
     console.error("Error removing service location page:", error);
     return {
@@ -1017,4 +1074,3 @@ export async function removeServiceLocationPage(id: string) {
     };
   }
 }
-

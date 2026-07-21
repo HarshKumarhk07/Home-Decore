@@ -50,7 +50,7 @@ export default function ContactPage() {
                   <p className="text-xs text-slate-400">Direct Telephone</p>
                   <p className="font-semibold text-slate-800 mt-0.5">
                     <a
-                      href="tel:+919999999999"
+                      href="tel:+9182955 24045"
                       className="hover:text-primary transition-colors"
                     >
                       +91 82955 24045

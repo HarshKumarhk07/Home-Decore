@@ -143,7 +143,7 @@ export default async function PvcPage() {
                   variant="outline"
                   className="border-slate-400 text-white hover:bg-white hover:text-dark font-bold rounded-xl px-6 py-5 text-sm sm:text-base"
                 >
-                  <Link href="tel:+919999999999">
+                  <Link href="tel:+9182955 24045">
                     Call Now: +91 82955 24045
                   </Link>
                 </Button>
@@ -243,7 +243,9 @@ export default async function PvcPage() {
                 Areas We Serve
               </h3>
               <p className="text-slate-650 text-xs sm:text-sm mb-6 leading-relaxed">
-                We offer professional PVC wall cladding and SPC flooring installation services across major cities in Haryana and Delhi NCR. Explore our location-specific services:
+                We offer professional PVC wall cladding and SPC flooring
+                installation services across major cities in Haryana and Delhi
+                NCR. Explore our location-specific services:
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {servedAreas.map((area: any) => (

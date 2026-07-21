@@ -411,7 +411,7 @@ export default function HomeClient({
                     Call Us
                   </span>
                   <a
-                    href="tel:+919999999999"
+                    href="tel:+9182955 24045"
                     className="text-white hover:text-[#D4AF37] font-bold text-sm transition-colors"
                   >
                     +91 82955 24045
@@ -423,7 +423,7 @@ export default function HomeClient({
                     WhatsApp Support
                   </span>
                   <a
-                    href="https://wa.me/919999999999?text=Hi!%20I%20want%20to%20know%20more%20about%20Home%20Decorater%20services."
+                    href="https://wa.me/9182955 24045?text=Hi!%20I%20want%20to%20know%20more%20about%20Home%20Decorater%20services."
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-white hover:text-[#D4AF37] font-bold text-sm transition-colors"
