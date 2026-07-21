@@ -149,7 +149,7 @@ export default async function WaterproofingPage() {
                   variant="outline"
                   className="border-slate-400 text-white hover:bg-white hover:text-dark font-bold rounded-xl px-6 py-5 text-sm sm:text-base"
                 >
-                  <Link href="tel:+9182955 24045">Call: +91 82955 24045</Link>
+                  <Link href="tel:+917743040191">Call: +91 7743040191</Link>
                 </Button>
               </div>
             </div>

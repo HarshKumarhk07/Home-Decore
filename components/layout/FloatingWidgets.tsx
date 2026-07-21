@@ -5,11 +5,11 @@ import { PhoneCall, FileText } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 
 export default function FloatingWidgets() {
-  const whatsappNumber = "9182955 24045";
+  const whatsappNumber = "917743040191";
   const whatsappMessage = encodeURIComponent(
     "Hello! I am looking for professional waterproofing, flooring, or PVC services. I would like to schedule a callback.",
   );
-  const phoneNumber = "+9182955 24045";
+  const phoneNumber = "+917743040191";
 
   return (
     <>

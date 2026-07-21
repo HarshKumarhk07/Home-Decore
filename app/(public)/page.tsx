@@ -4,10 +4,7 @@ import Testimonial from "@/models/Testimonial";
 import FAQ from "@/models/FAQ";
 import WebsiteSettings from "@/models/WebsiteSettings";
 import HomeClient from "./HomeClient";
-import {
-  fallbackProjects,
-  fallbackFaqs,
-} from "@/lib/fallbackData";
+import { fallbackProjects, fallbackFaqs } from "@/lib/fallbackData";
 import { getServiceCategories } from "@/actions/cmsActions";
 
 // Always render fresh so admin content changes (images, projects, services) reflect immediately.
@@ -87,7 +84,7 @@ export default async function HomePage() {
     image: settings?.logoUrl || `${baseUrl}/favicon.ico`,
     "@id": `${baseUrl}/#organization`,
     url: baseUrl,
-    telephone: settings?.phoneNumber || "+91 82955 24045",
+    telephone: settings?.phoneNumber || "+91 7743040191",
     email: settings?.email || "homesdecorator45@gmail.com",
     address: {
       "@type": "PostalAddress",

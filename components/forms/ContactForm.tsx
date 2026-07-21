@@ -56,10 +56,26 @@ export default function ContactForm() {
           toast.success(result.message || "Message sent successfully!");
           reset();
 
-          const waText = encodeURIComponent(
-            `Hello Homesdecorator,\n\nName: ${data.name}\nPhone: ${data.phone}\nEmail: ${data.email}\nCity: ${data.city}\nService Required: ${data.service}\n\nMessage: ${data.message}`
+          // Send all query details to admin on WhatsApp
+          const queryNumber = result.leadId || "N/A";
+          const waMessage = [
+            `🔔 *New Contact Query Received!*`,
+            `📋 *Query No:* ${queryNumber}`,
+            ``,
+            `1️⃣ *Name:* ${data.name}`,
+            `2️⃣ *Phone:* ${data.phone}`,
+            `3️⃣ *Email:* ${data.email}`,
+            `4️⃣ *City:* ${data.city}`,
+            `5️⃣ *Service Required:* ${data.service}`,
+            `6️⃣ *Message:* ${data.message || "—"}`,
+            ``,
+            `_Please follow up at the earliest._`,
+          ].join("\n");
+
+          window.open(
+            `https://wa.me/918295524045?text=${encodeURIComponent(waMessage)}`,
+            "_blank"
           );
-          window.open(`https://wa.me/918295524045?text=${waText}`, "_blank");
         } else {
           toast.error(result.message || "Something went wrong.");
         }

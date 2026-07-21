@@ -129,6 +129,31 @@ export default function QuoteForm() {
             { duration: 6000 },
           );
           reset();
+
+          // Send all quote details to admin on WhatsApp
+          const queryNumber = result.leadId || "N/A";
+          const waMessage = [
+            `🔔 *New Quote Request Received!*`,
+            `📋 *Query No:* ${queryNumber}`,
+            ``,
+            `1️⃣ *Name:* ${data.customerName}`,
+            `2️⃣ *Phone:* ${data.phone}`,
+            `3️⃣ *Email:* ${data.email || "—"}`,
+            `4️⃣ *City:* ${data.city || "—"}`,
+            `5️⃣ *Address:* ${data.address}`,
+            `6️⃣ *Service:* ${data.service}`,
+            ...(data.subService ? [`7️⃣ *Treatment:* ${data.subService}`] : []),
+            `${data.subService ? `8` : `7`}️⃣ *Property Type:* ${data.propertyType || "—"}`,
+            `${data.subService ? `9` : `8`}️⃣ *Area (sq ft):* ${data.area || "—"}`,
+            `${data.subService ? `🔟` : `9️⃣`} *Budget:* ₹${data.budget || "—"}`,
+            ``,
+            `_Please process this quote request promptly._`,
+          ].join("\n");
+
+          window.open(
+            `https://wa.me/918295524045?text=${encodeURIComponent(waMessage)}`,
+            "_blank"
+          );
         } else {
           toast.error(result.message || "Failed to submit quote request.");
         }

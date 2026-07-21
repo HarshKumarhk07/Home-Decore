@@ -118,6 +118,31 @@ export default function InspectionForm() {
               "Inspection scheduled successfully! Our team will contact you very soon. Thank you for choosing us.",
           );
           reset();
+
+          // Send all booking details to admin on WhatsApp
+          const queryNumber = result.leadId || "N/A";
+          const waMessage = [
+            `🔔 *New Inspection Booking Received!*`,
+            `📋 *Query No:* ${queryNumber}`,
+            ``,
+            `1️⃣ *Name:* ${data.name}`,
+            `2️⃣ *Phone:* ${data.phone}`,
+            `3️⃣ *Email:* ${data.email || "—"}`,
+            `4️⃣ *City:* ${data.city || "—"}`,
+            `5️⃣ *Address:* ${data.address}`,
+            `6️⃣ *Service:* ${data.service}`,
+            ...(data.subService ? [`7️⃣ *Treatment:* ${data.subService}`] : []),
+            `${data.subService ? `8` : `7`}️⃣ *Preferred Date:* ${data.preferredDate || "—"}`,
+            `${data.subService ? `9` : `8`}️⃣ *Preferred Time:* ${data.preferredTime || "—"}`,
+            `${data.subService ? `🔟` : `9️⃣`} *Remarks:* ${data.remarks || "—"}`,
+            ``,
+            `_Please confirm the inspection slot._`,
+          ].join("\n");
+
+          window.open(
+            `https://wa.me/918295524045?text=${encodeURIComponent(waMessage)}`,
+            "_blank"
+          );
         } else {
           toast.error(result.message || "Failed to book inspection.");
         }

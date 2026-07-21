@@ -202,10 +202,10 @@ export default async function Footer() {
               <li className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-accent shrink-0" />
                 <a
-                  href="tel:+9182955 24045"
+                  href="tel:+917743040191"
                   className="hover:text-accent transition-colors"
                 >
-                  +91 82955 24045
+                  +91 7743040191
                 </a>
               </li>
               <li className="flex items-center space-x-3">

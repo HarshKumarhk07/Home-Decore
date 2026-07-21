@@ -134,7 +134,7 @@ export async function sendLeadEmails(lead: any): Promise<boolean> {
         <li style="margin-bottom: 8px;">Post inspection, we will deliver your written square-foot quotation and warranty projection terms.</li>
       </ol>
       
-      <p style="font-size: 14px;">If you have immediate questions, call us at <strong>+91 82955 24045</strong>.</p>
+      <p style="font-size: 14px;">If you have immediate questions, call us at <strong>+91 7743040191</strong>.</p>
       
       <div style="border-t: 1px solid #f1f5f9; margin-top: 30px; padding-top: 15px; text-align: center; font-size: 11px; color: #94a3b8;">
         © ${new Date().getFullYear()} Homesdecorator. Noida Sector 62 Office.
