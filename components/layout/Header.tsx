@@ -245,13 +245,13 @@ export default function Header() {
           {/* Desktop Right Actions */}
           <div className="hidden lg:flex items-center space-x-5">
             <Link
-              href="tel:+917743040191"
+              href="tel:+918295524045"
               className="flex items-center space-x-2 text-sm font-bold text-slate-700 hover:text-primary group transition-colors duration-200"
             >
               <div className="p-2 bg-primary-light group-hover:bg-primary group-hover:text-white rounded-full text-primary transition-all duration-300">
                 <Phone className="w-4 h-4" />
               </div>
-              <span className="font-bold">+91 7743040191</span>
+              <span className="font-bold">+91 8295524045</span>
             </Link>
             <Button
               asChild
@@ -372,11 +372,11 @@ export default function Header() {
 
           <div className="pt-4 border-t border-gray-100 space-y-3">
             <Link
-              href="tel:+917743040191"
+              href="tel:+918295524045"
               className="flex items-center space-x-3 px-3 py-2 text-base font-medium text-gray-700 hover:text-primary transition-colors"
             >
               <Phone className="w-5 h-5 text-primary" />
-              <span>+91 7743040191</span>
+              <span>+91 8295524045</span>
             </Link>
             <div className="px-3">
               <Button

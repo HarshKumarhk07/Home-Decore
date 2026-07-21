@@ -84,7 +84,7 @@ export default async function HomePage() {
     image: settings?.logoUrl || `${baseUrl}/favicon.ico`,
     "@id": `${baseUrl}/#organization`,
     url: baseUrl,
-    telephone: settings?.phoneNumber || "+91 7743040191",
+    telephone: settings?.phoneNumber || "+91 8295524045",
     email: settings?.email || "homesdecorator45@gmail.com",
     address: {
       "@type": "PostalAddress",

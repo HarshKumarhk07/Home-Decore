@@ -32,11 +32,11 @@ const WebsiteSettingsSchema = new Schema<IWebsiteSettings>(
   {
     companyName: { type: String, required: true, default: "Homesdecorator" },
     logoUrl: { type: String },
-    phoneNumber: { type: String, required: true, default: "+91 7743040191" },
+    phoneNumber: { type: String, required: true, default: "+91 8295524045" },
     whatsappNumber: {
       type: String,
       required: true,
-      default: "+91 7743040191",
+      default: "+91 8295524045",
     },
     email: {
       type: String,

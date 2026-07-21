@@ -32,7 +32,7 @@ export function generateQuotationPDF(lead: any) {
   doc.setFontSize(9);
   doc.setTextColor(textColor[0], textColor[1], textColor[2]);
   doc.text("Sector 62, Noida, UP, India", 210 - margin, y, { align: "right" });
-  doc.text("Phone: +91 7743040191", 210 - margin, y + 5, { align: "right" });
+  doc.text("Phone: +91 8295524045", 210 - margin, y + 5, { align: "right" });
   doc.text("Email: billing@homedecorater.in", 210 - margin, y + 10, {
     align: "right",
   });
