@@ -4,7 +4,8 @@
       "Bash(npx next *)",
       "Bash(ls .env*)",
       "Bash(node -e \"console.log\\('node ok'\\)\")",
-      "Bash(node -e ' *)"
+      "Bash(node -e ' *)",
+      "Bash(npx tsc *)"
     ]
   }
 }

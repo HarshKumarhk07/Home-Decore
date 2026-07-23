@@ -1,12 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ShieldCheck, Mail, MapPin, Phone, Clock } from "lucide-react";
-import {
-  FaFacebook,
-  FaInstagram,
-  FaTwitter,
-  FaLinkedin,
-} from "react-icons/fa6";
+import { FaFacebook, FaInstagram } from "react-icons/fa6";
 import { getServiceCategories } from "@/actions/cmsActions";
 
 export default async function Footer() {
@@ -73,28 +68,22 @@ export default async function Footer() {
             </p>
             <div className="flex space-x-4 pt-4">
               <a
-                href="#"
+                href="https://www.facebook.com/profile.php?id=61591582779344"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Homes Decorator on Facebook"
                 className="p-2 bg-slate-800 hover:bg-primary rounded-xl text-white hover:text-white transition-colors duration-300"
               >
                 <FaFacebook className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                href="https://www.instagram.com/homesdecorator/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Homes Decorator on Instagram"
                 className="p-2 bg-slate-800 hover:bg-primary rounded-xl text-white hover:text-white transition-colors duration-300"
               >
                 <FaInstagram className="w-5 h-5" />
-              </a>
-              <a
-                href="#"
-                className="p-2 bg-slate-800 hover:bg-primary rounded-xl text-white hover:text-white transition-colors duration-300"
-              >
-                <FaTwitter className="w-5 h-5" />
-              </a>
-              <a
-                href="#"
-                className="p-2 bg-slate-800 hover:bg-primary rounded-xl text-white hover:text-white transition-colors duration-300"
-              >
-                <FaLinkedin className="w-5 h-5" />
               </a>
             </div>
           </div>

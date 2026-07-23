@@ -35,8 +35,11 @@ export const SITE = {
     opens: "09:00",
     closes: "18:30",
   },
+  // Official profiles — emitted as schema.org `sameAs` for entity/brand
+  // disambiguation. Overridden by WebsiteSettings.socialLinks when set.
   social: [
-    // Populated from WebsiteSettings.socialLinks at runtime where available.
+    "https://www.facebook.com/profile.php?id=61591582779344",
+    "https://www.instagram.com/homesdecorator/",
   ] as string[],
   // Aggregate rating shown in Review / LocalBusiness schema. Update as real
   // review volume grows; keep it factually representative.
