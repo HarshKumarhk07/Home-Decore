@@ -19,7 +19,6 @@ import {
 } from "@/lib/seo";
 import {
   getCityData,
-  getNearbyCities,
   getServiceInfo,
   buildLandingFaqs,
 } from "@/lib/localSeo";
@@ -132,7 +131,6 @@ export default async function ServiceLocationDetailPage({ params }: PageProps) {
   // Local SEO enrichment (unique per city — avoids duplicate content).
   const cityInfo = getCityData(locationSlug);
   const serviceInfo = getServiceInfo(slug);
-  const nearbyCities = getNearbyCities(locationSlug);
   const faqs = buildLandingFaqs({
     service: page.service,
     city: cityInfo,
@@ -364,63 +362,38 @@ export default async function ServiceLocationDetailPage({ params }: PageProps) {
               </div>
             </div>
 
-            {/* Internal links — related services + nearby cities */}
-            {(serviceInfo || nearbyCities.length > 0) && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {serviceInfo && serviceInfo.relatedSlugs.length > 0 && (
-                  <div className="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm space-y-3">
-                    <h3 className="font-serif font-bold text-primary text-base">
-                      Related Services in {page.location}
-                    </h3>
-                    <ul className="space-y-2 text-sm">
-                      {serviceInfo.relatedSlugs.map((rs) => {
-                        const info = getServiceInfo(rs);
-                        if (!info) return null;
-                        return (
-                          <li key={rs}>
-                            <Link
-                              href={`/services/${rs}/${locationSlug}`}
-                              className="text-primary hover:text-accent font-medium flex items-center gap-1.5"
-                            >
-                              <ArrowRight className="w-3.5 h-3.5" />
-                              {info.label} in {page.location}
-                            </Link>
-                          </li>
-                        );
-                      })}
-                      <li>
+            {/* Internal links — related services */}
+            {serviceInfo && serviceInfo.relatedSlugs.length > 0 && (
+              <div className="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm space-y-3">
+                <h3 className="font-serif font-bold text-primary text-base">
+                  Related Services in {page.location}
+                </h3>
+                <ul className="space-y-2 text-sm">
+                  {serviceInfo.relatedSlugs.map((rs) => {
+                    const info = getServiceInfo(rs);
+                    if (!info) return null;
+                    return (
+                      <li key={rs}>
                         <Link
-                          href={serviceInfo.parentSlug}
+                          href={`/services/${rs}/${locationSlug}`}
                           className="text-primary hover:text-accent font-medium flex items-center gap-1.5"
                         >
                           <ArrowRight className="w-3.5 h-3.5" />
-                          All {serviceInfo.parentLabel} services
+                          {info.label} in {page.location}
                         </Link>
                       </li>
-                    </ul>
-                  </div>
-                )}
-
-                {nearbyCities.length > 0 && (
-                  <div className="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm space-y-3">
-                    <h3 className="font-serif font-bold text-primary text-base">
-                      {page.service} in Nearby Cities
-                    </h3>
-                    <ul className="space-y-2 text-sm">
-                      {nearbyCities.map((c) => (
-                        <li key={c.slug}>
-                          <Link
-                            href={`/services/${slug}/${c.slug}`}
-                            className="text-primary hover:text-accent font-medium flex items-center gap-1.5"
-                          >
-                            <ArrowRight className="w-3.5 h-3.5" />
-                            {page.service} in {c.name}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+                    );
+                  })}
+                  <li>
+                    <Link
+                      href={serviceInfo.parentSlug}
+                      className="text-primary hover:text-accent font-medium flex items-center gap-1.5"
+                    >
+                      <ArrowRight className="w-3.5 h-3.5" />
+                      All {serviceInfo.parentLabel} services
+                    </Link>
+                  </li>
+                </ul>
               </div>
             )}
           </div>
