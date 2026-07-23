@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { getSettings, getServiceCategoryBySlug } from "@/actions/cmsActions";
 import { connectToDatabase } from "@/lib/mongodb";
 import ServiceLocationPage from "@/models/ServiceLocationPage";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 
 const defaultSubServices = [
   {
@@ -38,9 +39,10 @@ const defaultSubServices = [
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Scientific Waterproofing Services | Homesdecorator",
+  title: "Scientific Waterproofing Services",
   description:
-    "Stop structural leaks with professional waterproofing treatments for roofs, terraces, bathrooms, and basements. Up to 10-year warranty.",
+    "Stop structural leaks with Homes Decorator's professional waterproofing treatments for roofs, terraces, bathrooms, and basements across Haryana & Delhi NCR. Up to 10-year warranty.",
+  alternates: { canonical: "/services/waterproofing" },
 };
 
 export default async function WaterproofingPage() {
@@ -78,7 +80,7 @@ export default async function WaterproofingPage() {
       ? category.subcategories
       : defaultSubServices;
 
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://homedecorater.in";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.homesdecorator.in";
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -88,7 +90,7 @@ export default async function WaterproofingPage() {
       "Stop structural leaks with professional waterproofing treatments for roofs, terraces, bathrooms, and basements. Up to 10-year warranty.",
     provider: {
       "@type": "HomeAndConstructionBusiness",
-      name: "Homesdecorator",
+      name: "Homes Decorator",
       url: baseUrl,
     },
     serviceType: "Waterproofing",
@@ -118,6 +120,15 @@ export default async function WaterproofingPage() {
       />
       <div className="bg-slate-50 min-h-screen py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-8">
+            <Breadcrumbs
+              crumbs={[
+                { name: "Home", path: "/" },
+                { name: "Services", path: "/services" },
+                { name: "Waterproofing", path: "/services/waterproofing" },
+              ]}
+            />
+          </div>
           {/* Banner Section */}
           <div className="bg-gradient-to-r from-primary to-slate-900 text-white rounded-3xl p-8 sm:p-12 mb-16 relative overflow-hidden shadow-xl animate-fade-in">
             <div className="absolute right-0 top-0 opacity-10 pointer-events-none transform translate-x-10 -translate-y-10">

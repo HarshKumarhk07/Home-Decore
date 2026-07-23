@@ -58,16 +58,18 @@ export default async function Footer() {
             <Link href="/" className="flex items-center group">
               <Image
                 src="/logo.PNG"
-                alt="Homesdecorator Logo"
+                alt="Homes Decorator Logo"
                 width={160}
                 height={45}
                 className="h-16 w-auto object-contain"
               />
             </Link>
             <p className="text-sm text-slate-400 leading-relaxed pt-2">
-              Homesdecorator is a premier home improvement company specializing
-              in Waterproofing, Wooden Flooring, and PVC (Polyvinyl Chloride)
-              services. We guarantee premium quality with structural warranties.
+              Homes Decorator is a Bhiwani-based waterproofing, flooring and
+              interior contractor serving Haryana and Delhi NCR. We specialise in
+              scientific waterproofing, wooden &amp; SPC flooring, PVC/WPC wall
+              panels, false ceiling and home renovation — backed by written
+              structural warranties.
             </p>
             <div className="flex space-x-4 pt-4">
               <a
@@ -163,6 +165,12 @@ export default async function Footer() {
                 FAQ
               </Link>
               <Link
+                href="/blog"
+                className="hover:text-accent transition-colors duration-200"
+              >
+                Blog & Guides
+              </Link>
+              <Link
                 href="/contact"
                 className="hover:text-accent transition-colors duration-200"
               >
@@ -231,7 +239,7 @@ export default async function Footer() {
         {/* Bottom Bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
           <p>
-            © {new Date().getFullYear()} Homesdecorator. All rights reserved.
+            © {new Date().getFullYear()} Homes Decorator. All rights reserved.
           </p>
           <p className="mt-2 sm:mt-0">
             Waterproofing, Wooden Flooring & PVC Specialists.

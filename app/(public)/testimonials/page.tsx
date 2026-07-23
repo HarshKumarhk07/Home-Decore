@@ -4,11 +4,15 @@ import { connectToDatabase } from "@/lib/mongodb";
 import Testimonial from "@/models/Testimonial";
 import { Star, Quote, ShieldCheck, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { reviewSchema } from "@/lib/seo";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Customer Reviews & Case Studies | Homesdecorator",
-  description: "Read verified feedback from home owners, building developers, and office managers who hired us for PVC, waterproofing, or flooring.",
+  title: "Customer Reviews & Case Studies",
+  description: "Read verified feedback from home owners, building developers, and office managers who hired Homes Decorator for PVC, waterproofing, or flooring across Haryana & Delhi NCR.",
+  alternates: { canonical: "/testimonials" },
 };
 
 export default async function TestimonialsPage() {
@@ -27,9 +31,25 @@ export default async function TestimonialsPage() {
     console.error("Failed to query testimonials for page:", err);
   }
 
+  const reviewsForSchema = list.map((r: any) => ({
+    author: r.clientName,
+    rating: r.rating,
+    body: r.feedbackText,
+    date: r.createdAt || undefined,
+  }));
+
   return (
     <div className="bg-slate-50 min-h-screen py-16">
+      {reviewsForSchema.length > 0 && (
+        <JsonLd data={reviewSchema(reviewsForSchema)} />
+      )}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+        <Breadcrumbs
+          crumbs={[
+            { name: "Home", path: "/" },
+            { name: "Reviews", path: "/testimonials" },
+          ]}
+        />
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <h1 className="font-serif text-4xl sm:text-5xl font-bold text-primary">

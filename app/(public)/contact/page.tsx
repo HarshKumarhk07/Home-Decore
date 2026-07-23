@@ -2,14 +2,15 @@ import ContactForm from "@/components/forms/ContactForm";
 import { MapPin, Phone, Mail, Clock, ExternalLink } from "lucide-react";
 
 export const metadata = {
-  title: "Contact Our Office | Homesdecorator",
+  title: "Contact Our Office",
   description:
-    "Get in touch with our sector office in Sector 62 Noida. Call, email, or find directions on Google Maps.",
+    "Get in touch with Homes Decorator's head office in Behal, Bhiwani, Haryana. Call +91 8295524045, email us, or find directions on Google Maps. Serving Haryana & Delhi NCR.",
+  alternates: { canonical: "/contact" },
 };
 
 export default function ContactPage() {
   const mapEmbedUrl =
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.562013854124!2d77.3672600762145!3d28.612912484839818!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce544aaaaaaab%3A0x6b4c1069ffeaab23!2sSector%2062%2C%20Noida%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin";
+    "https://www.google.com/maps?q=Behal%2C%20Bhiwani%2C%20Haryana%20127028&output=embed";
 
   return (
     <div className="bg-slate-50 min-h-screen py-16">
@@ -108,7 +109,7 @@ export default function ContactPage() {
               allowFullScreen={true}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Homesdecorator Sector 62 Office Location"
+              title="Homes Decorator Head Office — Behal, Bhiwani, Haryana"
             ></iframe>
           </div>
         </div>

@@ -4,6 +4,9 @@ import { notFound } from "next/navigation";
 import { CheckCircle, ArrowRight, Wrench, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getServiceCategoryBySlug, getServiceCategories } from "@/actions/cmsActions";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { serviceSchema, webPageSchema } from "@/lib/seo";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -33,12 +36,15 @@ export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const res = await getServiceCategoryBySlug(slug);
   if (!res.success || !res.category) {
-    return { title: "Service Not Found | Homesdecorator" };
+    return { title: "Service Not Found" };
   }
   const cat = res.category;
   return {
-    title: `${cat.name} | Homesdecorator`,
-    description: cat.description || `Professional ${cat.name} services by Homesdecorator.`,
+    title: cat.name,
+    description:
+      cat.description ||
+      `Professional ${cat.name} services by Homes Decorator across Haryana & Delhi NCR.`,
+    alternates: { canonical: `/services/${slug}` },
   };
 }
 
@@ -54,9 +60,37 @@ export default async function DynamicServicePage({ params }: Props) {
   const subcategories: any[] = category.subcategories || [];
   const features: string[] = Array.isArray(category.features) ? category.features : [];
 
+  const canonicalPath = `/services/${slug}`;
+  const structuredData = [
+    webPageSchema({
+      path: canonicalPath,
+      name: category.name,
+      description:
+        category.description ||
+        `Professional ${category.name} services by Homes Decorator across Haryana & Delhi NCR.`,
+    }),
+    serviceSchema({
+      name: category.name,
+      description:
+        category.description ||
+        `Professional ${category.name} services by Homes Decorator across Haryana & Delhi NCR.`,
+      serviceType: category.name,
+      path: canonicalPath,
+    }),
+  ];
+
   return (
     <div className="bg-slate-50 min-h-screen py-12">
+      <JsonLd data={structuredData} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <Breadcrumbs
+          crumbs={[
+            { name: "Home", path: "/" },
+            { name: "Services", path: "/services" },
+            { name: category.name, path: canonicalPath },
+          ]}
+        />
 
         {/* Hero Banner */}
         <div className="relative bg-gradient-to-r from-primary to-slate-900 text-white rounded-3xl p-8 sm:p-12 mb-16 overflow-hidden shadow-xl animate-fade-in">

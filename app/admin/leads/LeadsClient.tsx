@@ -467,6 +467,24 @@ export default function LeadsClient({ initialLeads, employees, currentUser }: Le
                   </div>
                 )}
 
+                {/* Lead Source / attribution block */}
+                {(selectedLead.source || selectedLead.sourceUrl) && (
+                  <div className="p-5 bg-slate-950/50 rounded-xl border border-slate-800 space-y-2">
+                    <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Lead Source</h4>
+                    <p className="text-sm font-semibold text-accent">{selectedLead.source || "Website"}</p>
+                    {selectedLead.sourceUrl && (
+                      <a
+                        href={selectedLead.sourceUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-blue-400 hover:text-blue-300 break-all underline"
+                      >
+                        {selectedLead.sourceUrl}
+                      </a>
+                    )}
+                  </div>
+                )}
+
                 {/* Lead Image Uploads */}
                 {selectedLead.images && selectedLead.images.length > 0 && (
                   <div className="space-y-3">

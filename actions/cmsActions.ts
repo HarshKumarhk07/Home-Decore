@@ -27,17 +27,19 @@ export async function getSettings() {
     if (!settings) {
       // Create default settings if empty
       settings = await WebsiteSettings.create({
-        companyName: "Homesdecorator",
+        companyName: "Homes Decorator",
         phoneNumber: "+91 8295524045",
         whatsappNumber: "918295524045",
         email: "homesdecorator45@gmail.com",
-        address: "Plot 42, Sector 62, Noida, UP, India",
+        address: "Near Bus Stand, Behal, District Bhiwani, Haryana 127028, India",
         businessHours: "Mon - Sat: 9:00 AM - 6:30 PM",
         socialLinks: { facebook: "", instagram: "", twitter: "", linkedin: "" },
         seoMetadata: {
-          title: "Homesdecorator",
-          description: "Waterproofing and Flooring",
-          keywords: "waterproofing",
+          title: "Homes Decorator | Waterproofing, Flooring & Interior Contractor in Haryana & Delhi NCR",
+          description:
+            "Homes Decorator, Bhiwani — expert waterproofing, wooden & SPC flooring, PVC/WPC wall panels, false ceiling, interior design and home renovation across Haryana and Delhi NCR.",
+          keywords:
+            "waterproofing, SPC flooring, wooden flooring, PVC wall panels, false ceiling, interior design, home renovation, Bhiwani, Haryana, Delhi NCR",
         },
         waterproofingSubcategories: [
           "Roof & Slab Waterproofing",
@@ -465,7 +467,7 @@ export async function saveBlogPost(data: any, existingSlug?: string) {
         metaDescription,
         metaKeywords,
       },
-      author: session.user.name || "Homesdecorator Team",
+      author: session.user.name || "Homes Decorator Team",
     };
 
     let savedPost;
@@ -991,16 +993,46 @@ export async function saveServiceLocationPage(data: any, existingId?: string) {
     const sanitizedData = sanitizeInput(data);
     await connectToDatabase();
 
-    // Generate slugs
-    const serviceSlug = sanitizedData.service
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)/g, "");
+    const slugify = (value: string) =>
+      String(value || "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "");
 
-    const locationSlug = sanitizedData.location
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)/g, "");
+    // Slugs are derived from the service/location labels, but the editor may
+    // pass explicit serviceSlug/locationSlug overrides (from the editable URL
+    // field). Prefer the override when present so custom URLs are preserved.
+    const serviceSlug = sanitizedData.serviceSlug
+      ? slugify(sanitizedData.serviceSlug)
+      : slugify(sanitizedData.service);
+
+    const locationSlug = sanitizedData.locationSlug
+      ? slugify(sanitizedData.locationSlug)
+      : slugify(sanitizedData.location);
+
+    if (!serviceSlug || !locationSlug) {
+      return {
+        success: false,
+        message: "A valid service and location are required to build the URL.",
+      };
+    }
+
+    // Explicit uniqueness check (excluding the current document on edit) so we
+    // can return a clear message instead of relying solely on the DB index.
+    const clash = await ServiceLocationPage.findOne({
+      serviceSlug,
+      locationSlug,
+      ...(existingId ? { _id: { $ne: existingId } } : {}),
+    })
+      .select("_id")
+      .lean();
+
+    if (clash) {
+      return {
+        success: false,
+        message: `The URL /services/${serviceSlug}/${locationSlug} is already used by another landing page.`,
+      };
+    }
 
     const payload = {
       ...sanitizedData,
@@ -1008,8 +1040,19 @@ export async function saveServiceLocationPage(data: any, existingId?: string) {
       locationSlug,
     };
 
+    let previousPath: string | null = null;
     let result;
     if (existingId) {
+      const existing = await ServiceLocationPage.findById(existingId)
+        .select("serviceSlug locationSlug")
+        .lean<{ serviceSlug?: string; locationSlug?: string } | null>();
+      if (
+        existing &&
+        (existing.serviceSlug !== serviceSlug ||
+          existing.locationSlug !== locationSlug)
+      ) {
+        previousPath = `/services/${existing.serviceSlug}/${existing.locationSlug}`;
+      }
       result = await ServiceLocationPage.findByIdAndUpdate(
         existingId,
         payload,
@@ -1019,6 +1062,9 @@ export async function saveServiceLocationPage(data: any, existingId?: string) {
       result = await ServiceLocationPage.create(payload);
     }
 
+    if (previousPath) {
+      revalidatePath(previousPath);
+    }
     revalidatePath(`/services/${serviceSlug}/${locationSlug}`);
     revalidatePath("/");
 

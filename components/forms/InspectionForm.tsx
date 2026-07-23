@@ -42,7 +42,24 @@ const defaultSubServices: Record<string, string[]> = {
   ],
 };
 
-export default function InspectionForm() {
+export interface InspectionFormProps {
+  // Lead attribution — set on SEO landing pages so admins know which
+  // service/city page generated the lead.
+  source?: string;
+  sourceUrl?: string;
+  sourceSlug?: string;
+  // Optional prefill for landing pages.
+  defaultService?: string;
+  defaultCity?: string;
+}
+
+export default function InspectionForm({
+  source,
+  sourceUrl,
+  sourceSlug,
+  defaultService,
+  defaultCity,
+}: InspectionFormProps = {}) {
   const [isPending, startTransition] = useTransition();
   const [categories, setCategories] = useState<any[]>([]);
 
@@ -59,9 +76,9 @@ export default function InspectionForm() {
       name: "",
       phone: "",
       email: "",
-      city: "",
+      city: defaultCity || "",
       address: "",
-      service: "Waterproofing",
+      service: defaultService || "Waterproofing",
       subService: "",
       preferredDate: "",
       preferredTime: timeSlots[0],
@@ -78,8 +95,16 @@ export default function InspectionForm() {
         const res = await getServiceCategories();
         if (res.success && res.categories && res.categories.length > 0) {
           setCategories(res.categories);
-          // Set default service to first category name
-          setValue("service", res.categories[0].name);
+          // Preserve a landing-page-provided service; otherwise default to
+          // the first category, matching it to a real category name if possible.
+          if (defaultService) {
+            const match = res.categories.find(
+              (c: any) => c.name.toLowerCase() === defaultService.toLowerCase(),
+            );
+            setValue("service", match ? match.name : res.categories[0].name);
+          } else {
+            setValue("service", res.categories[0].name);
+          }
         }
       } catch (error) {
         console.error("Error loading categories for form:", error);
@@ -111,7 +136,12 @@ export default function InspectionForm() {
   const onSubmit = (data: InspectionFormValues) => {
     startTransition(async () => {
       try {
-        const result = await submitInspectionBooking(data);
+        const result = await submitInspectionBooking({
+          ...data,
+          source: source || "Website",
+          sourceUrl,
+          sourceSlug,
+        });
         if (result.success) {
           toast.success(
             result.message ||
@@ -135,6 +165,7 @@ export default function InspectionForm() {
             `${data.subService ? `8` : `7`}️⃣ *Preferred Date:* ${data.preferredDate || "—"}`,
             `${data.subService ? `9` : `8`}️⃣ *Preferred Time:* ${data.preferredTime || "—"}`,
             `${data.subService ? `🔟` : `9️⃣`} *Remarks:* ${data.remarks || "—"}`,
+            ...(source ? [`📍 *Lead Source:* ${source}`] : []),
             ``,
             `_Please confirm the inspection slot._`,
           ].join("\n");
@@ -225,7 +256,7 @@ export default function InspectionForm() {
           id="city"
           type="text"
           disabled={isPending}
-          placeholder="e.g. Mumbai, Delhi..."
+          placeholder="e.g. Bhiwani, Rohtak, Gurgaon..."
           {...register("city")}
           className={`w-full border rounded-none px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary focus:ring-offset-0.5 transition-all duration-200 ${
             errors.city

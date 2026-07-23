@@ -30,7 +30,7 @@ export interface IWebsiteSettings extends Document {
 
 const WebsiteSettingsSchema = new Schema<IWebsiteSettings>(
   {
-    companyName: { type: String, required: true, default: "Homesdecorator" },
+    companyName: { type: String, required: true, default: "Homes Decorator" },
     logoUrl: { type: String },
     phoneNumber: { type: String, required: true, default: "+91 8295524045" },
     whatsappNumber: {
@@ -43,7 +43,11 @@ const WebsiteSettingsSchema = new Schema<IWebsiteSettings>(
       required: true,
       default: "homesdecorator45@gmail.com",
     },
-    address: { type: String, required: true, default: "New Delhi, India" },
+    address: {
+      type: String,
+      required: true,
+      default: "Near Bus Stand, Behal, District Bhiwani, Haryana 127028, India",
+    },
     googleMapsEmbed: { type: String },
     businessHours: {
       type: String,
@@ -61,7 +65,7 @@ const WebsiteSettingsSchema = new Schema<IWebsiteSettings>(
         type: String,
         required: true,
         default:
-          "Homesdecorator | Waterproofing, Wooden Flooring, PVC (Polyvinyl Chloride)",
+          "Homes Decorator | Waterproofing, Wooden & SPC Flooring, PVC Panels & Interior Contractor in Haryana & Delhi NCR",
       },
       description: {
         type: String,

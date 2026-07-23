@@ -7,7 +7,7 @@ import ServiceLocationPage from "@/models/ServiceLocationPage";
 export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://homedecorater.in";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.homesdecorator.in";
 
   // Define the core static routes
   const staticRoutes = [
@@ -72,7 +72,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${baseUrl}/services/${sp.serviceSlug}/${sp.locationSlug}`,
       lastModified: sp.updatedAt || new Date(),
       changeFrequency: "monthly" as const,
-      priority: 0.6,
+      priority: 0.9,
     }));
   } catch (err) {
     console.error("Failed to fetch service page sitemap items:", err);

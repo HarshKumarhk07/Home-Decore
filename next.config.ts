@@ -31,6 +31,15 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/reviews",
+        destination: "/testimonials",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

@@ -28,6 +28,11 @@ export interface ILead extends Document {
   preferredTime?: string;
   message?: string;
   images: string[]; // Cloudinary URLs
+  // Attribution — where the lead originated. Populated for SEO landing pages
+  // so admins can see which service/city page generated each lead.
+  source?: string; // Human label, e.g. "Waterproofing Gurgaon"
+  sourceUrl?: string; // Full landing page URL the lead submitted from
+  sourceSlug?: string; // Landing page slug, e.g. "waterproofing/gurgaon"
   status:
     | "New"
     | "Contacted"
@@ -80,6 +85,9 @@ const LeadSchema = new Schema<ILead>(
     preferredTime: { type: String },
     message: { type: String },
     images: [{ type: String }],
+    source: { type: String, default: "Website" },
+    sourceUrl: { type: String },
+    sourceSlug: { type: String },
     status: {
       type: String,
       enum: [

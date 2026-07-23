@@ -143,7 +143,7 @@ export default function AdminLayoutClient({ session, children }: AdminLayoutClie
         <Link href="/admin/dashboard" className="flex items-center">
           <Image
             src="/logo.PNG"
-            alt="Homesdecorator Logo"
+            alt="Homes Decorator Logo"
             width={135}
             height={38}
             className="h-9 w-auto object-contain"
@@ -170,7 +170,7 @@ export default function AdminLayoutClient({ session, children }: AdminLayoutClie
             <Link href="/admin/dashboard" className="flex items-center">
               <Image
                 src="/logo.PNG"
-                alt="Homesdecorator Logo"
+                alt="Homes Decorator Logo"
                 width={140}
                 height={40}
                 className="h-10 w-auto object-contain"

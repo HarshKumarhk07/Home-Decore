@@ -7,8 +7,9 @@ import { fallbackGallery } from "@/lib/fallbackData";
 export const dynamic = "force-dynamic"; // Always fresh so admin image changes reflect immediately
 
 export const metadata = {
-  title: "Photo Gallery & Work Samples | Homesdecorator",
-  description: "Explore photos of our actual waterproofing processes, wooden flooring textures, and PVC installations completed on client sites.",
+  title: "Photo Gallery & Work Samples",
+  description: "Explore photos of Homes Decorator's actual waterproofing processes, wooden flooring textures, and PVC installations completed on client sites across Haryana & Delhi NCR.",
+  alternates: { canonical: "/gallery" },
 };
 
 export default async function GalleryPage() {

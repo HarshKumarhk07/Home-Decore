@@ -1,12 +1,16 @@
 import { connectToDatabase } from "@/lib/mongodb";
 import FAQ from "@/models/FAQ";
 import FaqClient from "./FaqClient";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { faqSchema } from "@/lib/seo";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 
 export const revalidate = 60; // Revalidate every minute
 
 export const metadata = {
-  title: "Frequently Asked Questions | Homesdecorator",
-  description: "Find answers regarding our site moisture assessments, structural waterproofing warranties, flooring installations, and PVC setups.",
+  title: "Frequently Asked Questions",
+  description: "Find answers regarding Homes Decorator's site moisture assessments, structural waterproofing warranties, flooring installations, and PVC setups in Haryana & Delhi NCR.",
+  alternates: { canonical: "/faq" },
 };
 
 export default async function FaqPage() {
@@ -35,5 +39,22 @@ export default async function FaqPage() {
     ];
   }
 
-  return <FaqClient initialFaqs={list} />;
+  const crumbs = [
+    { name: "Home", path: "/" },
+    { name: "FAQ", path: "/faq" },
+  ];
+
+  return (
+    <>
+      <JsonLd
+        data={faqSchema(
+          list.map((f: any) => ({ question: f.question, answer: f.answer })),
+        )}
+      />
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+        <Breadcrumbs crumbs={crumbs} />
+      </div>
+      <FaqClient initialFaqs={list} />
+    </>
+  );
 }

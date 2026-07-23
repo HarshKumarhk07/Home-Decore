@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { getSettings, getServiceCategoryBySlug } from "@/actions/cmsActions";
 import { connectToDatabase } from "@/lib/mongodb";
 import ServiceLocationPage from "@/models/ServiceLocationPage";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 
 const defaultFloorTypes = [
   {
@@ -40,8 +41,9 @@ const defaultFloorTypes = [
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Premium Wooden Flooring Services | Homesdecorator",
-  description: "Laminate, vinyl, SPC, and engineered wood floor installations with European click-lock joints and wear warranties. Book a site visit today.",
+  title: "Premium Wooden Flooring Services",
+  description: "Homes Decorator laminate, vinyl, SPC, and engineered wood floor installations with European click-lock joints and wear warranties across Haryana & Delhi NCR. Book a site visit today.",
+  alternates: { canonical: "/services/wooden-flooring" },
 };
 
 export default async function WoodenFlooringPage() {
@@ -72,7 +74,7 @@ export default async function WoodenFlooringPage() {
     ? category.subcategories
     : defaultFloorTypes;
 
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://homedecorater.in";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.homesdecorator.in";
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -81,7 +83,7 @@ export default async function WoodenFlooringPage() {
     "description": "Laminate, vinyl, SPC, and engineered wood floor installations with European click-lock joints and wear warranties. Book a site visit today.",
     "provider": {
       "@type": "HomeAndConstructionBusiness",
-      "name": "Homesdecorator",
+      "name": "Homes Decorator",
       "url": baseUrl
     },
     "serviceType": "Wooden Flooring",
@@ -111,6 +113,15 @@ export default async function WoodenFlooringPage() {
       />
       <div className="bg-slate-50 min-h-screen py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-8">
+            <Breadcrumbs
+              crumbs={[
+                { name: "Home", path: "/" },
+                { name: "Services", path: "/services" },
+                { name: "Wooden Flooring", path: "/services/wooden-flooring" },
+              ]}
+            />
+          </div>
           {/* Banner Section */}
           <div className="bg-gradient-to-r from-primary to-slate-900 text-white rounded-3xl p-8 sm:p-12 mb-16 relative overflow-hidden shadow-xl animate-fade-in">
             <div className="relative z-10 max-w-3xl space-y-4">

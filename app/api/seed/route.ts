@@ -42,28 +42,28 @@ export async function GET() {
     // 2. Seed Website Settings
     await WebsiteSettings.deleteMany({});
     await WebsiteSettings.create({
-      companyName: "Homesdecorator",
+      companyName: "Homes Decorator",
       logoUrl: "",
       phoneNumber: "+91 8295524045",
       whatsappNumber: "918295524045",
       email: "homesdecorator45@gmail.com",
-      address: "Plot 42, Sector 62, Noida, UP, India - 201301",
+      address: "Near Bus Stand, Behal, District Bhiwani, Haryana 127028, India",
       businessHours: "Mon - Sat: 9:00 AM - 6:30 PM",
       googleMapsEmbed:
-        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.562013854124!2d77.3672600762145!3d28.612912484839818!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce544aaaaaaab%3A0x6b4c1069ffeaab23!2sSector%2062%2C%20Noida%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin",
+        "https://www.google.com/maps?q=Behal%2C%20Bhiwani%2C%20Haryana%20127028&output=embed",
       socialLinks: {
-        facebook: "https://facebook.com/homedecorater",
-        instagram: "https://instagram.com/homedecorater",
-        twitter: "https://twitter.com/homedecorater",
-        linkedin: "https://linkedin.com/company/homedecorater",
+        facebook: "",
+        instagram: "",
+        twitter: "",
+        linkedin: "",
       },
       seoMetadata: {
         title:
-          "Homesdecorator | Waterproofing, Wooden Flooring, PVC Specialists",
+          "Homes Decorator | Waterproofing, Wooden & SPC Flooring, PVC Panels & Interior Contractor in Haryana & Delhi NCR",
         description:
-          "Premium waterproofing, flooring, and PVC wall panel cladding solutions with up to 10 years warranty. Serving residential and commercial clients.",
+          "Homes Decorator, Bhiwani — premium waterproofing, wooden & SPC flooring, PVC/WPC wall panel cladding, false ceiling and interior design across Haryana and Delhi NCR, with up to 10 years warranty.",
         keywords:
-          "waterproofing, wooden flooring, pvc cladding, spc flooring, moisture testing, wall paneling",
+          "waterproofing, wooden flooring, spc flooring, pvc cladding, wall paneling, false ceiling, interior design, home renovation, Bhiwani, Haryana, Delhi NCR",
       },
       waterproofingSubcategories: [
         "Roof & Slab Waterproofing",

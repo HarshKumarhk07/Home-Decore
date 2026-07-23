@@ -21,7 +21,7 @@ export function generateQuotationPDF(lead: any) {
   doc.setFont("Helvetica", "bold");
   doc.setFontSize(22);
   doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-  doc.text("Homesdecorator", margin, y);
+  doc.text("Homes Decorator", margin, y);
 
   doc.setFont("Helvetica", "normal");
   doc.setFontSize(8);
@@ -31,9 +31,11 @@ export function generateQuotationPDF(lead: any) {
   // Office details (Right Aligned)
   doc.setFontSize(9);
   doc.setTextColor(textColor[0], textColor[1], textColor[2]);
-  doc.text("Sector 62, Noida, UP, India", 210 - margin, y, { align: "right" });
+  doc.text("Behal, Bhiwani, Haryana 127028, India", 210 - margin, y, {
+    align: "right",
+  });
   doc.text("Phone: +91 8295524045", 210 - margin, y + 5, { align: "right" });
-  doc.text("Email: billing@homedecorater.in", 210 - margin, y + 10, {
+  doc.text("Email: homesdecorator45@gmail.com", 210 - margin, y + 10, {
     align: "right",
   });
 
@@ -232,7 +234,7 @@ export function generateQuotationPDF(lead: any) {
   doc.setFont("Helvetica", "normal");
   doc.setFontSize(9);
   doc.setTextColor(textColor[0], textColor[1], textColor[2]);
-  doc.text("For Homesdecorator", 210 - margin, y + 2, { align: "right" });
+  doc.text("For Homes Decorator", 210 - margin, y + 2, { align: "right" });
   doc.setFont("Courier", "italic");
   doc.text("Authorized Signatory", 210 - margin, y + 12, { align: "right" });
   doc.setDrawColor(180);

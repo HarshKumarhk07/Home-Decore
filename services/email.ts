@@ -25,7 +25,7 @@ async function sendEmail({
 }) {
   try {
     await transporter.sendMail({
-      from: { name: "Homesdecorator", address: env.MAIL_FROM },
+      from: { name: "Homes Decorator", address: env.MAIL_FROM },
       to: to.map((recipient) =>
         recipient.name
           ? { name: recipient.name, address: recipient.email }
@@ -114,13 +114,13 @@ export async function sendLeadEmails(lead: any): Promise<boolean> {
   const customerHtml = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; color: #1e293b; line-height: 1.6; border: 1px solid #f1f5f9; padding: 25px; border-radius: 16px; margin: auto;">
       <div style="text-align: center; margin-bottom: 20px;">
-        <span style="font-family: Georgia, serif; font-size: 24px; font-weight: bold; color: #1e40af;">Home <span style="color: #d4af37;">Decorater</span></span>
+        <span style="font-family: Georgia, serif; font-size: 24px; font-weight: bold; color: #1e40af;">Homes <span style="color: #d4af37;">Decorator</span></span>
         <p style="font-size: 10px; text-transform: uppercase; tracking: 0.15em; color: #64748b; margin-top: 5px;">Specialized Waterproofing & Flooring</p>
       </div>
 
       <h2 style="color: #1e40af; text-align: center;">Inquiry Received Successfully!</h2>
       <p>Dear ${lead.customerName},</p>
-      <p>Thank you for requesting a free quote from Homesdecorator. We have generated a unique lead log for you:</p>
+      <p>Thank you for requesting a free quote from Homes Decorator. We have generated a unique lead log for you:</p>
       
       <div style="background: #eff6ff; padding: 15px; border-radius: 10px; border-left: 4px solid #d4af37; margin: 20px 0; text-align: center;">
         <span style="font-size: 14px; text-transform: uppercase; color: #1e40af; font-weight: bold; display: block;">Your Lead ID</span>
@@ -137,14 +137,14 @@ export async function sendLeadEmails(lead: any): Promise<boolean> {
       <p style="font-size: 14px;">If you have immediate questions, call us at <strong>+91 8295524045</strong>.</p>
       
       <div style="border-t: 1px solid #f1f5f9; margin-top: 30px; padding-top: 15px; text-align: center; font-size: 11px; color: #94a3b8;">
-        © ${new Date().getFullYear()} Homesdecorator. Noida Sector 62 Office.
+        © ${new Date().getFullYear()} Homes Decorator &nbsp;|&nbsp; Behal, Bhiwani, Haryana 127028, India
       </div>
     </div>
   `;
 
   // Send to Admin
   await sendEmail({
-    to: [{ email: adminEmail, name: "Homesdecorator Admin" }],
+    to: [{ email: adminEmail, name: "Homes Decorator Admin" }],
     subject: `[New Lead Alert] ID: ${lead.leadId} - ${lead.customerName} (${lead.service})`,
     htmlContent: adminHtml,
   });
@@ -192,7 +192,7 @@ export async function sendContactEmail(inquiry: any): Promise<boolean> {
       <p style="text-align: center; color: #64748b; font-size: 14px; margin-top: 0;">We will get back to you within 24 business hours.</p>
 
       <p style="margin-top: 24px;">Dear <strong>${inquiry.name}</strong>,</p>
-      <p>Thank you for contacting Homesdecorator. Your query has been successfully submitted and our team has been notified. Here is a summary:</p>
+      <p>Thank you for contacting Homes Decorator. Your query has been successfully submitted and our team has been notified. Here is a summary:</p>
 
       <div style="background: #eff6ff; padding: 16px 20px; border-radius: 10px; border-left: 4px solid #d4af37; margin: 20px 0;">
         <p style="margin: 6px 0; font-size: 13px;"><strong>Reference ID:</strong> ${inquiry.leadId}</p>
@@ -211,14 +211,14 @@ export async function sendContactEmail(inquiry: any): Promise<boolean> {
       <p style="font-size: 14px; margin-top: 20px;">For urgent assistance, call us directly at <strong>+91 8295524045</strong>.</p>
 
       <div style="border-top: 1px solid #f1f5f9; margin-top: 30px; padding-top: 16px; text-align: center; font-size: 11px; color: #94a3b8;">
-        © ${new Date().getFullYear()} Homesdecorator &nbsp;|&nbsp; Noida Sector 62, UP, India
+        © ${new Date().getFullYear()} Homes Decorator &nbsp;|&nbsp; Behal, Bhiwani, Haryana 127028, India
       </div>
     </div>
   `;
 
   // Notify admin
   await sendEmail({
-    to: [{ email: adminEmail, name: "Homesdecorator Admin" }],
+    to: [{ email: adminEmail, name: "Homes Decorator Admin" }],
     subject: `[Contact Form] ${inquiry.service} - ${inquiry.name} (${inquiry.city})`,
     htmlContent: adminHtml,
   });
@@ -226,7 +226,7 @@ export async function sendContactEmail(inquiry: any): Promise<boolean> {
   // Confirm receipt to customer
   return await sendEmail({
     to: [{ email: inquiry.email, name: inquiry.name }],
-    subject: `Your query has been received | Homesdecorator`,
+    subject: `Your query has been received | Homes Decorator`,
     htmlContent: customerHtml,
   });
 }
@@ -275,7 +275,7 @@ export async function sendInspectionEmail(booking: any): Promise<boolean> {
 
   // Send to Admin
   await sendEmail({
-    to: [{ email: adminEmail, name: "Homesdecorator Admin" }],
+    to: [{ email: adminEmail, name: "Homes Decorator Admin" }],
     subject: `[Inspection Scheduled] Lead ID: ${booking.leadId} - ${booking.name}`,
     htmlContent: adminHtml,
   });

@@ -6,8 +6,23 @@ import ServiceLocationPage from "@/models/ServiceLocationPage";
 import Project from "@/models/Project";
 import { getSettings } from "@/actions/cmsActions";
 import { Button } from "@/components/ui/button";
-import { ShieldCheck, Phone, MapPin, Clock, ChevronRight } from "lucide-react";
+import { ShieldCheck, Phone, MapPin, Clock, ArrowRight, CheckCircle2 } from "lucide-react";
 import type { Metadata } from "next";
+import { Breadcrumbs, type Crumb } from "@/components/seo/Breadcrumbs";
+import { JsonLd } from "@/components/seo/JsonLd";
+import InspectionForm from "@/components/forms/InspectionForm";
+import {
+  serviceSchema,
+  webPageSchema,
+  faqSchema,
+  absoluteUrl,
+} from "@/lib/seo";
+import {
+  getCityData,
+  getNearbyCities,
+  getServiceInfo,
+  buildLandingFaqs,
+} from "@/lib/localSeo";
 
 export const revalidate = 60; // Revalidate every minute
 
@@ -43,20 +58,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const coverUrl = page.images?.[0]?.url || "/waterproofing.jpg";
   const coverAlt = page.images?.[0]?.altText || title;
 
-  const domain = process.env.NEXT_PUBLIC_APP_URL || "https://homedecorater.in";
-  const cleanDomain = domain.replace(/\/$/, "");
+  const canonicalPath = `/services/${slug}/${locationSlug}`;
 
   return {
     title,
     description,
     keywords,
     alternates: {
-      canonical: `${cleanDomain}/services/${slug}/${locationSlug}`,
+      canonical: canonicalPath,
     },
     openGraph: {
       title,
       description,
-      url: `${cleanDomain}/services/${slug}/${locationSlug}`,
+      url: absoluteUrl(canonicalPath),
       type: "article",
       images: [
         {
@@ -115,18 +129,24 @@ export default async function ServiceLocationDetailPage({ params }: PageProps) {
   const settingsRes = await getSettings();
   const settings = settingsRes.success ? settingsRes.settings : null;
 
+  // Local SEO enrichment (unique per city — avoids duplicate content).
+  const cityInfo = getCityData(locationSlug);
+  const serviceInfo = getServiceInfo(slug);
+  const nearbyCities = getNearbyCities(locationSlug);
+  const faqs = buildLandingFaqs({
+    service: page.service,
+    city: cityInfo,
+    cityName: page.location,
+  });
+
+  // Lead attribution for the embedded inspection form.
+  const canonicalPath = `/services/${slug}/${locationSlug}`;
+  const leadSource = `${page.service} — ${page.location}`;
+  const leadSourceUrl = absoluteUrl(canonicalPath);
+
   // Query location-relevant projects dynamically
   let locationProjects: any[] = [];
   try {
-    const projectCategoryMap: Record<string, string> = {
-      "terrace-waterproofing": "waterproofing",
-      "bathroom-waterproofing": "waterproofing",
-      "basement-waterproofing": "waterproofing",
-      "wooden-flooring-installation": "wooden-flooring",
-      "spc-vinyl-flooring": "pvc",
-      "pvc-wall-panels-cladding": "pvc",
-    };
-
     const query: any = {
       location: { $regex: new RegExp(page.location, "i") },
     };
@@ -137,9 +157,15 @@ export default async function ServiceLocationDetailPage({ params }: PageProps) {
     } else if (slug === "spc-vinyl-flooring") {
       query.$or = [
         { category: "pvc", location: { $regex: new RegExp(page.location, "i") } },
-        { category: "wooden-flooring", location: { $regex: new RegExp(page.location, "i") }, title: /spc|vinyl/i }
+        { category: "wooden-flooring", location: { $regex: new RegExp(page.location, "i") }, title: /spc|vinyl/i },
       ];
     } else {
+      const projectCategoryMap: Record<string, string> = {
+        "terrace-waterproofing": "waterproofing",
+        "bathroom-waterproofing": "waterproofing",
+        "basement-waterproofing": "waterproofing",
+        "pvc-wall-panels-cladding": "pvc",
+      };
       query.category = projectCategoryMap[slug] || "waterproofing";
     }
 
@@ -157,20 +183,41 @@ export default async function ServiceLocationDetailPage({ params }: PageProps) {
   const coverUrl = page.images?.[0]?.url || "/waterproofing.jpg";
   const coverAlt = page.images?.[0]?.altText || page.h1Heading;
 
+  // Breadcrumb trail (visual + BreadcrumbList schema).
+  const crumbs: Crumb[] = [
+    { name: "Home", path: "/" },
+    { name: "Services", path: "/services" },
+    ...(serviceInfo
+      ? [{ name: serviceInfo.parentLabel, path: serviceInfo.parentSlug }]
+      : []),
+    { name: `${page.service} in ${page.location}`, path: canonicalPath },
+  ];
+
+  // Structured data for rich results + AI answer extraction.
+  const structuredData = [
+    webPageSchema({
+      path: canonicalPath,
+      name: page.seoMeta?.metaTitle || page.h1Heading,
+      description: page.seoMeta?.metaDescription || undefined,
+    }),
+    serviceSchema({
+      name: `${page.service} in ${page.location}`,
+      description:
+        page.seoMeta?.metaDescription ||
+        `Professional ${page.service.toLowerCase()} by Homes Decorator in ${page.location}.`,
+      serviceType: page.service,
+      path: canonicalPath,
+      areaServed: [page.location, ...(cityInfo?.nearbyAreas || [])],
+    }),
+    faqSchema(faqs),
+  ];
+
   return (
     <div className="bg-slate-50 min-h-screen py-12">
+      <JsonLd data={structuredData} />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-        
-        {/* Breadcrumb navigation */}
-        <nav className="flex items-center space-x-2 text-xs sm:text-sm font-semibold text-slate-500">
-          <Link href="/" className="hover:text-primary transition-colors">Home</Link>
-          <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-          <Link href="/services" className="hover:text-primary transition-colors">Services</Link>
-          <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-          <span className="text-slate-700 font-bold truncate max-w-[200px]">
-            {page.service} in {page.location}
-          </span>
-        </nav>
+
+        <Breadcrumbs crumbs={crumbs} />
 
         {/* Hero Section Banner */}
         <div className="relative h-64 sm:h-96 w-full rounded-3xl overflow-hidden shadow-md">
@@ -192,9 +239,28 @@ export default async function ServiceLocationDetailPage({ params }: PageProps) {
           </div>
         </div>
 
+        {/* Answer-first summary (GEO/AI friendly) */}
+        <div className="bg-white rounded-3xl border border-slate-100 p-6 sm:p-8 shadow-sm">
+          <p className="text-sm sm:text-base text-slate-700 leading-relaxed">
+            <strong className="text-primary">Homes Decorator</strong> provides
+            professional {page.service.toLowerCase()} in{" "}
+            <strong>{page.location}</strong>
+            {cityInfo?.nearbyAreas?.length
+              ? `, covering ${cityInfo.nearbyAreas.slice(0, 4).join(", ")} and surrounding areas`
+              : ""}
+            . {cityInfo?.intro || ""} Every project includes a free on-site
+            inspection, transparent per-square-foot pricing, and a written
+            warranty. Call{" "}
+            <a href="tel:+918295524045" className="text-primary font-semibold underline">
+              +91 8295524045
+            </a>{" "}
+            to book an inspection.
+          </p>
+        </div>
+
         {/* Main Content & CTA Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-          
+
           {/* Detailed Body Area */}
           <div className="lg:col-span-2 space-y-8">
             <div className="bg-white rounded-3xl border border-slate-100 p-6 sm:p-10 shadow-sm space-y-6">
@@ -206,15 +272,50 @@ export default async function ServiceLocationDetailPage({ params }: PageProps) {
               </div>
             </div>
 
+            {/* Why local context matters (unique per city) */}
+            {cityInfo && (
+              <div className="bg-white rounded-3xl border border-slate-100 p-6 sm:p-10 shadow-sm space-y-4">
+                <h2 className="font-serif text-xl sm:text-2xl font-bold text-primary">
+                  {page.service} for {page.location} Conditions
+                </h2>
+                <p className="text-sm sm:text-base text-slate-700 leading-relaxed">
+                  {cityInfo.climateNote}
+                </p>
+                {cityInfo.landmarks?.length > 0 && (
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    Our teams work across {page.location} — near landmarks such
+                    as {cityInfo.landmarks.slice(0, 3).join(", ")} — for
+                    residential, commercial and industrial clients.
+                  </p>
+                )}
+                {cityInfo.nearbyAreas?.length > 0 && (
+                  <div className="flex flex-wrap gap-2 pt-1">
+                    {cityInfo.nearbyAreas.map((area) => (
+                      <span
+                        key={area}
+                        className="inline-flex items-center gap-1 text-xs font-semibold text-primary bg-primary-light/10 border border-primary/15 px-2.5 py-1 rounded-md"
+                      >
+                        <CheckCircle2 className="w-3 h-3" /> {area}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* Conditionally Render Location-Specific Projects */}
             {locationProjects.length > 0 && (
               <div className="space-y-6">
-                <h3 className="font-serif text-xl font-bold text-primary">
+                <h2 className="font-serif text-xl font-bold text-primary">
                   Completed Projects in {page.location}
-                </h3>
+                </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {locationProjects.map((project) => (
-                    <div key={project.slug} className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow transition duration-200">
+                    <Link
+                      href={`/projects/${project.slug}`}
+                      key={project.slug}
+                      className="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow transition duration-200"
+                    >
                       <div className="relative h-40 w-full">
                         <Image
                           src={project.images?.[0] || "/waterproofing.jpg"}
@@ -225,9 +326,9 @@ export default async function ServiceLocationDetailPage({ params }: PageProps) {
                         />
                       </div>
                       <div className="p-5 space-y-3">
-                        <h4 className="font-bold text-primary text-sm sm:text-base line-clamp-1">
+                        <h3 className="font-bold text-primary text-sm sm:text-base line-clamp-1">
                           {project.title}
-                        </h4>
+                        </h3>
                         <p className="text-xs text-slate-500 line-clamp-2">
                           {project.description}
                         </p>
@@ -237,33 +338,131 @@ export default async function ServiceLocationDetailPage({ params }: PageProps) {
                           <span>Warranty: {project.warranty}</span>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   ))}
                 </div>
               </div>
             )}
+
+            {/* FAQ cluster (visual + FAQPage schema) */}
+            <div className="bg-white rounded-3xl border border-slate-100 p-6 sm:p-10 shadow-sm space-y-4">
+              <h2 className="font-serif text-xl sm:text-2xl font-bold text-primary border-b border-slate-100 pb-3">
+                {page.service} in {page.location} — FAQs
+              </h2>
+              <div className="divide-y divide-slate-100">
+                {faqs.map((faq, i) => (
+                  <details key={i} className="group py-3" open={i === 0}>
+                    <summary className="cursor-pointer list-none font-semibold text-slate-800 text-sm sm:text-base flex items-center justify-between gap-3">
+                      {faq.question}
+                      <ArrowRight className="w-4 h-4 text-accent shrink-0 transition-transform group-open:rotate-90" />
+                    </summary>
+                    <p className="mt-2 text-sm text-slate-600 leading-relaxed">
+                      {faq.answer}
+                    </p>
+                  </details>
+                ))}
+              </div>
+            </div>
+
+            {/* Internal links — related services + nearby cities */}
+            {(serviceInfo || nearbyCities.length > 0) && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {serviceInfo && serviceInfo.relatedSlugs.length > 0 && (
+                  <div className="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm space-y-3">
+                    <h3 className="font-serif font-bold text-primary text-base">
+                      Related Services in {page.location}
+                    </h3>
+                    <ul className="space-y-2 text-sm">
+                      {serviceInfo.relatedSlugs.map((rs) => {
+                        const info = getServiceInfo(rs);
+                        if (!info) return null;
+                        return (
+                          <li key={rs}>
+                            <Link
+                              href={`/services/${rs}/${locationSlug}`}
+                              className="text-primary hover:text-accent font-medium flex items-center gap-1.5"
+                            >
+                              <ArrowRight className="w-3.5 h-3.5" />
+                              {info.label} in {page.location}
+                            </Link>
+                          </li>
+                        );
+                      })}
+                      <li>
+                        <Link
+                          href={serviceInfo.parentSlug}
+                          className="text-primary hover:text-accent font-medium flex items-center gap-1.5"
+                        >
+                          <ArrowRight className="w-3.5 h-3.5" />
+                          All {serviceInfo.parentLabel} services
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+
+                {nearbyCities.length > 0 && (
+                  <div className="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm space-y-3">
+                    <h3 className="font-serif font-bold text-primary text-base">
+                      {page.service} in Nearby Cities
+                    </h3>
+                    <ul className="space-y-2 text-sm">
+                      {nearbyCities.map((c) => (
+                        <li key={c.slug}>
+                          <Link
+                            href={`/services/${slug}/${c.slug}`}
+                            className="text-primary hover:text-accent font-medium flex items-center gap-1.5"
+                          >
+                            <ArrowRight className="w-3.5 h-3.5" />
+                            {page.service} in {c.name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
-          {/* Sidebar Area Serve & Contact Widget */}
+          {/* Sidebar */}
           <div className="space-y-8">
-            
+
+            {/* Embedded inquiry form (reuses the Home page InspectionForm) */}
+            <div className="bg-white border border-slate-100 rounded-3xl p-6 sm:p-7 shadow-sm space-y-4">
+              <div className="space-y-1">
+                <h2 className="font-serif text-lg font-bold text-primary leading-snug">
+                  Book a Free Inspection in {page.location}
+                </h2>
+                <p className="text-xs text-slate-500">
+                  Share your details and our engineer will call you back.
+                </p>
+              </div>
+              <InspectionForm
+                source={leadSource}
+                sourceUrl={leadSourceUrl}
+                sourceSlug={canonicalPath.replace(/^\//, "")}
+                defaultCity={page.location}
+              />
+            </div>
+
             {/* Service & Contact info */}
             <div className="bg-primary text-white rounded-3xl p-6 sm:p-8 shadow-md space-y-6">
               <div className="p-3 bg-white/10 rounded-2xl w-fit">
                 <ShieldCheck className="w-6 h-6 text-accent" />
               </div>
-              <h3 className="font-serif text-xl font-bold leading-snug">
+              <h2 className="font-serif text-xl font-bold leading-snug">
                 Need Service in {page.location}?
-              </h3>
+              </h2>
               <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
                 Contact our expert field engineer team serving {page.location} and surrounding areas for on-site scanning and assessments.
               </p>
-              
+
               <div className="space-y-3.5 border-t border-white/10 pt-4 text-xs sm:text-sm">
                 {settings?.phoneNumber && (
                   <div className="flex items-center space-x-3">
                     <Phone className="w-4 h-4 text-accent shrink-0" />
-                    <span>Call: {settings.phoneNumber}</span>
+                    <a href="tel:+918295524045" className="hover:text-accent">Call: {settings.phoneNumber}</a>
                   </div>
                 )}
                 {settings?.address && (
@@ -281,24 +480,9 @@ export default async function ServiceLocationDetailPage({ params }: PageProps) {
               </div>
 
               <div className="space-y-3 pt-2">
-                <Button asChild className="w-full bg-accent hover:bg-accent-hover text-dark font-bold rounded-xl py-3.5 text-sm">
-                  <Link href="/inspection">Book Free Site Audit</Link>
-                </Button>
                 <Button asChild variant="outline" className="w-full border-white text-white hover:bg-white hover:text-primary rounded-xl py-3.5 text-sm">
-                  <Link href="/quote">Request Free Estimate</Link>
+                  <Link href="/quote">Request Detailed Estimate</Link>
                 </Button>
-              </div>
-            </div>
-
-            {/* Simple Leaflet/Map card (static indicator) */}
-            <div className="bg-white border border-slate-100 rounded-3xl p-6 sm:p-8 shadow-sm space-y-4">
-              <h4 className="font-serif font-bold text-primary text-base">Service Coverage Area</h4>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                Our engineers regularly visit sites in {page.location} for industrial, commercial, and residential projects. Schedule a slot today.
-              </p>
-              <div className="bg-slate-100 h-24 rounded-xl flex items-center justify-center text-slate-400 font-mono text-[10px] uppercase border border-slate-200">
-                <MapPin className="w-5 h-5 text-slate-400 mr-1.5" />
-                <span>Coverage Map Active</span>
               </div>
             </div>
           </div>

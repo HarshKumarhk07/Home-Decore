@@ -6,6 +6,8 @@ import WebsiteSettings from "@/models/WebsiteSettings";
 import HomeClient from "./HomeClient";
 import { fallbackProjects, fallbackFaqs } from "@/lib/fallbackData";
 import { getServiceCategories } from "@/actions/cmsActions";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { webPageSchema, faqSchema } from "@/lib/seo";
 
 // Always render fresh so admin content changes (images, projects, services) reflect immediately.
 export const dynamic = "force-dynamic";
@@ -75,52 +77,34 @@ export default async function HomePage() {
     faqs = fallbackFaqs;
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://homedecorater.in";
-
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "HomeAndConstructionBusiness",
-    name: settings?.companyName || "Homesdecorator",
-    image: settings?.logoUrl || `${baseUrl}/favicon.ico`,
-    "@id": `${baseUrl}/#organization`,
-    url: baseUrl,
-    telephone: settings?.phoneNumber || "+91 8295524045",
-    email: settings?.email || "homesdecorator45@gmail.com",
-    address: {
-      "@type": "PostalAddress",
-      streetAddress:
-        settings?.address || "Plot 42, Sector 62, Noida, UP, India",
-      addressLocality: "Noida",
-      addressRegion: "Uttar Pradesh",
-      addressCountry: "IN",
-    },
-    priceRange: "$$",
-    openingHoursSpecification: {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-      ],
-      opens: "09:00",
-      closes: "18:30",
-    },
-    sameAs: settings?.socialLinks
-      ? Object.values(settings.socialLinks).filter(Boolean)
-      : [],
-  };
-
   const settingsPlain = settings ? JSON.parse(JSON.stringify(settings)) : null;
+
+  // Organization / LocalBusiness / WebSite schema are emitted globally in the
+  // root layout (single Bhiwani entity). Here we add page-scoped WebPage and
+  // FAQPage schema so the homepage FAQs are eligible for rich results and AI
+  // answer extraction.
+  const homeSchema = [
+    webPageSchema({
+      path: "/",
+      name: "Homes Decorator | Waterproofing, Flooring & Interior Contractor in Haryana & Delhi NCR",
+      description:
+        "Homes Decorator, Bhiwani — expert waterproofing, wooden & SPC flooring, PVC/WPC wall panels, false ceiling, interior design and home renovation across Haryana and Delhi NCR.",
+    }),
+    ...(faqs.length > 0
+      ? [
+          faqSchema(
+            faqs.map((f: any) => ({
+              question: f.question,
+              answer: f.answer,
+            })),
+          ),
+        ]
+      : []),
+  ];
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      <JsonLd data={homeSchema} />
       <HomeClient
         projects={featuredProjects}
         testimonials={testimonials}

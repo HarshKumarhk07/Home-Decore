@@ -2,8 +2,9 @@ import QuoteForm from "@/components/forms/QuoteForm";
 import { ShieldCheck, Sparkles, Clock, Coins } from "lucide-react";
 
 export const metadata = {
-  title: "Get Free Quote | Homesdecorator",
-  description: "Request a detailed square-foot quote for PVC (Polyvinyl Chloride), structural waterproofing, or floor installations.",
+  title: "Get Free Quote",
+  description: "Request a detailed square-foot quote from Homes Decorator for PVC (Polyvinyl Chloride), structural waterproofing, or floor installations in Haryana & Delhi NCR.",
+  alternates: { canonical: "/quote" },
 };
 
 export default function QuotePage() {

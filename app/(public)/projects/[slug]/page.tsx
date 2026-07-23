@@ -7,6 +7,7 @@ import Project from "@/models/Project";
 import { Button } from "@/components/ui/button";
 import { MapPin, Calendar, ShieldCheck, Wrench, Clock, Maximize2, User, ChevronLeft } from "lucide-react";
 import { fallbackProjects } from "@/lib/fallbackData";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 
 export const dynamic = "force-dynamic"; // Always fresh so admin image changes reflect immediately
 
@@ -22,21 +23,23 @@ export async function generateMetadata({ params }: Props) {
     if (!project) {
       project = fallbackProjects.find((p) => p.slug === slug) as any;
     }
-    if (!project) return { title: "Project Not Found | Homesdecorator" };
+    if (!project) return { title: "Project Not Found" };
     return {
-      title: `${project.title} | Homesdecorator Projects`,
+      title: `${project.title} | Projects`,
       description: project.description.substring(0, 160),
+      alternates: { canonical: `/projects/${slug}` },
     };
   } catch (err) {
     // If connection fails, check fallback
     const project = fallbackProjects.find((p) => p.slug === slug);
     if (project) {
       return {
-        title: `${project.title} | Homesdecorator Projects`,
+        title: `${project.title} | Projects`,
         description: project.description.substring(0, 160),
+        alternates: { canonical: `/projects/${slug}` },
       };
     }
-    return { title: "Project Details | Homesdecorator" };
+    return { title: "Project Details" };
   }
 }
 
@@ -69,7 +72,7 @@ export default async function ProjectDetailPage({ params }: Props) {
     notFound();
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://homedecorater.in";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.homesdecorator.in";
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -79,7 +82,7 @@ export default async function ProjectDetailPage({ params }: Props) {
     "image": project.images,
     "creator": {
       "@type": "HomeAndConstructionBusiness",
-      "name": "Homesdecorator",
+      "name": "Homes Decorator",
       "url": baseUrl
     },
     "contentLocation": {
@@ -97,8 +100,15 @@ export default async function ProjectDetailPage({ params }: Props) {
       />
       <div className="bg-slate-50 min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Breadcrumbs
+          crumbs={[
+            { name: "Home", path: "/" },
+            { name: "Projects", path: "/projects" },
+            { name: project.title, path: `/projects/${project.slug || slug}` },
+          ]}
+        />
         {/* Back Link */}
-        <Link href="/projects" className="inline-flex items-center text-sm font-semibold text-slate-600 hover:text-primary mb-8 transition-colors">
+        <Link href="/projects" className="inline-flex items-center text-sm font-semibold text-slate-600 hover:text-primary mb-8 mt-4 transition-colors">
           <ChevronLeft className="w-4 h-4 mr-1" /> Back to Projects
         </Link>
 

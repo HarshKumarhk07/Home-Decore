@@ -74,7 +74,7 @@ export default function AdminLoginPage() {
             Admin <span className="text-accent">Portal</span>
           </span>
           <p className="text-xs text-slate-400 uppercase tracking-widest">
-            Homesdecorator CRM
+            Homes Decorator CRM
           </p>
         </div>
 

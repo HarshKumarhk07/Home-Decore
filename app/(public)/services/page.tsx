@@ -3,12 +3,14 @@ import Image from "next/image";
 import { ArrowRight, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getServiceCategories } from "@/actions/cmsActions";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 
 export const dynamic = "force-dynamic"; // Always fresh so admin image changes reflect immediately
 
 export const metadata = {
-  title: "Professional Home Services | Homesdecorator",
-  description: "Explore our specialized home improvement services: scientific waterproofing, premium wooden flooring, and PVC cladding/flooring.",
+  title: "Professional Home Services",
+  description: "Explore Homes Decorator's specialized home improvement services: scientific waterproofing, premium wooden flooring, and PVC cladding/flooring across Haryana & Delhi NCR.",
+  alternates: { canonical: "/services" },
 };
 
 export default async function ServicesPage() {
@@ -18,6 +20,14 @@ export default async function ServicesPage() {
   return (
     <div className="bg-slate-50 py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-10">
+          <Breadcrumbs
+            crumbs={[
+              { name: "Home", path: "/" },
+              { name: "Services", path: "/services" },
+            ]}
+          />
+        </div>
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <span className="text-xs font-semibold uppercase tracking-wider text-accent bg-primary-light px-3 py-1 rounded-full text-primary">

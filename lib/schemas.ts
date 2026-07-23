@@ -20,6 +20,10 @@ export const InspectionSchema = z.object({
   preferredDate: z.string().optional(),
   preferredTime: z.string().optional(),
   remarks: z.string().optional(),
+  // Lead attribution — hidden, set automatically by SEO landing pages.
+  source: z.string().optional(),
+  sourceUrl: z.string().optional(),
+  sourceSlug: z.string().optional(),
 });
 
 export const QuoteSchema = z.object({

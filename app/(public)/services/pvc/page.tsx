@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { getSettings, getServiceCategoryBySlug } from "@/actions/cmsActions";
 import { connectToDatabase } from "@/lib/mongodb";
 import ServiceLocationPage from "@/models/ServiceLocationPage";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 
 const defaultPvcServices = [
   {
@@ -42,9 +43,10 @@ const defaultPvcServices = [
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "PVC (Polyvinyl Chloride) Solutions | Homesdecorator",
+  title: "PVC (Polyvinyl Chloride) Solutions",
   description:
-    "Premium Polyvinyl Chloride (PVC) flooring and wall cladding installations. Waterproof, termite-proof, and commercial-grade SPC flooring.",
+    "Premium Polyvinyl Chloride (PVC) flooring and wall cladding installations by Homes Decorator. Waterproof, termite-proof, and commercial-grade SPC flooring across Haryana & Delhi NCR.",
+  alternates: { canonical: "/services/pvc" },
 };
 
 export default async function PvcPage() {
@@ -76,7 +78,7 @@ export default async function PvcPage() {
       ? category.subcategories
       : defaultPvcServices;
 
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://homedecorater.in";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.homesdecorator.in";
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -86,7 +88,7 @@ export default async function PvcPage() {
       "Premium Polyvinyl Chloride (PVC) flooring and wall cladding installations. Waterproof, termite-proof, and commercial-grade SPC flooring.",
     provider: {
       "@type": "HomeAndConstructionBusiness",
-      name: "Homesdecorator",
+      name: "Homes Decorator",
       url: baseUrl,
     },
     serviceType: "PVC Flooring and Cladding",
@@ -116,6 +118,15 @@ export default async function PvcPage() {
       />
       <div className="bg-slate-50 min-h-screen py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-8">
+            <Breadcrumbs
+              crumbs={[
+                { name: "Home", path: "/" },
+                { name: "Services", path: "/services" },
+                { name: "PVC Solutions", path: "/services/pvc" },
+              ]}
+            />
+          </div>
           {/* Banner Section */}
           <div className="bg-gradient-to-r from-primary to-slate-900 text-white rounded-3xl p-8 sm:p-12 mb-16 relative overflow-hidden shadow-xl animate-fade-in">
             <div className="relative z-10 max-w-3xl space-y-4">

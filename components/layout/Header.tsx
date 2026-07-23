@@ -107,7 +107,7 @@ export default function Header() {
           >
             <Image
               src="/logo.PNG"
-              alt="Homesdecorator Logo"
+              alt="Homes Decorator Logo"
               width={160}
               height={160}
               className={cn(

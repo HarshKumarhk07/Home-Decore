@@ -43,7 +43,7 @@ const BlogPostSchema = new Schema<IBlogPost>(
       metaKeywords: [{ type: String, trim: true }]
     },
     readTimeMinutes: { type: Number },
-    author: { type: String, default: "Homesdecorator Team" },
+    author: { type: String, default: "Homes Decorator Team" },
   },
   { timestamps: true }
 );

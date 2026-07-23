@@ -2,6 +2,7 @@
 
 import { useState, useTransition, useRef } from "react";
 import { saveServiceLocationPage, removeServiceLocationPage } from "@/actions/cmsActions";
+import { ALL_CITIES } from "@/lib/localSeo";
 import { toast } from "sonner";
 import { 
   Plus, 
@@ -39,14 +40,20 @@ const SERVICE_OPTIONS = [
   { value: "PVC Wall Panels & Cladding", label: "PVC Wall Panels & Cladding" },
 ];
 
-const LOCATION_OPTIONS = [
-  { value: "Gurugram", label: "Gurugram" },
-  { value: "Delhi", label: "Delhi" },
-  { value: "Noida", label: "Noida" },
-  { value: "Faridabad", label: "Faridabad" },
-  { value: "Rohtak", label: "Rohtak" },
-  { value: "Bhiwani", label: "Bhiwani" },
-];
+// Location options are sourced from the single ALL_CITIES list so any city
+// added to lib/localSeo.ts automatically becomes available here.
+const LOCATION_OPTIONS = ALL_CITIES.map((c) => ({
+  value: c.name,
+  label: c.name,
+}));
+
+// Mirrors the server-side slug generation in saveServiceLocationPage so the
+// admin can preview the resulting canonical URL before saving.
+const slugify = (value: string) =>
+  value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
 
 export default function ServicePagesClient({ initialPages }: ServicePagesClientProps) {
   const [pages, setPages] = useState<any[]>(initialPages);
@@ -72,6 +79,14 @@ export default function ServicePagesClient({ initialPages }: ServicePagesClientP
   const [metaKeywords, setMetaKeywords] = useState("");
   const [sourceNotes, setSourceNotes] = useState("");
   const [status, setStatus] = useState("Draft");
+
+  // Editable landing-page URL. Auto-generated from service + location unless the
+  // admin manually edits it, in which case we preserve their custom path.
+  const [pageUrl, setPageUrl] = useState("/services/terrace-waterproofing/gurugram");
+  const [urlManuallyEdited, setUrlManuallyEdited] = useState(false);
+
+  const buildUrl = (srv: string, loc: string) =>
+    `/services/${slugify(srv)}/${slugify(loc)}`;
 
   const insertMarkdown = (before: string, after: string = "") => {
     const el = textareaRef.current;
@@ -102,6 +117,8 @@ export default function ServicePagesClient({ initialPages }: ServicePagesClientP
     setSourceNotes("");
     setStatus("Draft");
     setEditingPage(null);
+    setPageUrl(buildUrl("Terrace Waterproofing", "Gurugram"));
+    setUrlManuallyEdited(false);
   };
 
   const openNew = () => {
@@ -125,6 +142,16 @@ export default function ServicePagesClient({ initialPages }: ServicePagesClientP
     setMetaKeywords(Array.isArray(page.seoMeta?.metaKeywords) ? page.seoMeta.metaKeywords.join(", ") : "");
     setSourceNotes(page.sourceNotes || "");
     setStatus(page.status || "Draft");
+
+    // Reconstruct the stored URL from persisted slugs (falling back to derived
+    // slugs for legacy rows). If the stored slugs differ from what the labels
+    // would generate, treat the URL as custom so we don't overwrite it.
+    const storedServiceSlug = page.serviceSlug || slugify(page.service || "");
+    const storedLocationSlug = page.locationSlug || slugify(page.location || "");
+    const storedUrl = `/services/${storedServiceSlug}/${storedLocationSlug}`;
+    setPageUrl(storedUrl);
+    setUrlManuallyEdited(storedUrl !== buildUrl(page.service || "", page.location || ""));
+
     setIsOpen(true);
   };
 
@@ -133,6 +160,11 @@ export default function ServicePagesClient({ initialPages }: ServicePagesClientP
     setLocation(loc);
     if (!editingPage) {
       setH1Heading(`${srv} in ${loc}`);
+    }
+    // Keep the URL in sync with the selectors unless the admin took manual
+    // control of it (custom slug).
+    if (!urlManuallyEdited) {
+      setPageUrl(buildUrl(srv, loc));
     }
   };
 
@@ -153,11 +185,32 @@ export default function ServicePagesClient({ initialPages }: ServicePagesClientP
       return;
     }
 
+    // Parse the editable URL. Must be of the form /services/<service>/<location>.
+    const urlMatch = pageUrl
+      .trim()
+      .replace(/^https?:\/\/[^/]+/i, "")
+      .match(/^\/services\/([^/]+)\/([^/]+)\/?$/);
+
+    if (!urlMatch) {
+      toast.error("URL must look like /services/<service>/<location>.");
+      return;
+    }
+
+    const serviceSlug = slugify(urlMatch[1]);
+    const locationSlug = slugify(urlMatch[2]);
+
+    if (!serviceSlug || !locationSlug) {
+      toast.error("URL must contain a valid service and location segment.");
+      return;
+    }
+
     startTransition(async () => {
       try {
         const payload = {
           service,
           location,
+          serviceSlug,
+          locationSlug,
           h1Heading: h1Heading.trim(),
           bodyContent: bodyContent.trim(),
           images: imageUrl.trim()
@@ -296,9 +349,11 @@ export default function ServicePagesClient({ initialPages }: ServicePagesClientP
                     <select
                       value={service}
                       onChange={(e) => handleSelectServiceOrLocation(e.target.value, location)}
-                      disabled={!!editingPage}
                       className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent transition"
                     >
+                      {!SERVICE_OPTIONS.some((o) => o.value === service) && service && (
+                        <option value={service}>{service}</option>
+                      )}
                       {SERVICE_OPTIONS.map((opt) => (
                         <option key={opt.value} value={opt.value}>
                           {opt.label}
@@ -311,9 +366,11 @@ export default function ServicePagesClient({ initialPages }: ServicePagesClientP
                     <select
                       value={location}
                       onChange={(e) => handleSelectServiceOrLocation(service, e.target.value)}
-                      disabled={!!editingPage}
                       className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent transition"
                     >
+                      {!LOCATION_OPTIONS.some((o) => o.value === location) && location && (
+                        <option value={location}>{location}</option>
+                      )}
                       {LOCATION_OPTIONS.map((opt) => (
                         <option key={opt.value} value={opt.value}>
                           {opt.label}
@@ -321,6 +378,43 @@ export default function ServicePagesClient({ initialPages }: ServicePagesClientP
                       ))}
                     </select>
                   </div>
+                </div>
+
+                {/* Editable landing page URL */}
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                      Landing Page URL
+                    </label>
+                    {urlManuallyEdited && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setUrlManuallyEdited(false);
+                          setPageUrl(buildUrl(service, location));
+                        }}
+                        className="text-[10px] font-bold text-accent hover:underline"
+                      >
+                        Reset from selectors
+                      </button>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 focus-within:ring-1 focus-within:ring-accent transition">
+                    <LinkIcon className="w-3.5 h-3.5 text-accent shrink-0" />
+                    <input
+                      type="text"
+                      value={pageUrl}
+                      onChange={(e) => {
+                        setPageUrl(e.target.value);
+                        setUrlManuallyEdited(true);
+                      }}
+                      placeholder="/services/terrace-waterproofing/gurugram"
+                      className="w-full bg-transparent text-sm text-slate-200 font-mono focus:outline-none placeholder-slate-650"
+                    />
+                  </div>
+                  <p className="text-[10px] text-slate-500">
+                    Format: <span className="font-mono">/services/&lt;service&gt;/&lt;location&gt;</span>. Must be unique across landing pages.
+                  </p>
                 </div>
 
                 {/* 2. Heading & Status */}

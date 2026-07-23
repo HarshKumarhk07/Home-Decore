@@ -2,8 +2,9 @@ import InspectionForm from "@/components/forms/InspectionForm";
 import { ShieldCheck, Flame, Compass, Wrench } from "lucide-react";
 
 export const metadata = {
-  title: "Book Free Site Inspection | Homesdecorator",
-  description: "Schedule a free technical inspection of your property to analyze seepage, wood flooring bases, or wall shade requirements.",
+  title: "Book Free Site Inspection",
+  description: "Schedule a free technical inspection of your property to analyze seepage, wood flooring bases, or wall shade requirements. Homes Decorator serves Bhiwani, Haryana & Delhi NCR.",
+  alternates: { canonical: "/inspection" },
 };
 
 export default function InspectionPage() {

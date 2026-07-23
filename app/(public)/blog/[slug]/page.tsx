@@ -5,6 +5,7 @@ import { connectToDatabase } from "@/lib/mongodb";
 import BlogPost from "@/models/BlogPost";
 import { Button } from "@/components/ui/button";
 import { Calendar, User, ChevronLeft, ArrowRight, ShieldCheck, Mail } from "lucide-react";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 
 export const revalidate = 60; // Revalidate every minute
 
@@ -17,7 +18,7 @@ export async function generateMetadata({ params }: Props) {
   try {
     await connectToDatabase();
     const post = await BlogPost.findOne({ slug }).lean();
-    if (!post) return { title: "Article Not Found | Homesdecorator" };
+    if (!post) return { title: "Article Not Found" };
 
     const title = post.seoMeta?.metaTitle || post.title;
     const description = post.seoMeta?.metaDescription || post.excerpt;
@@ -30,7 +31,7 @@ export async function generateMetadata({ params }: Props) {
       ? "" 
       : (post.coverImage?.altText || "");
 
-    const domain = process.env.NEXT_PUBLIC_APP_URL || "https://homedecorater.in";
+    const domain = process.env.NEXT_PUBLIC_APP_URL || "https://www.homesdecorator.in";
     const cleanDomain = domain.replace(/\/$/, "");
 
     return {
@@ -57,7 +58,7 @@ export async function generateMetadata({ params }: Props) {
       },
     };
   } catch (err) {
-    return { title: "Blog Article | Homesdecorator" };
+    return { title: "Blog Article" };
   }
 }
 
@@ -85,7 +86,7 @@ export default async function BlogDetailPage({ params }: Props) {
     notFound();
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://homedecorater.in";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.homesdecorator.in";
   const cleanBaseUrl = baseUrl.replace(/\/$/, "");
 
   const coverUrl = typeof post.coverImage === "string" 
@@ -105,12 +106,12 @@ export default async function BlogDetailPage({ params }: Props) {
     "dateModified": post.updatedAt || post.publishedAt,
     "author": {
       "@type": "Organization",
-      "name": post.author || "Homesdecorator Team",
+      "name": post.author || "Homes Decorator Team",
       "url": cleanBaseUrl
     },
     "publisher": {
       "@type": "Organization",
-      "name": "Homesdecorator",
+      "name": "Homes Decorator",
       "logo": {
         "@type": "ImageObject",
         "url": `${cleanBaseUrl}/favicon.ico`
@@ -126,8 +127,15 @@ export default async function BlogDetailPage({ params }: Props) {
       />
       <div className="bg-slate-50 min-h-screen py-12">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Breadcrumbs
+          crumbs={[
+            { name: "Home", path: "/" },
+            { name: "Blog", path: "/blog" },
+            { name: post.title, path: `/blog/${post.slug}` },
+          ]}
+        />
         {/* Back Link */}
-        <Link href="/blog" className="inline-flex items-center text-sm font-semibold text-slate-600 hover:text-primary mb-8 transition-colors">
+        <Link href="/blog" className="inline-flex items-center text-sm font-semibold text-slate-600 hover:text-primary mb-8 mt-4 transition-colors">
           <ChevronLeft className="w-4 h-4 mr-1" /> Back to Blog
         </Link>
 

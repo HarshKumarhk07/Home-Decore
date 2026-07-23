@@ -84,7 +84,7 @@ export async function submitInspectionBooking(rawFields: any) {
       return { success: false, message: "Invalid form input." };
     }
 
-    const { name, phone, email, city, address, service, subService, preferredDate, preferredTime, remarks } = parsed.data;
+    const { name, phone, email, city, address, service, subService, preferredDate, preferredTime, remarks, source, sourceUrl, sourceSlug } = parsed.data;
 
     await connectToDatabase();
     const leadId = await generateLeadId();
@@ -97,12 +97,15 @@ export async function submitInspectionBooking(rawFields: any) {
       city: city || "",
       address,
       service,
+      source: source || "Website",
+      sourceUrl: sourceUrl || undefined,
+      sourceSlug: sourceSlug || undefined,
       preferredDate: preferredDate ? new Date(preferredDate) : undefined,
       preferredTime: preferredTime || undefined,
       message: subService ? `Treatment: ${subService}. Remarks: ${remarks || "None"}` : (remarks || "Requested Site Inspection"),
       status: "Inspection Scheduled",
       images: [],
-      notes: [{ text: `Site inspection requested. ${subService ? `Treatment: ${subService}. ` : ""}Remarks: ${remarks || "None"}`, createdAt: new Date(), createdBy: "System" }],
+      notes: [{ text: `Site inspection requested.${source ? ` Source: ${source}.` : ""} ${subService ? `Treatment: ${subService}. ` : ""}Remarks: ${remarks || "None"}`, createdAt: new Date(), createdBy: "System" }],
       timeline: [
         { status: "New", notes: "Lead generated via Inspection Booking", updatedAt: new Date(), updatedBy: "System" },
         { status: "Inspection Scheduled", notes: "Inspection request received", updatedAt: new Date(), updatedBy: "System" }

@@ -3,12 +3,14 @@ import Image from "next/image";
 import { connectToDatabase } from "@/lib/mongodb";
 import BlogPost from "@/models/BlogPost";
 import { Calendar, User, ArrowRight, Tag } from "lucide-react";
+import { Breadcrumbs } from "@/components/seo/Breadcrumbs";
 
 export const revalidate = 60; // Revalidate every minute
 
 export const metadata = {
-  title: "Expert Home Care Blog & Guides | Homesdecorator",
-  description: "Read technical guides on waterproofing, wood floor selections, wall paint shades, and dampness protection tips from our field engineers.",
+  title: "Expert Home Care Blog & Guides",
+  description: "Read technical guides on waterproofing, wood floor selections, wall paint shades, and dampness protection tips from Homes Decorator's field engineers.",
+  alternates: { canonical: "/blog" },
 };
 
 export default async function BlogPage() {
@@ -38,7 +40,7 @@ export default async function BlogPage() {
         excerpt: "Seepage and dampness ruin your home's aesthetics and structural integrity. Learn about the primary causes and long-term scientific solutions.",
         category: "waterproofing",
         publishedAt: new Date().toISOString(),
-        author: "Homesdecorator Team",
+        author: "Homes Decorator Team",
       },
       {
         title: "Complete Guide to Choosing Between Laminate, SPC, and Engineered Wood",
@@ -47,7 +49,7 @@ export default async function BlogPage() {
         excerpt: "Compare flooring options based on cost, durability, water resistance, and aesthetics to make the right choice for your next home renovation.",
         category: "wooden-flooring",
         publishedAt: new Date().toISOString(),
-        author: "Homesdecorator Team",
+        author: "Homes Decorator Team",
       }
     ];
   }
@@ -55,6 +57,14 @@ export default async function BlogPage() {
   return (
     <div className="bg-slate-50 min-h-screen py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-10">
+          <Breadcrumbs
+            crumbs={[
+              { name: "Home", path: "/" },
+              { name: "Blog", path: "/blog" },
+            ]}
+          />
+        </div>
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <h1 className="font-serif text-4xl sm:text-5xl font-bold text-primary">

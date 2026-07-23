@@ -185,7 +185,7 @@ export default function ProjectsClient({ initialProjects }: ProjectsClientProps)
                   <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Location</label>
                   <input
                     type="text"
-                    placeholder="Sector 62, Noida"
+                    placeholder="e.g. Model Town, Rohtak"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
                     className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent"
